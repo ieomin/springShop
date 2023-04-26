@@ -45,6 +45,7 @@ public class MemberController {
         model.addAttribute("message", message);
         System.out.println("여기야 여기");
         System.out.println("여기야 여기22");
+        System.out.println("여기야 여기33");
         return "member/create";
     }
     
