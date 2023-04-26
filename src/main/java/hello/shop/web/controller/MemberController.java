@@ -44,6 +44,7 @@ public class MemberController {
     public String createGet(@ModelAttribute MemberCreateForm form, @RequestParam(required = false) String message, Model model) {
         model.addAttribute("message", message);
         System.out.println("여기야 여기");
+        System.out.println("여기야 여기22");
         return "member/create";
     }
     
