@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<style>.fieldError {border-color: #dc3545; color: #dc3545;}</style>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+    <div class="py-5 text-center">
+        <h2 th:text="#{page.order.create}">??</h2>
+    </div>
+    <div class="fieldError" th:text="${message}"></div>
+    <form role="form" action="/order/create" method="post" th:object="${orderCreateForm}">
+        <div class="form-group">
+            <div>
+                <label th:text="#{label.order.member}">??</label>
+                <select th:field="*{memberId}"
+                        th:class="${#fields.hasErrors('memberId')}? 'form-control fieldError' : 'form-control'">>
+                    <option value="">회원을 선택하세요</option>
+                    <option th:each="member : *{members}"
+                            th:value="${member.id}"
+                            th:text="${member.name}"/>
+                </select>
+                <p class="fieldError"
+                   th:if="${#fields.hasErrors('memberId')}"
+                   th:errors="*{memberId}">??</p>
+            </div>
+            <div>
+                <label th:text="#{label.order.delivery.address.city}">??</label>
+                <input type="text"
+                       placeholder="배송 도시를 입력하세요"
+                       th:field="*{city}"
+                       th:class="${#fields.hasErrors('city')}? 'form-control fieldError' : 'form-control'">
+                <p class="fieldError"
+                   th:if="${#fields.hasErrors('city')}"
+                   th:errors="*{city}"></p>
+            </div>
+            <div>
+                <label th:text="#{label.order.delivery.address.street}">??</label>
+                <input type="text"
+                       placeholder="배송 도로를 입력하세요"
+                       th:field="*{street}"
+                       th:class="${#fields.hasErrors('street')}? 'form-control fieldError' : 'form-control'">
+                <p class="fieldError"
+                   th:if="${#fields.hasErrors('street')}"
+                   th:errors="*{street}"></p>
+            </div>
+            <div>
+                <label th:text="#{label.order.delivery.address.zipcode}">??</label>
+                <input type="text" placeholder="배송 도로번호를 입력하세요"
+                       th:field="*{zipcode}"
+                       th:class="${#fields.hasErrors('zipcode')}? 'form-control fieldError' : 'form-control'">
+                <p class="fieldError"
+                   th:if="${#fields.hasErrors('zipcode')}"
+                   th:errors="*{zipcode}"></p>
+            </div>
+            <div>
+                <label th:text="#{label.order.item}">??</label>
+                <select th:field="*{itemId}"
+                        th:class="${#fields.hasErrors('itemId')}? 'form-control fieldError' : 'form-control'">
+                    <option value="">상품을 선택하세요</option>
+                    <option th:each="item : *{items}"
+                            th:value="${item.id}"
+                            th:text="${item.name}"/>
+                </select>
+                <p class="fieldError"
+                   th:if="${#fields.hasErrors('itemId')}"
+                   th:errors="*{itemId}">??</p>
+            </div>
+            <div>
+                <label th:text="#{label.order.count}">??</label>
+                <input type="text" placeholder="주문 수량을 입력하세요"
+                       th:field="*{count}"
+                       th:class="${#fields.hasErrors('count')}? 'form-control fieldError' : 'form-control'">
+                <p class="fieldError"
+                   th:if="${#fields.hasErrors('count')}"
+                   th:errors="*{count}">??</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="w-100 btn btn-primary btn-lg" th:text="#{button.save}">Submit</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        th:onclick="|location.href='@{/}'|"
+                        type="button" th:text="#{button.cancel}">??</button>
+            </div>
+        </div>
+    </form>
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+</body>
+</html>

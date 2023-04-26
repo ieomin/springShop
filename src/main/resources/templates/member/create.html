@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<style>.fieldError {border-color: #dc3545; color: #dc3545;}</style>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="py-5 text-center">
+        <h2 th:text="#{page.member.create}">??</h2>
+    </div>
+    <div class="fieldError" th:text="${message}"></div>
+    <form role="form" action="/member/create" th:object="${memberCreateForm}" method="post">
+        <div class="form-group">
+            <div>
+                <label th:text="#{label.member.loginId}">??</label>
+                <input type="text"
+                       placeholder="회원 로그인 ID를 입력하세요"
+                       th:field="*{loginId}"
+                       th:class="${#fields.hasErrors('loginId')}? 'form-control fieldError' : 'form-control'">
+                <p class="fieldError"
+                   th:if="${#fields.hasErrors('loginId')}"
+                   th:errors="*{loginId}"></p>
+            </div>
+            <div>
+                <label th:text="#{label.member.password}">??</label>
+                <input type="text"
+                       placeholder="회원 로그인 비밀번호를 입력하세요"
+                       th:field="*{password}"
+                       th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'">
+                <p class="fieldError"
+                   th:if="${#fields.hasErrors('password')}"
+                   th:errors="*{password}"></p>
+            </div>
+            <div>
+                <label th:text="#{label.member.name}">??</label>
+                <input type="text"
+                       placeholder="회원 이름을 입력하세요"
+                       th:field="*{name}"
+                       th:class="${#fields.hasErrors('name')}? 'form-control fieldError' : 'form-control'">
+                <p class="fieldError"
+                   th:if="${#fields.hasErrors('name')}"
+                   th:errors="*{name}"></p>
+            </div>
+            <div>
+                <label th:text="#{label.member.address.city}">??</label>
+                <input type="text"
+                       placeholder="도시를 입력하세요"
+                       th:field="*{city}"
+                       class="form-control">
+            </div>
+            <div>
+                <label th:text="#{label.member.address.street}">??</label>
+                <input type="text"
+                       placeholder="도로를 입력하세요"
+                       th:field="*{street}"
+                       class="form-control">
+            </div>
+            <div>
+                <label th:text="#{label.member.address.zipcode}">??</label>
+                <input type="text"
+                       placeholder="도로번호를 입력하세요"
+                       th:field="*{zipcode}"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="w-100 btn btn-primary btn-lg" th:text="#{button.save}">Submit</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        th:onclick="|location.href='@{/}'|"
+                        type="button" th:text="#{button.cancel}">??</button>
+            </div>
+        </div>
+    </form>
+    <br/>
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+</body>
+</html>

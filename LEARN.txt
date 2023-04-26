@@ -1,0 +1,13 @@
+// 결론: 연관관계가 다대일이나 일대일로 이루어진 orderitem이나 delivery만 지울 수 있는게 이상적인 환경이라 생각함
+// 팁: cond랑 dto에서는 이름중복이 흔할 수 있으니 풀네임으로 변수명 지정
+// 팁: 자기를 변수로 넣어야 되는데 자기의변수들 뽑지 않고 함수를 만들고 싶다면 static활용
+// 결론: 연관이 되어있지만 repository부모인터페이스를 상속한 자식인터페이스의 구현체는 이름 뒤에 Impl을 붙여야 함
+
+// 보류: if활용해서 빈input박스만들고싶다
+// 보류: optional 꺼낼 때 처리
+// 보류: test코드는 메모리에서 돌리는 방법
+
+
+
+// 결론: 자동 등록: scanBasePackages 씹 자동 등록: EntityManager springDataJpaRepository / 수동 등록: Controller TestDataInit
+// 결론: 복합 주입: (final RequiredArgsConstructor = 하나의 생성자) -> Autowired생략 / 일반 주입: Autowired

@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+</head>
+<body>
+<div class="container">
+  <div th:replace="fragments/bodyHeader :: bodyHeader" />
+  <div class="jumbotron">
+    <h2 th:text="#{page.home}"></h2>
+    <h4 class="mb-3" th:text="|회원 이름: ${member.name}|">??</h4>
+    <p>
+      <a class="btn btn-lg btn-primary" href="/member/list" th:text="#{page.member.list}">??</a>
+    </p>
+    <p>
+      <a class="btn btn-lg btn-primary" href="/item/list" th:text="#{page.item.list}">??</a>
+      <a class="btn btn-lg btn-primary" href="/item/create" th:text="#{page.item.create}">??</a>
+    </p>
+    <p>
+      <a class="btn btn-lg btn-primary" href="/order/list" th:text="#{page.order.list}">??</a>
+      <a class="btn btn-lg btn-primary" href="/order/create" th:text="#{page.order.create}">??</a>
+    </p>
+
+    <form th:action="@{/member/logout}" method="post">
+      <button class="btn btn-lg btn-primary" type="submit">로그아웃</button>
+    </form>
+
+  </div>
+  <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

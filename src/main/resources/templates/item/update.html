@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<style>.fieldError {border-color: #dc3545; color: #dc3545;}</style>
+
+<body>
+<div class="container">
+  <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+  <div class="py-5 text-center">
+    <h2 th:text="#{page.item.update}">??</h2>
+  </div>
+  <div>
+    <form role="form" th:action th:object="${itemUpdateForm}" method="post">
+      <div>
+        <label th:text="#{label.item.id}">??</label>
+        <input type="text" id="id" name="id" class="form-control" th:value="*{id}" readonly>
+      </div>
+      <div>
+        <div>
+          <label th:text="#{label.item.name}">??</label>
+          <input type="text"
+                 th:field="*{name}"
+                 th:value="*{name}"
+                 th:class="${#fields.hasErrors('name')}? 'form-control fieldError' : 'form-control'">
+          <p class="fieldError"
+             th:if="${#fields.hasErrors('name')}"
+             th:errors="*{name}">??</p>
+        </div>
+        <div>
+          <label th:text="#{label.item.price}">??</label>
+          <input type="text"
+                 th:field="*{price}"
+                 th:value="*{price}"
+                 th:class="${#fields.hasErrors('price')}? 'form-control fieldError' : 'form-control'">
+          <p class="fieldError"
+             th:if="${#fields.hasErrors('price')}"
+             th:errors="*{price}">??</p>
+        </div>
+        <div>
+          <label th:text="#{label.item.quantity}">??</label>
+          <input type="text"
+                 th:field="*{quantity}"
+                 th:value="*{quantity}"
+                 th:class="${#fields.hasErrors('quantity')}? 'form-control fieldError' : 'form-control'">
+          <p class="fieldError"
+             th:if="${#fields.hasErrors('quantity')}"
+             th:errors="*{quantity}">??</p>
+        </div>
+        <div th:each="orderItem : ${itemUpdateForm.orderItems}">
+          <label th:text="#{label.item.orderItems.order.id}">??</label>
+          <input type="text" id="order_id" name="order_id" class="form-control" th:value="${orderItem.order.id}" readonly>
+        </div>
+      </div>
+      <hr class="my-4">
+      <div class="row">
+        <div class="col">
+          <button type="submit" class="w-100 btn btn-primary btn-lg" th:text="#{button.save}">??</button>
+        </div>
+        <div class="col">
+          <button class="w-100 btn btn-secondary btn-lg"
+                  th:onclick="|location.href='@{/item/detail/{id}(id=${itemUpdateForm.id})}'|"
+                  type="button" th:text="#{button.cancel}">??</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

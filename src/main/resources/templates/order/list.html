@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="py-5 text-center">
+        <h2 th:text="#{page.order.list}">??</h2>
+    </div>
+    <div class="fieldError" th:text="${message}"></div>
+    <div>
+        <div>
+            <form th:object="${orderSearchCond}" class="form-inline">
+                <div class="form-group mb-2">
+                    <input type="text" th:field="*{memberName}" class="form-control" placeholder="회원 이름"/>
+                </div>
+                <div class="form-group mx-sm-1 mb-2">
+                    <select th:field="*{orderStatus}" class="form-control">
+                        <option value="">주문 상태</option>
+                        <option th:each="status : ${T(hello.shop.entity.OrderStatus).values()}"
+                                th:value="${status}"
+                                th:text="${status}">option
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">검색</button>
+            </form>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>주문 ID</th>
+                <th>회원 이름</th>
+                <th>주문 상태</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.orderId}"></td>
+                <td th:text="${order.memberName}"></td>
+                <td th:text="${order.orderStatus}"></td>
+                <td>
+                    <a th:if="${order.orderStatus.name() == 'ORDER'}"
+                       th:href="'javascript:cancel('+${order.orderId}+')'"
+                       class="btn btn-danger">CANCEL</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
+</div>
+</body>
+<script>
+ function cancel(id) {
+   var form = document.createElement("form");
+   form.setAttribute("method", "post");
+   form.setAttribute("action", "/order/canceledList/" + id);
+   document.body.appendChild(form);
+   form.submit();
+ }
+</script>
+</html>

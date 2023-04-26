@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<style>.fieldError {border-color: #dc3545; color: #dc3545;}</style>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="py-5 text-center">
+        <h2 th:text="#{page.login}">??</h2>
+    </div>
+    <div>
+        <form role="form" action="/member/login" th:object="${memberLoginForm}" method="post">
+
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="fieldError" th:each="err : ${#fields.globalErrors()}" th:text="${err}">??</p>
+            </div>
+
+            <div>
+                <label th:text="#{label.member.loginId}">??</label>
+                <input type="text"
+                       th:field="*{loginId}"
+                       th:class="${#fields.hasErrors('loginId')}? 'form-control fieldError' : 'form-control'">
+                <p class="fieldError"
+                   th:if="${#fields.hasErrors('loginId')}"
+                   th:errors="*{name}">??</p>
+            </div>
+            <div>
+                <label th:text="#{label.member.password}">??</label>
+                <input type="password"
+                       th:field="*{password}"
+                       th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'">
+                <p class="fieldError"
+                   th:if="${#fields.hasErrors('password')}"
+                   th:errors="*{password}">??</p>
+            </div>
+
+            <input type="hidden" name="redirectURL" th:value="${redirectURL}">
+
+            <hr class="my-4">
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="w-100 btn btn-primary btn-lg" th:text="#{button.save}">Submit</button>
+                </div>
+                <div class="col">
+                    <button class="w-100 btn btn-secondary btn-lg"
+                            th:onclick="|location.href='@{/}'|"
+                            type="button" th:text="#{button.cancel}">??</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

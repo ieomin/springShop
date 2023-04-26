@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header"/>
+
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="py-5 text-center">
+        <h2 th:text="#{page.member.list}">상품 등록</h2>
+    </div>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th th:text="#{label.member.id}">#</th>
+                <th th:text="#{label.member.name}">이름</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="member : ${members}">
+                <td><a th:href="@{/member/detail/{id}(id=${member.id})}" th:text="${member.id}">??</a></td>
+                <td th:text="${member.name}"></td>
+            </tr>
+
+            </tbody> </table>
+    </div>
+
+    <div th:replace="fragments/footer :: footer" />
+
+</div>
+</body>
+</html>
