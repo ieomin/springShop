@@ -4,6 +4,8 @@ import hello.shop.entity.Item;
 import hello.shop.repository.item.ItemRepository;
 import hello.shop.repository.item.ItemSearchCond;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +31,8 @@ public class ItemService {
         return item;
     }
 
-    public List<Item> search(ItemSearchCond cond){
-        List<Item> search = itemRepository.search(cond);
+    public Page<Item> search(ItemSearchCond cond, Pageable pageable){
+        Page<Item> search = itemRepository.search(cond, pageable);
         return search;
     }
 

@@ -10,15 +10,16 @@ import javax.persistence.*;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-public class Delivery {
+public class Delivery extends Base{
     @Id @GeneratedValue @Column(name = "delivery_id")
     private Long id;
 
     @Embedded
     private Address address;
 
+    // 보류: 바로 초기화해도 되겠지
     @Enumerated(EnumType.STRING)
-    private DeliveryStatus status;
+    private DeliveryStatus status = DeliveryStatus.READY;
 
     @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)
     private Order order;

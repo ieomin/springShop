@@ -3,9 +3,12 @@ package hello.shop.service;
 import hello.shop.entity.Address;
 import hello.shop.entity.Member;
 import hello.shop.exception.DuplicateMemberLoginIdException;
+import hello.shop.repository.member.MemberDtoV2;
 import hello.shop.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,6 +70,11 @@ public class MemberService {
     public Member findByLoginId(String loginId){
         Member member = memberRepository.findByLoginId(loginId);
         return member;
+    }
+
+    public Page<MemberDtoV2> search(Pageable pageable){
+        Page<MemberDtoV2> members = memberRepository.search(pageable);
+        return members;
     }
 
     /** * Perform createMember.

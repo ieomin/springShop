@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-public class OrderItem {
+public class OrderItem extends Base{
 
     @Id @GeneratedValue @Column(name = "order_item_id")
     private Long id;

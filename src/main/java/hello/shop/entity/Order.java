@@ -11,7 +11,7 @@ import java.util.List;
 @Getter @Setter
 @NoArgsConstructor
 @Table(name = "orders")
-public class Order {
+public class Order extends Base{
 
     @Id @GeneratedValue @Column(name = "order_id")
     private Long id;

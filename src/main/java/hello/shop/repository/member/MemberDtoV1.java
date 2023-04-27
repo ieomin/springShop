@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Data
 public class MemberDtoV1 {
-    private String name;
+    private String memberName;
 
     @QueryProjection
-    public MemberDtoV1(String name) {
-        this.name = name;
+    public MemberDtoV1(String memberName) {
+        this.memberName = memberName;
     }
 }

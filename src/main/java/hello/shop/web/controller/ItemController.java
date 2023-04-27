@@ -8,6 +8,9 @@ import hello.shop.web.form.item.ItemDetailForm;
 import hello.shop.web.form.item.ItemUpdateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,8 +30,8 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping("/item/list")
-    public String listGet(@ModelAttribute ItemSearchCond cond, Model model){
-        List<Item> items = itemService.search(cond);
+    public String listGet(@ModelAttribute ItemSearchCond cond, Model model, @PageableDefault Pageable pageable){
+        Page<Item> items = itemService.search(cond, pageable);
         model.addAttribute("items", items);
         return "item/list";
     }

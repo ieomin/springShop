@@ -66,7 +66,7 @@ public class MemberApiController {
         }
 
         Member member = memberService.findById(Long.valueOf(id));
-        return new MemberDtoV2(String.valueOf(member.getId()), member.getName());
+        return new MemberDtoV2(member.getId(), member.getName(), member.getCreatedDate(), member.getLastModifiedDate());
     }
 
 

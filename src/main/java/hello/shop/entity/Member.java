@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-public class Member {
+public class Member extends Base{
 
     @Id @GeneratedValue @Column(name = "member_id")
     private Long id;
@@ -32,6 +32,12 @@ public class Member {
     public void addOrder(Order order){
         orders.add(order);
         order.setMember(this);
+    }
+
+    public Member(String loginId, String password, String name){
+        this.setLoginId(loginId);
+        this.setPassword(password);
+        this.setName(name);
     }
 
     public Member(String loginId, String password, String name, Address address){

@@ -7,28 +7,40 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div class="py-5 text-center">
-        <h2 th:text="#{page.member.list}">상품 등록</h2>
+        <h2 th:text="#{page.member.list}">??</h2>
     </div>
     <div>
         <table class="table table-striped">
             <thead>
             <tr>
-                <th th:text="#{label.member.id}">#</th>
-                <th th:text="#{label.member.name}">이름</th>
+                <th th:text="#{label.member.id}">??</th>
+                <th th:text="#{label.member.name}">??</th>
+                <th>생성시간</th>
+                <th>수정시간</th>
             </tr>
             </thead>
             <tbody>
 
-            <tr th:each="member : ${members}">
-                <td><a th:href="@{/member/detail/{id}(id=${member.id})}" th:text="${member.id}">??</a></td>
-                <td th:text="${member.name}"></td>
+            <tr th:each="member : ${members.content}">
+                <td><a th:href="@{/member/detail/{id}(id=${member.memberId})}" th:text="${member.memberId}">??</a></td>
+                <td th:text="${member.memberName}">??</td>
+                <td th:text="${member.createdDate}"></td>
+                <td th:text="${member.lastModifiedDate}"></td>
             </tr>
-
-            </tbody> </table>
+            </tbody>
+        </table>
     </div>
-
+    <nav>
+        <div class="container d-flex justify-content-center">
+            <ul class="pagination">
+                <li th:each="page : ${#numbers.sequence(1, members.totalPages)}"
+                    th:class="${page-1 == members.number ? 'page-item active' : 'page-item'}">
+                    <a class="page-link" th:href="@{/member/list/?size=10&page={page}(page=${page-1})}" th:text="${page}"></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div th:replace="fragments/footer :: footer" />
-
 </div>
 </body>
 </html>
