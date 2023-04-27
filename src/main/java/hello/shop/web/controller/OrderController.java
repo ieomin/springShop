@@ -31,9 +31,9 @@ public class OrderController {
     // 팁: form에 post와 관련된 어떤 것도적지 않으면 자기자신에게 get으로 날라감
 
     @GetMapping(value = "/order/list")
-    public String listGetV3(@RequestParam(name = "message", required = false) String message, @ModelAttribute OrderSearchCond cond, Model model) {
+    // 팁: requestParamValue는 defaultValue와 같이 쓰임
+    public String listGetV3(@RequestParam(required = false) String message, @ModelAttribute OrderSearchCond cond, Model model) {
         List<OrderDtoV1> orders = orderService.searchV1(cond);
-        log.info("message = {}", message);
         model.addAttribute("orders", orders);
         model.addAttribute("message", message);
         return "order/list";
@@ -52,7 +52,7 @@ public class OrderController {
     }
 
     @GetMapping("/order/create")
-    public String createForm(@RequestParam(name = "message", required = false) String message, @ModelAttribute OrderCreateForm form, Model model){
+    public String createForm(@RequestParam(required = false) String message, @ModelAttribute OrderCreateForm form, Model model){
         List<Member> members = memberService.findAll();
         List<Item> items = itemService.findAll();
         form.setMembers(members);

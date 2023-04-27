@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, Long>{
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom{
 
     Member findByLoginId(String loginId);
     // 팁: 못 찾으면 null 리턴

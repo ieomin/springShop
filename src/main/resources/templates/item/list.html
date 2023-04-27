@@ -22,11 +22,13 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th th:text="label.item.id">??</th>
-                <th th:text="label.item.name">??</th>
-                <th th:text="label.item.price">??</th>
-                <th th:text="label.item.quantity">??</th>
-                <th th:text="label.item.orderItems.order.id">??</th>
+                <th th:text="#{label.item.id}">??</th>
+                <th th:text="#{label.item.name}">??</th>
+                <th th:text="#{label.item.price}">??</th>
+                <th th:text="#{label.item.quantity}">??</th>
+                <th th:text="#{label.item.orderItems.order.id}">??</th>
+                <th>생성시간</th>
+                <th>수정시간</th>
             </tr>
             </thead>
             <tbody>
@@ -39,10 +41,22 @@
                     <p th:each="orderItem : ${item.orderItems}"
                     th:text="${orderItem.order.id}"></p>
                 </td>
+                <td th:text="${item.createdDate}"></td>
+                <td th:text="${item.lastModifiedDate}"></td>
             </tr>
             </tbody>
         </table>
     </div>
+    <nav>
+        <div class="container d-flex justify-content-center">
+            <ul class="pagination">
+                <li th:each="page : ${#numbers.sequence(1, items.totalPages)}"
+                    th:class="${page-1 == items.number ? 'page-item active' : 'page-item'}">
+                    <a class="page-link" th:href="@{/item/list/?size=10&page={page}(page=${page-1})}" th:text="${page}"></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div th:replace="fragments/footer :: footer" />
 </div>
 </body>

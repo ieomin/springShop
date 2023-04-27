@@ -10,8 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -29,8 +31,8 @@ public class orderRepositoryTest {
     void beforeEach(){
         Address address1 = new Address("A", "A", "A");
         Address address2 = new Address("B", "B", "B");
-        Member member1 = new Member("member1", address1);
-        Member member2 = new Member("member2", address2);
+        Member member1 = new Member("1", "1", "member1", address1);
+        Member member2 = new Member("2", "2", "member2", address2);
         Delivery delivery1_1 = new Delivery(member1.getAddress());
         Delivery delivery1_2 = new Delivery(member1.getAddress());
         Item item1 = new Item("item1", 1000, 10);
@@ -57,6 +59,32 @@ public class orderRepositoryTest {
             System.out.println("itemName = " + o.getItemName());
             System.out.println("memberName = " + o.getMemberName());
             System.out.println("itemQuantity = " + o.getItemQuantity());
+        }
+    }
+
+    @Test
+    public void classTest(){
+        Parent child1 = new Child();
+        child1.speakParent();
+        Child child2 = (Child) child1;
+        child2.speakChild();
+        child2.speakParent();
+
+        // 결론: 감싸주는게 더 크면 안됨 그리고 감싸주는 거에 T가 들어감
+//        Child parent = new Parent();
+        Child child3 = (Child) new Parent();
+        child3.speakChild();
+        child3.speakParent();
+    }
+    
+    public static class Child extends Parent{
+        public void speakChild(){
+            System.out.println("밥 줘");
+        }
+    }
+    public static class Parent{
+        public void speakParent(){
+            System.out.println("밥 줄게");
         }
     }
 

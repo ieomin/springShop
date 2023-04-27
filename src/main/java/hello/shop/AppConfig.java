@@ -7,9 +7,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
+import java.util.Optional;
+import java.util.UUID;
 
 @Configuration
 @RequiredArgsConstructor
@@ -59,4 +62,5 @@ public class AppConfig {
 //    public OrderApiController orderApiController(){
 //        return new OrderApiController(orderService());
 //    }
+
 }

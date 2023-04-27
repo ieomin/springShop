@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -22,23 +24,38 @@ public class TestDataInit {
     // 결론: 플러시가 따로 되나? 안되지 근데 JPQL퀴리실행시(일반쿼리x) 플러시가 되지
     @PostConstruct
     public void init(){
-        Member member1 = new Member("q", "q", "member1",  new Address("Q", "Q", "Q"));
-        Member member2 = new Member("w", "w", "member2", new Address("W", "W", "W"));
+
+        List<Member> members = new ArrayList<>();
+        for(int i=1; i<31; i++){
+            Member member = new Member(String.valueOf(i), String.valueOf(i), "member" + i);
+            member.setAddress(new Address(String.valueOf(i), String.valueOf(i), String.valueOf(i)));
+            members.add(member);
+            memberRepository.save(member);
+        }
+
+        List<Item> items = new ArrayList<>();
+        for(int i=1; i<31; i++){
+            Item item = new Item("item" + i, 1000, 100);
+            items.add(item);
+            itemRepository.save(item);
+        }
+
         // 팁: 같은 delivery를 서로 다른 order에 모두 초기화하면 두 order가 한 delivery를 바라보게 되니 일대일관계가 형성이 안됨
-        Delivery delivery1_1 = new Delivery(member1.getAddress());
-        Delivery delivery1_2 = new Delivery(member1.getAddress());
-        delivery1_2.setStatus(DeliveryStatus.COMP);
-        Item item1 = new Item("item1", 1000, 10);
-        Item item2 = new Item("item2", 2000, 20);
-        OrderItem orderItem1 = new OrderItem(item2, 10);
-        OrderItem orderItem2 = new OrderItem(item2, 10);
-        Order order1 = new Order(member1, delivery1_1, orderItem1);
-        Order order2 = new Order(member1, delivery1_2, orderItem2);
-        memberRepository.save(member1);
-        memberRepository.save(member2);
-        itemRepository.save(item1);
-        itemRepository.save(item2);
-        orderRepository.save(order1);
-        orderRepository.save(order2);
+        List<Delivery> deliveries = new ArrayList<>();
+        for(int i=1; i<31; i++){
+            deliveries.add(new Delivery());
+        }
+
+        ArrayList<OrderItem> orderItems = new ArrayList<>();
+        for(int i=1; i<31; i++){
+            orderItems.add(new OrderItem(items.get(i - 1), 10));
+        }
+
+        ArrayList<Order> orders = new ArrayList<>();
+        for(int i=1; i<31; i++){
+            Order order = new Order(members.get(i - 1), deliveries.get(i - 1), orderItems.get(i - 1));
+            orders.add(order);
+            orderRepository.save(order);
+        }
     }
 }

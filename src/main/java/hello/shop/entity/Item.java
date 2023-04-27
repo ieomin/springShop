@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-public class Item {
+public class Item extends Base{
 
     @Id @GeneratedValue @Column(name = "item_id")
     private Long id;

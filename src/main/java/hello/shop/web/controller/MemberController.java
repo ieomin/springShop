@@ -3,6 +3,7 @@ package hello.shop.web.controller;
 import hello.shop.entity.Address;
 import hello.shop.entity.Member;
 import hello.shop.exception.DuplicateMemberLoginIdException;
+import hello.shop.repository.member.MemberDtoV2;
 import hello.shop.service.MemberService;
 import hello.shop.web.SessionConst;
 import hello.shop.web.form.member.MemberCreateForm;
@@ -11,6 +12,9 @@ import hello.shop.web.form.member.MemberLoginForm;
 import hello.shop.web.form.member.MemberUpdateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j
@@ -34,8 +40,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/member/list")
-    public String listGet(Model model){
-        List<Member> members = memberService.findAll();
+    public String listGet(Model model, @PageableDefault Pageable pageable){
+        Page<MemberDtoV2> members = memberService.search(pageable);
         model.addAttribute("members", members);
         return "member/list";
     }
@@ -43,9 +49,6 @@ public class MemberController {
     @GetMapping("/member/create")
     public String createGet(@ModelAttribute MemberCreateForm form, @RequestParam(required = false) String message, Model model) {
         model.addAttribute("message", message);
-        System.out.println("여기야 여기");
-        System.out.println("여기야 여기22");
-        System.out.println("여기야 여기33");
         return "member/create";
     }
     
