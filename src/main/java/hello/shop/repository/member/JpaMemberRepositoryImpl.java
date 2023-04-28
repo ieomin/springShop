@@ -12,10 +12,10 @@ import java.util.List;
 
 import static hello.shop.entity.QMember.member;
 
-public class MemberRepositoryImpl implements MemberRepositoryCustom{
+public class JpaMemberRepositoryImpl implements JpaMemberRepositoryCustom {
 
     private JPAQueryFactory query;
-    MemberRepositoryImpl(EntityManager em){
+    JpaMemberRepositoryImpl(EntityManager em){
         this.query = new JPAQueryFactory(em);
     }
 

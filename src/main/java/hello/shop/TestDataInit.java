@@ -2,6 +2,7 @@ package hello.shop;
 
 import hello.shop.entity.*;
 import hello.shop.repository.item.ItemRepository;
+import hello.shop.repository.member.JpaMemberRepository;
 import hello.shop.repository.member.MemberRepository;
 import hello.shop.repository.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,8 @@ import java.util.List;
 @Profile("local")
 public class TestDataInit {
 
+    // 결과: 자식이 부모를 받을려고 하니까 오류
+//    private final JpaMemberRepository memberRepository;
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
     private final OrderRepository orderRepository;
