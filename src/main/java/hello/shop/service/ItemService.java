@@ -3,6 +3,7 @@ package hello.shop.service;
 import hello.shop.entity.Item;
 import hello.shop.repository.item.ItemRepository;
 import hello.shop.repository.item.ItemSearchCond;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,11 +25,13 @@ public class ItemService {
 
     public List<Item> findAll(){
         List<Item> items = itemRepository.findAll();
+
         return items;
     }
 
     public Item findById(Long id){
-        Item item = itemRepository.findById(id).get();
+        Optional<Item> byId = itemRepository.findById(id);
+        Item item = byId.get();
         return item;
     }
 

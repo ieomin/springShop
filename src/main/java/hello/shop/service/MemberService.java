@@ -4,6 +4,7 @@ import hello.shop.entity.Address;
 import hello.shop.entity.Member;
 import hello.shop.exception.DuplicateMemberLoginIdException;
 import hello.shop.repository.member.MemberDtoV2;
+import hello.shop.repository.member.JpaMemberRepository;
 import hello.shop.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -91,7 +92,7 @@ public class MemberService {
         save(member);
     }
 
-    // 결론: 같은 캐시를 사용할려면 find와 set이 같은 트랜잭션 안에서 이루어져야 함
+    // 결론: 같은 캐시를 사용할려면 find와 set이 같은 트랜잭션 안에서 이루어져야 함 보통 Service에서 @Transactional이 많이 필요
     @Transactional
     public void updateMember(Long id, String name, Address address) {
         Member member = findById(id);

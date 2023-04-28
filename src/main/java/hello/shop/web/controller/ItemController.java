@@ -52,11 +52,15 @@ public class ItemController {
     @GetMapping("/item/detail/{id}")
     public String detailGet(@PathVariable Long id, @ModelAttribute ItemDetailForm form){
         Item item = itemService.findById(id);
+
         form.setId(item.getId());
         form.setName(item.getName());
         form.setPrice(item.getPrice());
         form.setQuantity(item.getQuantity());
         form.setOrderItems(item.getOrderItems());
+
+        // 팁: form을 생성한다면 함수를 사용할텐데 생성하지 않아서 무의미하긴 하다
+//        ItemDetailForm.createItemDetailForm(item, form);
         return "item/detail";
     }
 

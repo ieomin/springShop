@@ -1,5 +1,6 @@
 package hello.shop.web.form.item;
 
+import hello.shop.entity.Item;
 import hello.shop.entity.OrderItem;
 import lombok.Data;
 
@@ -12,4 +13,13 @@ public class ItemDetailForm {
     private int price;
     private int quantity;
     private List<OrderItem> orderItems;
+
+//    public static ItemDetailForm createItemDetailForm(Item item, ItemDetailForm form){
+//        form.setId(item.getId());
+//        form.setName(item.getName());
+//        form.setPrice(item.getPrice());
+//        form.setQuantity(item.getQuantity());
+//        form.setOrderItems(item.getOrderItems());
+//        return form;
+//    }
 }
