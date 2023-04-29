@@ -85,7 +85,7 @@ public class MemberController {
             result.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
             return "member/login";
         }
-
+        
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
         return "redirect:" + redirectURL;

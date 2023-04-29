@@ -8,6 +8,7 @@ import hello.shop.repository.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -54,11 +55,20 @@ public class TestDataInit {
             orderItems.add(new OrderItem(items.get(i - 1), 10));
         }
 
-        ArrayList<Order> orders = new ArrayList<>();
         for(int i=1; i<31; i++){
-            Order order = new Order(members.get(i - 1), deliveries.get(i - 1), orderItems.get(i - 1));
-            orders.add(order);
-            orderRepository.save(order);
+            if(i == 1){
+                OrderItem orderItem = new OrderItem(items.get(20), 20);
+                Order order = new Order(members.get(i - 1), deliveries.get(i - 1), orderItems.get(i - 1), orderItem);
+                orderRepository.save(order);
+            } else {
+                Order order = new Order(members.get(i - 1), deliveries.get(i - 1), orderItems.get(i - 1));
+                orderRepository.save(order);
+            }
         }
+        // 보류: 왜 멤버는 부를 수 있고 delivery와orderItem은 못부르지
+//        Delivery delivery = new Delivery();
+//        OrderItem orderItem = new OrderItem(items.get(1), 10);
+//        Order order = new Order(members.get(0), delivery, orderItem);
+
     }
 }

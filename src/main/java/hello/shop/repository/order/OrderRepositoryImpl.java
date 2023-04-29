@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static hello.shop.entity.QDelivery.delivery;
 import static hello.shop.entity.QItem.item;
@@ -27,15 +28,24 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
     public List<OrderDtoV1> searchV1(OrderSearchCond cond) {
         String memberName = cond.getMemberName();
         OrderStatus orderStatus = cond.getOrderStatus();
-        return query
+
+
+        List<OrderDtoV1> fetch = query
                 .select(new QOrderDtoV1(
                         order.id,
                         order.member.name,
+                        item.name,
+                        orderItem.count,
                         order.status))
                 .from(order)
                 .leftJoin(order.member, member)
+                .leftJoin(order.orderItems, orderItem)
+                .leftJoin(orderItem.item, item)
                 .where(equalMemberName(memberName), equalOrderStatus(orderStatus))
                 .fetch();
+
+        return fetch;
+//        return null;
     }
 
     @Override
