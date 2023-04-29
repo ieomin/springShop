@@ -4,10 +4,12 @@ import hello.shop.exception.NotAllowCanceledOrderException;
 import hello.shop.exception.NotEnoughStockException;
 import hello.shop.repository.order.OrderDtoV1;
 import hello.shop.entity.*;
+import hello.shop.repository.order.OrderDtoV1ListVer;
 import hello.shop.repository.order.OrderSearchCond;
 import hello.shop.service.ItemService;
 import hello.shop.service.MemberService;
 import hello.shop.service.OrderService;
+import hello.shop.web.SessionConst;
 import hello.shop.web.form.order.OrderCreateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +18,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -32,9 +38,10 @@ public class OrderController {
 
     @GetMapping(value = "/order/list")
     // 팁: requestParamValue는 defaultValue와 같이 쓰임
-    public String listGetV3(@RequestParam(required = false) String message, @ModelAttribute OrderSearchCond cond, Model model) {
-        List<OrderDtoV1> orders = orderService.searchV1(cond);
-        model.addAttribute("orders", orders);
+    public String listGet(@RequestParam(required = false) String message, @ModelAttribute OrderSearchCond cond, Model model) {
+        List<OrderDtoV1> os = orderService.searchV1(cond);
+        ArrayList<OrderDtoV1ListVer> ols = OrderDtoV1ListVer.osToOls(os);
+        model.addAttribute("orders", ols);
         model.addAttribute("message", message);
         return "order/list";
     }
@@ -53,9 +60,7 @@ public class OrderController {
 
     @GetMapping("/order/create")
     public String createForm(@RequestParam(required = false) String message, @ModelAttribute OrderCreateForm form, Model model){
-        List<Member> members = memberService.findAll();
         List<Item> items = itemService.findAll();
-        form.setMembers(members);
         form.setItems(items);
         model.addAttribute("message", message);
         return "order/create";
@@ -63,12 +68,10 @@ public class OrderController {
 
     @PostMapping("/order/create")
     // 팁: input태그의 name은 RequestParam과 매칭도 되는데 set해주는 역할을 자주 함
-    public String create(@Valid @ModelAttribute OrderCreateForm form, BindingResult result){
+    public String create(@Valid @ModelAttribute OrderCreateForm form, BindingResult result, HttpServletRequest request){
         if(result.hasErrors()) {
-            List<Member> members = memberService.findAll();
             List<Item> items = itemService.findAll();
             form.setItems(items);
-            form.setMembers(members);
             return "order/create";
         }
         Item item = itemService.findById(form.getItemId());
@@ -76,11 +79,14 @@ public class OrderController {
         try{
             orderItem = new OrderItem(item, form.getCount());
         } catch(NotEnoughStockException e){
-            log.info("catch(NotEnoughStockException e)");
             return "redirect:/order/create?message=" + e.getMessage();
         }
 
-        Member member = memberService.findById(form.getMemberId());
+        // 팁: 로그인정보 불러오는 방법
+        HttpSession session = request.getSession();
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        Member member = memberService.findById(loginMember.getId());
         Address address = new Address(form.getCity(), form.getStreet(), form.getZipcode());
         Delivery delivery = new Delivery(address);
         Order order = new Order(member, delivery, orderItem);
