@@ -17,7 +17,6 @@ public class Delivery extends Base{
     @Embedded
     private Address address;
 
-    // 보류: 바로 초기화해도 되겠지
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status = DeliveryStatus.READY;
 

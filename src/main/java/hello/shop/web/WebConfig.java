@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginCheckInterceptor())
                 .order(2)
                 .addPathPatterns("/**")
-                // 보류: 404페이지를 출력할 방법이 없음
+                // 보류: 직접 작성한 404페이지를 출력할 방법이 없음
                 .excludePathPatterns("/css/**", "/*.ico", "/error", "/error-page/**", "/", "/member/create", "/member/login", "/member/logout");
     }
 
