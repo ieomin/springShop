@@ -47,7 +47,7 @@ public class OrderService {
         }
 
         order.setStatus(OrderStatus.CANCEL);
-        for(OrderItem oi :order.getOrderItems()){
+        for(BasketItem oi :order.getBasketItems()){
             Item item = oi.getItem();
             Integer count = oi.getCount();
             Integer quantity = item.getQuantity();

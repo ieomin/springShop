@@ -25,16 +25,15 @@
                 <label th:text="#{label.item.quantity}">??</label>
                 <input type="text" id="quantity" name="quantity" class="form-control" th:value="${itemDetailForm.quantity}" readonly>
             </div>
-            <div>
-                <label th:text="#{label.item.orderItems.order.id}">??</label>
-                <div th:each="orderItem : *{orderItems}">
-                    <input type="text" id="order_id" name="order_id" class="form-control" th:value="${orderItem.order.id}" readonly>
-                </div>
-            </div>
 
         </div>
         <hr class="my-4">
         <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="button"
+                        th:onclick="|location.href='@{/basket/update/{id}/(id=${itemDetailForm.id})}'|"
+                >장바구니 담기</button>
+            </div>
             <div class="col">
                 <button class="w-100 btn btn-primary btn-lg" type="button"
                         th:onclick="|location.href='@{/item/update/{id}(id=${itemDetailForm.id})}'|"

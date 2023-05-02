@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header"/>
+<style>.fieldError {border-color: #dc3545; color: #dc3545;}</style>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="py-5 text-center">
+        <h2>장바구니 수정</h2>
+    </div>
+    <div>
+        <form role="form" th:action th:object="${basketUpdateForm}" method="post">
+
+            <div>
+                <label>장바구니 ID</label>
+                <input type="text" class="form-control"
+                       th:field="*{basketId}"
+                       readonly>
+            </div>
+
+            <div>
+                <label>상품 이름</label>
+                <input type="text" class="form-control"
+                       th:field="*{itemName}"
+                       readonly>
+            </div>
+            <div>
+                <label>주문 수량</label>
+                <input type="number"
+                       th:field="*{count}"
+                       th:class="${#fields.hasErrors('count')}? 'form-control fieldError' : 'form-control'">
+                <p class="fieldError"
+                   th:if="${#fields.hasErrors('count')}"
+                   th:errors="*{count}">??</p>
+            </div>
+
+            <hr class="my-4">
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="w-100 btn btn-primary btn-lg" th:text="#{button.save}">??</button>
+                </div>
+                <div class="col">
+                    <button class="w-100 btn btn-secondary btn-lg"
+                            th:onclick="|location.href='@{/item/detail/{id}(id=${basketUpdateForm.itemId})}'|"
+                            type="button" th:text="#{button.cancel}">??</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

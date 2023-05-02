@@ -16,18 +16,15 @@ public class Member extends Base{
 
     @Id @GeneratedValue @Column(name = "member_id")
     private Long id;
-
     private String loginId;
-
     private String password;
-
     private String name;
-
     @Embedded
     private Address address;
-
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Basket> baskets = new ArrayList<>();
 
     public void addOrder(Order order){
         orders.add(order);

@@ -114,6 +114,7 @@ public class MemberController {
         form.setCity(member.getAddress().getCity());
         form.setStreet(member.getAddress().getStreet());
         form.setZipcode(member.getAddress().getZipcode());
+        form.setBasket(member.getBaskets().get(0));
         return "member/detail";
     }
 

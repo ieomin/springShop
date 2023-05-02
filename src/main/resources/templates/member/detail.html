@@ -37,6 +37,13 @@
                     <input type="text" class="form-control" th:value="${order.id}" readonly>
                 </div>
             </div>
+            <div>
+                <label>장바구니의 상품 이름과 수량</label>
+                <div th:each="basketItem : ${memberDetailForm.basket.basketItems}">
+                    <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>
+                    <input type="text" class="form-control" th:value="${basketItem.count}" readonly>
+                </div>
+            </div>
         </div>
         <hr class="my-4">
         <div class="row">

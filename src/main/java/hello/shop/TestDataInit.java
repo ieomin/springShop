@@ -1,14 +1,13 @@
 package hello.shop;
 
 import hello.shop.entity.*;
+import hello.shop.repository.basket.BasketRepository;
 import hello.shop.repository.item.ItemRepository;
-import hello.shop.repository.member.JpaMemberRepository;
 import hello.shop.repository.member.MemberRepository;
 import hello.shop.repository.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ public class TestDataInit {
 //    private final JpaMemberRepository memberRepository;
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
+    private final BasketRepository basketRepository;
     private final OrderRepository orderRepository;
 
     // 결론: 플러시가 따로 되나? 안되지 근데 JPQL퀴리실행시(일반쿼리x) 플러시가 되지
@@ -50,19 +50,20 @@ public class TestDataInit {
             deliveries.add(new Delivery());
         }
 
-        ArrayList<OrderItem> orderItems = new ArrayList<>();
+        ArrayList<BasketItem> basketItems = new ArrayList<>();
         for(int i=1; i<31; i++){
-            orderItems.add(new OrderItem(items.get(i - 1), 10));
+            basketItems.add(new BasketItem(items.get(i - 1), 10));
         }
 
         for(int i=1; i<31; i++){
             if(i == 1){
-                OrderItem orderItem = new OrderItem(items.get(20), 20);
-                Order order = new Order(members.get(i - 1), deliveries.get(i - 1), orderItems.get(i - 1), orderItem);
-                orderRepository.save(order);
+                BasketItem basketItem = new BasketItem(items.get(20), 20);
+                Basket basket = new Basket(members.get(i - 1), basketItem, basketItems.get(i - 1));
+                basketRepository.save(basket);
+
             } else {
-                Order order = new Order(members.get(i - 1), deliveries.get(i - 1), orderItems.get(i - 1));
-                orderRepository.save(order);
+                Basket basket = new Basket(members.get(i - 1), basketItems.get(i - 1));
+                basketRepository.save(basket);
             }
         }
         // 보류: 왜 멤버는 부를 수 있고 delivery와orderItem은 못부르지

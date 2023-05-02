@@ -11,19 +11,6 @@
     <div class="fieldError" th:text="${message}"></div>
     <form role="form" action="/order/create" method="post" th:object="${orderCreateForm}">
         <div class="form-group">
-<!--            <div>-->
-<!--                <label th:text="#{label.order.member}">??</label>-->
-<!--                <select th:field="*{memberId}"-->
-<!--                        th:class="${#fields.hasErrors('memberId')}? 'form-control fieldError' : 'form-control'">>-->
-<!--                    <option value="">회원을 선택하세요</option>-->
-<!--                    <option th:each="member : *{members}"-->
-<!--                            th:value="${member.id}"-->
-<!--                            th:text="${member.name}"/>-->
-<!--                </select>-->
-<!--                <p class="fieldError"-->
-<!--                   th:if="${#fields.hasErrors('memberId')}"-->
-<!--                   th:errors="*{memberId}">??</p>-->
-<!--            </div>-->
             <div>
                 <label th:text="#{label.order.delivery.address.city}">??</label>
                 <input type="text"
@@ -54,26 +41,11 @@
                    th:errors="*{zipcode}"></p>
             </div>
             <div>
-                <label th:text="#{label.order.item}">??</label>
-                <select th:field="*{itemId}"
-                        th:class="${#fields.hasErrors('itemId')}? 'form-control fieldError' : 'form-control'">
-                    <option value="">상품을 선택하세요</option>
-                    <option th:each="item : *{items}"
-                            th:value="${item.id}"
-                            th:text="${item.name}"/>
-                </select>
-                <p class="fieldError"
-                   th:if="${#fields.hasErrors('itemId')}"
-                   th:errors="*{itemId}">??</p>
-            </div>
-            <div>
-                <label th:text="#{label.order.count}">??</label>
-                <input type="text" placeholder="주문 수량을 입력하세요"
-                       th:field="*{count}"
-                       th:class="${#fields.hasErrors('count')}? 'form-control fieldError' : 'form-control'">
-                <p class="fieldError"
-                   th:if="${#fields.hasErrors('count')}"
-                   th:errors="*{count}">??</p>
+                <label>장바구니의 상품 이름과 수량</label>
+                <div th:each="basketItem : ${orderCreateForm.basket.basketItems}">
+                    <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>
+                    <input type="text" class="form-control" th:value="${basketItem.count}" readonly>
+                </div>
             </div>
         </div>
         <div class="row">
