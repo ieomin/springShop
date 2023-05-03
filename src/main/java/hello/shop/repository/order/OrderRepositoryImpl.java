@@ -1,20 +1,17 @@
 package hello.shop.repository.order;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hello.shop.entity.OrderStatus;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import static hello.shop.entity.QBasketItem.basketItem;
 import static hello.shop.entity.QDelivery.delivery;
 import static hello.shop.entity.QItem.item;
 import static hello.shop.entity.QMember.member;
 import static hello.shop.entity.QOrder.order;
-import static hello.shop.entity.QOrderItem.orderItem;
 
 public class OrderRepositoryImpl implements OrderRepositoryCustom{
 
@@ -35,12 +32,12 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
                         order.id,
                         order.member.name,
                         item.name,
-                        orderItem.count,
+                        basketItem.count,
                         order.status))
                 .from(order)
                 .leftJoin(order.member, member)
-                .leftJoin(order.orderItems, orderItem)
-                .leftJoin(orderItem.item, item)
+                .leftJoin(order.basketItems, basketItem)
+                .leftJoin(basketItem.item, item)
                 .where(equalMemberName(memberName), equalOrderStatus(orderStatus))
                 .fetch();
 
@@ -60,22 +57,28 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
                         item.quantity))
                 .from(order)
                 .leftJoin(order.member, member)
-                .leftJoin(order.orderItems, orderItem)
-                .leftJoin(orderItem.item, item)
+                .leftJoin(order.basketItems, basketItem)
+                .leftJoin(basketItem.item, item)
                 .where(equalMemberName(memberName), equalOrderStatus(orderStatus))
                 .fetch();
+//        return null;
     }
 
     @Override
     public List<OrderDtoV3> searchV3() {
         return query
                 .select(new QOrderDtoV3(
-                        order.id, member.name, order.orderDate, order.status, order.delivery.address
+                        order.id,
+                        member.name,
+                        order.orderDate,
+                        order.status, order.
+                        delivery.address
                 ))
                 .from(order)
                 .leftJoin(order.member, member)
                 .leftJoin(order.delivery, delivery)
                 .fetch();
+//        return null;
     }
 
 

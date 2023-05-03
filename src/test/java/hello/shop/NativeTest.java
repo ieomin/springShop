@@ -2,6 +2,7 @@ package hello.shop;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class NativeTest {
@@ -48,6 +49,17 @@ public class NativeTest {
             System.out.println(message);
         } else{
             System.out.println("메시지가 없습니다.");
+        }
+    }
+
+    @Test
+    public void ArrayTest(){
+        ArrayList<Integer> integers = new ArrayList<>();
+        integers.add(1);
+        integers.add(2);
+        integers.remove(1);
+        for (Integer integer : integers) {
+            System.out.println("integer = " + integer);
         }
     }
 

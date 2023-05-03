@@ -26,7 +26,6 @@
                 <button type="submit" class="btn btn-primary mb-2">검색</button>
             </form>
         </div>
-
         <table class="table table-striped">
             <thead>
             <tr>
@@ -51,13 +50,11 @@
                     <p th:each="orderItemCount : ${order.orderItemCounts}"
                        th:text="${orderItemCount}"></p>
                 </td>
-
                 <td>
                     <a th:if="${order.orderStatus.name() == 'ORDER'}"
                        th:href="'javascript:cancel('+${order.orderId}+')'"
                        class="btn btn-danger">CANCEL</a>
                 </td>
-
             </tr>
             </tbody>
         </table>

@@ -1,6 +1,6 @@
 package hello.shop.web.form.item;
 
-import hello.shop.entity.OrderItem;
+import hello.shop.entity.BasketItem;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
@@ -18,5 +18,5 @@ public class ItemUpdateForm {
     private Integer price;
     @NotNull(message = "상품 수량은 필수입니다") @Range(min = 1, max = 1000000, message = "상품 수량은 1~1000000 이어야 합니다")
     private Integer quantity;
-    private List<OrderItem> orderItems;
+    private List<BasketItem> orderItems;
 }

@@ -18,7 +18,7 @@ public class Delivery extends Base{
     private Address address;
 
     @Enumerated(EnumType.STRING)
-    private DeliveryStatus status = DeliveryStatus.READY;
+    private DeliveryStatus status;
 
     @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)
     private Order order;

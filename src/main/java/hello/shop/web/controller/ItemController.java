@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -57,7 +56,6 @@ public class ItemController {
         form.setName(item.getName());
         form.setPrice(item.getPrice());
         form.setQuantity(item.getQuantity());
-        form.setOrderItems(item.getOrderItems());
 
         // 팁: form을 생성한다면 함수를 사용할텐데 생성하지 않아서 무의미하긴 하다
 //        ItemDetailForm.createItemDetailForm(item, form);
@@ -71,7 +69,7 @@ public class ItemController {
         form.setName(item.getName());
         form.setPrice(item.getPrice());
         form.setQuantity(item.getQuantity());
-        form.setOrderItems(item.getOrderItems());
+        form.setOrderItems(item.getBasketItems());
         return "item/update";
     }
 

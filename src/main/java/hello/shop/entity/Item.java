@@ -22,7 +22,7 @@ public class Item extends Base{
     private Integer quantity;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private List<BasketItem> basketItems = new ArrayList<>();
 
     public Item(String name, Integer price, Integer quantity){
         this.setName(name);

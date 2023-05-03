@@ -1,9 +1,11 @@
 package hello.shop.web.controller;
 
 import hello.shop.entity.Address;
+import hello.shop.entity.Basket;
 import hello.shop.entity.Member;
 import hello.shop.exception.DuplicateMemberLoginIdException;
 import hello.shop.repository.member.MemberDtoV2;
+import hello.shop.service.BasketService;
 import hello.shop.service.MemberService;
 import hello.shop.web.SessionConst;
 import hello.shop.web.form.member.MemberCreateForm;
@@ -38,6 +40,7 @@ public class MemberController {
     // 팁: BindingResult 는 검증할 대상 바로 다음에 와야한다. 순서가 중요하다. 예를 들어서 @ModelAttribute Item item , 바로 다음에 BindingResult 가 와야 한다
 
     private final MemberService memberService;
+    private final BasketService basketService;
 
     @GetMapping("/member/list")
     public String listGet(Model model, @PageableDefault Pageable pageable){
@@ -114,6 +117,7 @@ public class MemberController {
         form.setCity(member.getAddress().getCity());
         form.setStreet(member.getAddress().getStreet());
         form.setZipcode(member.getAddress().getZipcode());
+        form.setBasket(member.getBasket());
         return "member/detail";
     }
 
@@ -136,5 +140,21 @@ public class MemberController {
         if(result.hasErrors()) return "member/update";
         memberService.updateMember(id, form.getName(), new Address(form.getCity(), form.getStreet(), form.getZipcode()));
         return "redirect:/member/list";
+    }
+
+    @GetMapping("/member/basket/{id}")
+    public String basketGet(@PathVariable Long id, Model model){
+        Member member = memberService.findById(id);
+        model.addAttribute("member", member);
+        return "member/basket";
+    }
+
+    @PostMapping("/member/canceledBasket/{basketId}/{basketItemId}")
+    public String canceledBasket(@PathVariable Long basketId, @PathVariable Long basketItemId, HttpServletRequest request){
+        log.info("basketId = {} basketItemId = {}", basketId, basketItemId);
+        basketService.cancelBasketItem(basketId, basketItemId);
+        Member loginMember = (Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        Long memberId = loginMember.getId();
+        return "redirect:/member/basket/" + memberId;
     }
 }

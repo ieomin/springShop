@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header"/>
+
+<body>
+<div class="container">
+  <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+  <div class="py-5 text-center">
+    <h2>장바구니</h2>
+  </div>
+  <div>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>상품 이름</th>
+        <th>수량</th>
+        <th>장바구니 상태</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="basketItem : ${member.basket.basketItems}">
+        <td th:text="${basketItem.item.name}"></td>
+        <td th:text="${basketItem.count}"></td>
+        <td th:text="${basketItem.status}"></td>
+        <td>
+          <form role="form" th:action="@{/member/canceledBasket/{basketId}/{basketItemId}(basketItemId=${basketItem.id}, basketId=${member.basket.id})}" method="post">
+            <button
+                    th:if="${basketItem.status.name() == 'BASKET_ITEM'}"
+                    class="btn btn-danger"
+                    type="submit">
+              CANCEL</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <hr class="my-4">
+    <div class="row">
+      <div class="col">
+        <button class="w-100 btn btn-primary btn-lg" type="button"
+                th:onclick="|location.href='@{/order/create/}'|">주문 등록</button>
+      </div>
+      <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg"
+                th:onclick="|location.href='@{/}'|"
+                type="button" th:text="#{button.cancel}">??</button>
+      </div>
+    </div>
+  </div>
+  <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

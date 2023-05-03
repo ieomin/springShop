@@ -1,13 +1,9 @@
 package hello.shop.repository.order;
 
 import com.querydsl.core.annotations.QueryProjection;
-import hello.shop.entity.OrderItem;
 import hello.shop.entity.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
-import java.util.Map;
 
 @Getter @Setter
 public class OrderDtoV1 {

@@ -1,5 +1,6 @@
 package hello.shop.web.form.member;
 
+import hello.shop.entity.Basket;
 import hello.shop.entity.Order;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,4 +15,5 @@ public class MemberDetailForm {
     private String street;
     private String zipcode;
     private List<Order> orders;
+    private Basket basket;
 }

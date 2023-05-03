@@ -1,26 +1,13 @@
 package hello.shop.web.form.order;
 
-import hello.shop.entity.Delivery;
-import hello.shop.entity.Item;
-import hello.shop.entity.Member;
-import hello.shop.entity.OrderItem;
+import hello.shop.entity.Basket;
+import hello.shop.entity.BasketItem;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.List;
-
-@Getter @Setter
+@Data
 public class OrderCreateForm {
-
-    private List<Item> items;
-    @NotNull(message = "주문 상품은 필수입니다")
-    private Long itemId;
-
-    @NotNull(message = "주문 수량은 필수입니다") @Range(min=1, max=100, message = "주문 수량은 1~100 이어야 합니다")
-    private Integer count;
 
     private String city;
 
@@ -28,5 +15,6 @@ public class OrderCreateForm {
 
     private String zipcode;
 
-    private List<OrderItem> orderItems;
+    // 결과: 올 때 객체랑 갈 때 객체가 다름, 폼에서 객체를 보여주는 건 되는데 받는 것이 잘 되지가 않으니 이런 코드 사용하지 말도록
+    private Basket basket;
 }

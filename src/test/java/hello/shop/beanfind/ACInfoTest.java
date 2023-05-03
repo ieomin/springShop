@@ -2,6 +2,7 @@ package hello.shop.beanfind;
 
 import hello.shop.AppConfig;
 import hello.shop.ShopApplication;
+import hello.shop.repository.basket.BasketRepository;
 import hello.shop.repository.member.MemberRepository;
 import hello.shop.service.ItemService;
 import hello.shop.service.MemberService;
@@ -40,7 +41,7 @@ class ACInfoTest {
     @Test
     @DisplayName("특정 타입을 모두 조회하기")
     void findAllBeanByType() {
-        Map<String, MemberRepository> beansOfType = ac.getBeansOfType(MemberRepository.class);
+        Map<String, BasketRepository> beansOfType = ac.getBeansOfType(BasketRepository.class);
         for (String key : beansOfType.keySet()) {
             System.out.println("name = " + key + " // object = " + beansOfType.get(key));
         }
