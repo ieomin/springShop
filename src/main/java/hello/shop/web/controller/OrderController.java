@@ -1,7 +1,6 @@
 package hello.shop.web.controller;
 
 import hello.shop.exception.NotAllowCanceledOrderException;
-import hello.shop.exception.NotEnoughStockException;
 import hello.shop.repository.order.OrderDtoV1;
 import hello.shop.entity.*;
 import hello.shop.repository.order.OrderDtoV1ListVer;
@@ -15,13 +14,11 @@ import hello.shop.web.form.order.OrderCreateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +58,7 @@ public class OrderController {
     }
 
     @GetMapping("/order/create")
-    public String createForm(@RequestParam(required = false) String message, @ModelAttribute OrderCreateForm form, Model model, HttpServletRequest request){
+    public String createGet(@RequestParam(required = false) String message, @ModelAttribute OrderCreateForm form, Model model, HttpServletRequest request){
 
         Member loginMember = (Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
         Long memberId = loginMember.getId();
@@ -87,5 +84,12 @@ public class OrderController {
         basket.getBasketItems().clear();
         orderService.save(order);
         return "redirect:/order/list";
+    }
+
+    @GetMapping("/order/detail/{id}")
+    public String detailGet(@PathVariable Long id, Model model){
+        Order order = orderService.findById(id);
+        model.addAttribute("order", order);
+        return "order/detail";
     }
 }

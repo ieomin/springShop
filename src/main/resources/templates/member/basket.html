@@ -27,7 +27,7 @@
         <td>
           <form role="form" th:action="@{/member/canceledBasket/{basketId}/{basketItemId}(basketItemId=${basketItem.id}, basketId=${member.basket.id})}" method="post">
             <button
-                    th:if="${basketItem.status.name() == 'BASKET_ITEM'}"
+                    th:if="${basketItem.status.name() == 'CONTAIN'}"
                     class="btn btn-danger"
                     type="submit">
               CANCEL</button>
@@ -37,7 +37,10 @@
       </tbody>
     </table>
     <hr class="my-4">
-    <div class="row">
+    <div class="row"><div class="col">
+      <button class="w-100 btn btn-primary btn-lg" type="button"
+              th:onclick="|location.href='@{/item/list/}'|">상품 목록</button>
+    </div>
       <div class="col">
         <button class="w-100 btn btn-primary btn-lg" type="button"
                 th:onclick="|location.href='@{/order/create/}'|">주문 등록</button>

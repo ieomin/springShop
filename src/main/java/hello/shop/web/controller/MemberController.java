@@ -54,7 +54,6 @@ public class MemberController {
         model.addAttribute("message", message);
         return "member/create";
     }
-    
 
     @PostMapping("/member/create")
     public String create(@Valid @ModelAttribute MemberCreateForm form, BindingResult result) {

@@ -3,6 +3,7 @@ package hello.shop.repository.order;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hello.shop.entity.OrderStatus;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -38,7 +39,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
                 .leftJoin(order.member, member)
                 .leftJoin(order.basketItems, basketItem)
                 .leftJoin(basketItem.item, item)
-                .where(equalMemberName(memberName), equalOrderStatus(orderStatus))
+                .where(likeOrderName(memberName), equalOrderStatus(orderStatus))
                 .fetch();
 
         return fetch;
@@ -59,7 +60,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
                 .leftJoin(order.member, member)
                 .leftJoin(order.basketItems, basketItem)
                 .leftJoin(basketItem.item, item)
-                .where(equalMemberName(memberName), equalOrderStatus(orderStatus))
+                .where(likeOrderName(memberName), equalOrderStatus(orderStatus))
                 .fetch();
 //        return null;
     }
@@ -82,9 +83,9 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
     }
 
 
-    private BooleanExpression equalMemberName(String memberName) {
-        if(memberName != null){
-            return order.member.name.eq(memberName);
+    private BooleanExpression likeOrderName(String memberName) {
+        if(StringUtils.hasText(memberName)){
+            return order.member.name.like("%" + memberName + "%");
         }
         return null;
     }

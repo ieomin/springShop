@@ -12,10 +12,11 @@
     <form role="form" action="/order/create" method="post" th:object="${orderCreateForm}">
         <div class="form-group">
             <div>
-                <label>장바구니의 상품 이름과 수량</label>
+                <label>상품 이름, 수량, 상태</label>
                 <div th:each="basketItem : ${orderCreateForm.basket.basketItems}">
                     <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>
                     <input type="text" class="form-control" th:value="${basketItem.count}" readonly>
+                    <input type="text" class="form-control" th:value="${basketItem.status}" readonly>
                     <hr>
                 </div>
             </div>

@@ -24,6 +24,6 @@ public class BasketItem extends Base{
     public BasketItem(Item item, Integer count){
         this.setItem(item);
         this.setCount(count);
-        this.setStatus(BasketItemStatus.BASKET_ITEM);
+        this.setStatus(BasketItemStatus.CONTAIN);
     }
 }

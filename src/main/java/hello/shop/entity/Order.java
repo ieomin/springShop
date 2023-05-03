@@ -23,6 +23,7 @@ public class Order extends Base{
     private OrderStatus status;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<BasketItem> basketItems = new ArrayList<>();
+
     public void addDelivery(Delivery delivery) {
         this.delivery = delivery;
         delivery.setOrder(this);
@@ -31,6 +32,7 @@ public class Order extends Base{
         basketItems.add(basketItem);
         basketItem.setOrder(this);
     }
+
     public Order(Member member, Delivery delivery, Basket basket){
         this.setMember(member);
         this.addDelivery(delivery);
@@ -38,9 +40,13 @@ public class Order extends Base{
         this.setStatus(OrderStatus.ORDER);
         List<BasketItem> basketItems = basket.getBasketItems();
         for (BasketItem bi : basketItems) {
-            this.addBasketItem(bi);
-            Item item = bi.getItem();
-            item.removeQuantity(bi.getCount());
+            if(bi.getStatus() == BasketItemStatus.CONTAIN){
+                this.addBasketItem(bi);
+                bi.getItem().removeQuantity(bi.getCount());
+            }
+            else{
+                this.addBasketItem(bi);
+            }
         }
     }
 }

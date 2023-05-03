@@ -19,7 +19,8 @@
                 <label>ID</label>
                 <input type="text"
                        th:field="*{loginId}"
-                       th:class="${#fields.hasErrors('loginId')}? 'form-control fieldError' : 'form-control'">
+                       th:class="${#fields.hasErrors('loginId')}? 'form-control fieldError' : 'form-control'"
+                       placeholder="ID를 입력하세요">
                 <p class="fieldError"
                    th:if="${#fields.hasErrors('loginId')}"
                    th:errors="*{name}">??</p>
@@ -28,7 +29,8 @@
                 <label>비밀번호</label>
                 <input type="password"
                        th:field="*{password}"
-                       th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'">
+                       th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'"
+                       placeholder="비밀번호를 입력하세요">
                 <p class="fieldError"
                    th:if="${#fields.hasErrors('password')}"
                    th:errors="*{password}">??</p>
