@@ -141,19 +141,10 @@ public class MemberController {
         return "redirect:/member/list";
     }
 
-    @GetMapping("/member/basket/{id}")
-    public String basketGet(@PathVariable Long id, Model model){
+    @GetMapping("/member/my/{id}")
+    public String myGet(@PathVariable Long id, Model model){
         Member member = memberService.findById(id);
         model.addAttribute("member", member);
-        return "member/basket";
-    }
-
-    @PostMapping("/member/canceledBasket/{basketId}/{basketItemId}")
-    public String canceledBasket(@PathVariable Long basketId, @PathVariable Long basketItemId, HttpServletRequest request){
-        log.info("basketId = {} basketItemId = {}", basketId, basketItemId);
-        basketService.cancelBasketItem(basketId, basketItemId);
-        Member loginMember = (Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
-        Long memberId = loginMember.getId();
-        return "redirect:/member/basket/" + memberId;
+        return "member/my";
     }
 }

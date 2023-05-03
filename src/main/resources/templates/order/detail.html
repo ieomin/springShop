@@ -21,7 +21,7 @@
         <label>주문 상태</label>
         <input type="text" class="form-control" th:value="*{status}" readonly>
       </div>
-      <div>
+      <div th:if="${#lists.size(order.basketItems) > 0}">
         <label>상품 이름, 수량, 상태</label>
         <div th:each="basketItem : *{basketItems}">
           <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>

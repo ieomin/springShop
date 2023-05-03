@@ -55,10 +55,14 @@
                    th:if="${#fields.hasErrors('zipcode')}"
                    th:errors="*{zipcode}">??</p>
             </div>
-            <div th:each="order : ${memberUpdateForm.orders}">
+
+            <div th:if="${#lists.size(memberUpdateForm.orders) > 0}">
                 <label th:text="#{label.member.orders.id}">??</label>
-                <input type="text" id="orders" name="orders" class="form-control" th:value="${order.id}" readonly>
+                <div th:each="order : ${memberUpdateForm.orders}">
+                    <input type="text" id="orders" name="orders" class="form-control" th:value="${order.id}" readonly>
+                </div>
             </div>
+
             <hr class="my-4">
             <div class="row">
                 <div class="col">

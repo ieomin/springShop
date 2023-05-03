@@ -31,7 +31,7 @@
                 <label th:text="#{label.member.address.zipcode}">??</label>
                 <input type="text" class="form-control" th:value="${memberDetailForm.zipcode}" readonly>
             </div>
-            <div>
+            <div th:if="${#lists.size(memberDetailForm.orders) > 0}">
                 <label th:text="#{label.member.orders.id}">??</label>
                 <div th:each="order : ${memberDetailForm.orders}">
                     <input type="text" class="form-control" th:value="${order.id}" readonly>

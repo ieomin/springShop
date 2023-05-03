@@ -4,6 +4,8 @@ import hello.shop.exception.NotAllowCanceledOrderException;
 import hello.shop.repository.order.*;
 import hello.shop.entity.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +29,8 @@ public class OrderService {
         return orderRepository.findById(id).get();
     }
 
-    public List<OrderDtoV1> searchV1(OrderSearchCond cond){
-        return orderRepository.searchV1(cond);
+    public Page<OrderDtoV1> searchV1(OrderSearchCond cond, Pageable pageable){
+        return orderRepository.searchV1(cond, pageable);
     }
     public List<OrderDtoV2> searchV2(OrderSearchCond cond){
         return orderRepository.searchV2(cond);
@@ -39,8 +41,8 @@ public class OrderService {
 
     // 팁: set사용할 시에는 transactional 추가해서 함수로 뽑아야 함
     @Transactional
-    public void cancelOrder(Long id){
-        Order order = findById(id);
+    public void cancelOrder(Long orderId){
+        Order order = findById(orderId);
 
         if(order.getDelivery().getStatus() == DeliveryStatus.COMP) {
             throw new NotAllowCanceledOrderException(("NotAllowCanceledOrderExceptionMessage"));

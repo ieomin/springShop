@@ -18,5 +18,4 @@ public class ItemUpdateForm {
     private Integer price;
     @NotNull(message = "상품 수량은 필수입니다") @Range(min = 1, max = 1000000, message = "상품 수량은 1~1000000 이어야 합니다")
     private Integer quantity;
-    private List<BasketItem> orderItems;
 }

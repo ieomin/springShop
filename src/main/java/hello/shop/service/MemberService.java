@@ -1,6 +1,7 @@
 package hello.shop.service;
 
 import hello.shop.entity.Address;
+import hello.shop.entity.Item;
 import hello.shop.entity.Member;
 import hello.shop.exception.DuplicateMemberLoginIdException;
 import hello.shop.repository.member.MemberDtoV2;

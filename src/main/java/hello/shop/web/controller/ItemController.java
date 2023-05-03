@@ -1,8 +1,11 @@
 package hello.shop.web.controller;
 
 import hello.shop.entity.Item;
+import hello.shop.entity.Member;
 import hello.shop.repository.item.ItemSearchCond;
 import hello.shop.service.ItemService;
+import hello.shop.service.MemberService;
+import hello.shop.web.SessionConst;
 import hello.shop.web.form.item.ItemCreateForm;
 import hello.shop.web.form.item.ItemDetailForm;
 import hello.shop.web.form.item.ItemUpdateForm;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Slf4j
@@ -26,6 +30,7 @@ import javax.validation.Valid;
 @Controller
 public class ItemController {
 
+    private final MemberService memberService;
     private final ItemService itemService;
 
     @GetMapping("/item/list")
@@ -41,10 +46,11 @@ public class ItemController {
     }
 
     @PostMapping("/item/create")
-    public String create(@Valid @ModelAttribute ItemCreateForm form, BindingResult result){
+    public String create(@Valid @ModelAttribute ItemCreateForm form, BindingResult result, HttpServletRequest request){
         if(result.hasErrors()) return "item/create";
         // 팁: 생성자보다는 setter사용하는 것이 관례적이고 entity의 setter를 사용할 때는 함수로 해서 변경 지점을 명확히 해야 함
-        itemService.createItem(form.getName(), form.getPrice(), form.getQuantity());
+        Member loginMember = (Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        itemService.createItem(form.getName(), form.getPrice(), form.getQuantity(), loginMember);
         return "redirect:/item/list";
     }
 
@@ -69,7 +75,6 @@ public class ItemController {
         form.setName(item.getName());
         form.setPrice(item.getPrice());
         form.setQuantity(item.getQuantity());
-        form.setOrderItems(item.getBasketItems());
         return "item/update";
     }
 
@@ -82,6 +87,13 @@ public class ItemController {
         itemService.updateItem(id, name, price, quantity);
         return "redirect:/item/list";
         // 팁: redirect 효과는 return을 페이지가 아니라 경로를 호출할 수 있게 해줌
+    }
+
+    @GetMapping("/item/my/{id}")
+    public String myGet(@PathVariable Long id, Model model){
+        Member member = memberService.findById(id);
+        model.addAttribute("member", member);
+        return "item/my";
     }
 
 

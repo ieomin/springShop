@@ -9,15 +9,18 @@
     <h2 th:text="#{page.home}"></h2>
     <h4 class="mb-3" th:text="|회원 이름: ${member.name}|">??</h4>
     <p>
-      <a class="btn btn-lg btn-primary" href="/item/list" th:text="#{page.item.list}">??</a>
       <a class="btn btn-lg btn-primary" href="/item/create" th:text="#{page.item.create}">??</a>
     </p>
     <p>
+      <a class="btn btn-lg btn-primary" href="/member/list" th:text="#{page.member.list}">??</a>
+      <a class="btn btn-lg btn-primary" href="/item/list" th:text="#{page.item.list}">??</a>
       <a class="btn btn-lg btn-primary" href="/order/list" th:text="#{page.order.list}">??</a>
     </p>
     <p>
-      <a class="btn btn-lg btn-primary" href="/member/list" th:text="#{page.member.list}">??</a>
-      <a class="btn btn-lg btn-primary" th:href="@{/member/basket/{id}(id=${member.id})}">장바구니</a>
+      <a class="btn btn-lg btn-primary" th:href="@{/member/my/{id}(id=${member.id})}">마이 회원</a>
+      <a class="btn btn-lg btn-primary" th:href="@{/item/my/{id}(id=${member.id})}">마이 상품</a>
+      <a class="btn btn-lg btn-primary" th:href="@{/order/my/{id}(id=${member.id})}">마이 주문</a>
+      <a class="btn btn-lg btn-primary" th:href="@{/basket/my/{id}(id=${member.id})}">마이 장바구니</a>
     </p>
 
     <form th:action="@{/member/logout}" method="post">

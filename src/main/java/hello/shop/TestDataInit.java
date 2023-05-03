@@ -38,17 +38,23 @@ public class TestDataInit {
         private final BasketService basketService;
 
         public void dbInit() {
+
+            ArrayList<Address> addresses = new ArrayList<>();
+            for(int i=1; i<31; i++){
+                Address address = new Address(String.valueOf(i), String.valueOf(i), String.valueOf(i));
+                addresses.add(address);
+            }
+
             List<Member> members = new ArrayList<>();
             for(int i=1; i<31; i++){
-                Member member = new Member(String.valueOf(i), String.valueOf(i), "member" + i);
-                member.setAddress(new Address(String.valueOf(i), String.valueOf(i), String.valueOf(i)));
+                Member member = new Member(String.valueOf(i), String.valueOf(i), "member" + i, addresses.get(i-1));
                 members.add(member);
                 memberRepository.save(member);
             }
 
             List<Item> items = new ArrayList<>();
             for(int i=1; i<31; i++){
-                Item item = new Item("item" + i, 1000, 100);
+                Item item = new Item("item" + i, 1000, 100, members.get(i-1));
                 items.add(item);
                 itemRepository.save(item);
             }

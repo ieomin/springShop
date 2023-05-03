@@ -49,6 +49,16 @@
             </tbody>
         </table>
     </div>
+    <nav>
+        <div class="container d-flex justify-content-center">
+            <ul class="pagination">
+                <li th:each="page : ${#numbers.sequence(1, orders.totalPages)}"
+                    th:class="${page-1 == orders.number ? 'page-item active' : 'page-item'}">
+                    <a class="page-link" th:href="@{/order/list/?size=10&page={page}(page=${page-1})}" th:text="${page}"></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div th:replace="fragments/footer :: footer"/>
 </div>
 </body>

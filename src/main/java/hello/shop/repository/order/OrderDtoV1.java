@@ -10,16 +10,12 @@ public class OrderDtoV1 {
 
     private Long orderId;
     private String memberName;
-    private String itemName;
-    private Integer orderItemCount;
     private OrderStatus orderStatus;
 
     @QueryProjection
-    public OrderDtoV1(Long orderId, String memberName, String itemName, Integer orderItemCount, OrderStatus orderStatus) {
+    public OrderDtoV1(Long orderId, String memberName, OrderStatus orderStatus) {
         this.orderId = orderId;
         this.memberName = memberName;
-        this.itemName = itemName;
-        this.orderItemCount = orderItemCount;
         this.orderStatus = orderStatus;
     }
 }

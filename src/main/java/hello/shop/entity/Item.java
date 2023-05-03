@@ -24,10 +24,19 @@ public class Item extends Base{
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<BasketItem> basketItems = new ArrayList<>();
 
-    public Item(String name, Integer price, Integer quantity){
-        this.setName(name);
-        this.setPrice(price);
-        this.setQuantity(quantity);
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "member_id")
+    private Member member;
+
+    public void addMember(Member member){
+        this.member = member;
+        member.getItems().add(this);
+    }
+
+    public Item(String name, Integer price, Integer quantity, Member member){
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.addMember(member);
     }
 
     public void removeQuantity(Integer count) {

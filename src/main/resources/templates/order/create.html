@@ -11,7 +11,8 @@
     <div class="fieldError" th:text="${message}"></div>
     <form role="form" action="/order/create" method="post" th:object="${orderCreateForm}">
         <div class="form-group">
-            <div>
+
+            <div th:if="${#lists.size(orderCreateForm.basket.basketItems) > 0}">
                 <label>상품 이름, 수량, 상태</label>
                 <div th:each="basketItem : ${orderCreateForm.basket.basketItems}">
                     <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>
@@ -19,6 +20,7 @@
                     <input type="text" class="form-control" th:value="${basketItem.status}" readonly>
                     <hr>
                 </div>
+
             </div>
             <div>
                 <label th:text="#{label.order.delivery.address.city}">??</label>

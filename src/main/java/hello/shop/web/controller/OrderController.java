@@ -3,7 +3,6 @@ package hello.shop.web.controller;
 import hello.shop.exception.NotAllowCanceledOrderException;
 import hello.shop.repository.order.OrderDtoV1;
 import hello.shop.entity.*;
-import hello.shop.repository.order.OrderDtoV1ListVer;
 import hello.shop.repository.order.OrderSearchCond;
 import hello.shop.service.BasketService;
 import hello.shop.service.ItemService;
@@ -13,6 +12,9 @@ import hello.shop.web.SessionConst;
 import hello.shop.web.form.order.OrderCreateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,19 +30,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
 
-    private final OrderService orderService;
     private final MemberService memberService;
-    private final ItemService itemService;
+    private final OrderService orderService;
     private final BasketService basketService;
 
     // 팁: form에 post와 관련된 어떤 것도적지 않으면 자기자신에게 get으로 날라감
 
     @GetMapping("/order/list")
     // 팁: requestParamValue는 defaultValue와 같이 쓰임
-    public String listGet(@RequestParam(required = false) String message, @ModelAttribute OrderSearchCond cond, Model model) {
-        List<OrderDtoV1> os = orderService.searchV1(cond);
-        ArrayList<OrderDtoV1ListVer> ols = OrderDtoV1ListVer.osToOls(os);
-        model.addAttribute("orders", ols);
+    public String listGet(@RequestParam(required = false) String message, @ModelAttribute OrderSearchCond cond, Model model, @PageableDefault Pageable pageable) {
+        Page<OrderDtoV1> orders = orderService.searchV1(cond, pageable);
+        model.addAttribute("orders", orders);
         model.addAttribute("message", message);
         return "order/list";
     }
@@ -91,5 +91,12 @@ public class OrderController {
         Order order = orderService.findById(id);
         model.addAttribute("order", order);
         return "order/detail";
+    }
+
+    @GetMapping("/order/my/{id}")
+    public String myGet(@PathVariable Long id, Model model){
+        Member member = memberService.findById(id);
+        model.addAttribute("member", member);
+        return "order/my";
     }
 }

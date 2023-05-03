@@ -1,6 +1,7 @@
 package hello.shop.service;
 
 import hello.shop.entity.Item;
+import hello.shop.entity.Member;
 import hello.shop.repository.item.ItemRepository;
 import hello.shop.repository.item.ItemSearchCond;
 
@@ -40,11 +41,12 @@ public class ItemService {
         return search;
     }
 
-    public void createItem(String name, Integer price, Integer quantity) {
+    public void createItem(String name, Integer price, Integer quantity, Member member) {
         Item item = new Item();
         item.setName(name);
         item.setPrice(price);
         item.setQuantity(quantity);
+        item.addMember(member);
         save(item);
     }
 
