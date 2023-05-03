@@ -15,6 +15,7 @@ import hello.shop.web.form.order.OrderCreateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class OrderController {
 
     // 팁: form에 post와 관련된 어떤 것도적지 않으면 자기자신에게 get으로 날라감
 
-    @GetMapping(value = "/order/list")
+    @GetMapping("/order/list")
     // 팁: requestParamValue는 defaultValue와 같이 쓰임
     public String listGet(@RequestParam(required = false) String message, @ModelAttribute OrderSearchCond cond, Model model) {
         List<OrderDtoV1> os = orderService.searchV1(cond);
@@ -49,7 +50,7 @@ public class OrderController {
 
     // 팁: th:if가 참이면 포함하는 태그 전체가 무시됨
     // 팁: queryParameter는 한글 못받음
-    @PostMapping(value = "/order/canceledList/{id}")
+    @PostMapping("/order/canceledList/{id}")
     public String CanceledListGet(@PathVariable Long id) {
         try{
             orderService.cancelOrder(id);
@@ -65,15 +66,8 @@ public class OrderController {
         Member loginMember = (Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
         Long memberId = loginMember.getId();
         log.info("memberId = {}", memberId);
-        List<Basket> baskets = basketService.findByMemberId(memberId);
-        for (Basket b : baskets) {
-            log.info("basketId = {}", b.getId());
-            log.info("basketMember = {}", b.getMember());
-            log.info("basketStatus = {}", b.getStatus());
-            if(b.getStatus() == BasketStatus.USING){
-                form.setBasket(b);
-            }
-        }
+        Basket basket = basketService.findByMemberId(memberId);
+        form.setBasket(basket);
         model.addAttribute("message", message);
         return "order/create";
     }
@@ -82,20 +76,16 @@ public class OrderController {
     // 팁: input태그의 name은 RequestParam과 매칭도 되는데 set해주는 역할을 자주 함
     public String create(@Valid @ModelAttribute OrderCreateForm form, BindingResult result, HttpServletRequest request){
         if(result.hasErrors()) return "order/create";
-
         Member loginMember = (Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
         Long memberId = loginMember.getId();
-        List<Basket> baskets = basketService.findByMemberId(memberId);
-        Basket basket = new Basket();
-        for (Basket b : baskets) {
-            if(b.getStatus() == BasketStatus.USING){
-                basket = b;
-            }
-        }
-
+        Basket basket = basketService.findByMemberId(memberId);
         Order order = new Order(loginMember, new Delivery(new Address(form.getCity(), form.getStreet(), form.getZipcode())), basket);
+        List<BasketItem> basketItems = basket.getBasketItems();
+        for (BasketItem bi : basketItems) {
+            bi.setBasket(null);
+        }
+        basket.getBasketItems().clear();
         orderService.save(order);
         return "redirect:/order/list";
-
     }
 }

@@ -39,6 +39,8 @@ public class Order extends Base{
         List<BasketItem> basketItems = basket.getBasketItems();
         for (BasketItem bi : basketItems) {
             this.addBasketItem(bi);
+            Item item = bi.getItem();
+            item.removeQuantity(bi.getCount());
         }
     }
 }

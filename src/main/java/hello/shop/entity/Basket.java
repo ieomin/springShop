@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +13,11 @@ import java.util.List;
 public class Basket {
     @Id @GeneratedValue @Column(name = "basket_id")
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "member_id")
+    @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "member_id")
     private Member member;
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
     private List<BasketItem> basketItems = new ArrayList<>();
     @Enumerated(EnumType.STRING)
-    private BasketStatus status;
 
     public void addBasketItem(BasketItem basketItem) {
         basketItems.add(basketItem);
@@ -28,12 +26,16 @@ public class Basket {
         basketItem.setBasket(this);
     }
 
+
     public Basket(Member member, BasketItem... basketItems){
         this.member = member;
-        for (BasketItem bi : basketItems) {
-            this.addBasketItem(bi);
+        if(basketItems != null){
+            for (BasketItem bi : basketItems) {
+                this.addBasketItem(bi);
+            }
         }
-        this.status = BasketStatus.USING;
     }
+
+
 
 }

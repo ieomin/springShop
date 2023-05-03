@@ -23,8 +23,8 @@ public class Member extends Base{
     private Address address;
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Basket> baskets = new ArrayList<>();
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    private Basket basket;
 
     public void addOrder(Order order){
         orders.add(order);

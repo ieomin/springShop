@@ -17,11 +17,13 @@ public class BasketItem extends Base{
     private Item item;
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "order_id")
     private Order order;
+    @Enumerated(EnumType.STRING)
+    private BasketItemStatus status;
 
 
     public BasketItem(Item item, Integer count){
         this.setItem(item);
         this.setCount(count);
-        item.removeQuantity(count);
+        this.setStatus(BasketItemStatus.BASKET_ITEM);
     }
 }

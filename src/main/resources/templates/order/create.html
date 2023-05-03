@@ -12,6 +12,14 @@
     <form role="form" action="/order/create" method="post" th:object="${orderCreateForm}">
         <div class="form-group">
             <div>
+                <label>장바구니의 상품 이름과 수량</label>
+                <div th:each="basketItem : ${orderCreateForm.basket.basketItems}">
+                    <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>
+                    <input type="text" class="form-control" th:value="${basketItem.count}" readonly>
+                    <hr>
+                </div>
+            </div>
+            <div>
                 <label th:text="#{label.order.delivery.address.city}">??</label>
                 <input type="text"
                        placeholder="배송 도시를 입력하세요"
@@ -39,13 +47,6 @@
                 <p class="fieldError"
                    th:if="${#fields.hasErrors('zipcode')}"
                    th:errors="*{zipcode}"></p>
-            </div>
-            <div>
-                <label>장바구니의 상품 이름과 수량</label>
-                <div th:each="basketItem : ${orderCreateForm.basket.basketItems}">
-                    <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>
-                    <input type="text" class="form-control" th:value="${basketItem.count}" readonly>
-                </div>
             </div>
         </div>
         <div class="row">

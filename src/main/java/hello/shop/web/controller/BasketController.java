@@ -14,9 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -37,15 +35,8 @@ public class BasketController {
         Member loginMember = (Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
         Long memberId = loginMember.getId();
         log.info("memberId = {}", memberId);
-        List<Basket> baskets = basketService.findByMemberId(memberId);
-        for (Basket b : baskets) {
-            log.info("basketId = {}", b.getId());
-            log.info("basketMember = {}", b.getMember());
-            log.info("basketStatus = {}", b.getStatus());
-            if(b.getStatus() == BasketStatus.USING){
-                form.setBasketId(b.getId());
-            }
-        }
+        Basket basket = basketService.findByMemberId(memberId);
+        form.setBasketId(basket.getId());
 
         form.setItemId(itemId);
         form.setItemName(item.getName());
@@ -56,7 +47,7 @@ public class BasketController {
     public String update(@PathVariable Long itemId, @Valid @ModelAttribute BasketUpdateForm form, BindingResult result){
         if(result.hasErrors()) return "basket/update";
         log.info("basketId = {}", form.getBasketId());
-        basketService.updateBasket(form.getBasketId(), itemId, form.getCount());
+        basketService.addBasketItem(form.getBasketId(), itemId, form.getCount());
         return "redirect:/";
     }
 }
