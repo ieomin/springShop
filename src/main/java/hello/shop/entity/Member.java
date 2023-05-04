@@ -40,10 +40,13 @@ public class Member extends Base{
         item.setMember(this);
     }
 
-    public Member(String loginId, String password, String name, Address address){
-        this.loginId = loginId;
-        this.password = password;
-        this.name = name;
-        this.address = address;
+    public static Member createMember(String loginId, String password, String name, Address address){
+        Member member = new Member();
+        member.setLoginId(loginId);
+        member.setPassword(password);
+        member.setName(name);
+        member.setAddress(address);
+        member.setBasket(Basket.createBasket(member));
+        return member;
     }
 }

@@ -2,6 +2,7 @@ package hello.shop.repository.order;
 
 import com.querydsl.core.annotations.QueryProjection;
 import hello.shop.entity.OrderStatus;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

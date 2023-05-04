@@ -27,16 +27,19 @@ public class Item extends Base{
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "member_id")
     private Member member;
 
+    // 결론: 필요가 없었다..
     public void addMember(Member member){
         this.member = member;
         member.getItems().add(this);
     }
 
-    public Item(String name, Integer price, Integer quantity, Member member){
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-        this.addMember(member);
+    public static Item createItem(String name, Integer price, Integer quantity, Member member){
+        Item item = new Item();
+        item.setName(name);
+        item.setPrice(price);
+        item.setQuantity(quantity);
+        item.setMember(member);
+        return item;
     }
 
     public void removeQuantity(Integer count) {

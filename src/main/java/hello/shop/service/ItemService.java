@@ -23,11 +23,9 @@ public class ItemService {
     public void save(Item item){
         itemRepository.save(item);
     }
-
     public List<Item> findAll(){
         return itemRepository.findAll();
     }
-
     public Item findById(Long id){
         return itemRepository.findById(id).get();
     }
@@ -37,11 +35,7 @@ public class ItemService {
     }
 
     public Item createItem(String name, Integer price, Integer quantity, Member member) {
-        Item item = new Item();
-        item.setName(name);
-        item.setPrice(price);
-        item.setQuantity(quantity);
-        item.addMember(member);
+        Item item = Item.createItem(name, price, quantity, member);
         save(item);
         return item;
     }

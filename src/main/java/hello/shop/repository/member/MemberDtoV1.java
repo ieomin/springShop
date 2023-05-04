@@ -3,8 +3,10 @@ package hello.shop.repository.member;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter @Setter
 public class MemberDtoV1 {
     private String memberName;
 

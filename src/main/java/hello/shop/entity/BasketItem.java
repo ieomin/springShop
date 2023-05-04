@@ -14,11 +14,11 @@ public class BasketItem extends Base{
 
     private Integer count;
 
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "basket_id")
-    private Basket basket;
-
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "item_id")
     private Item item;
+
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "basket_id")
+    private Basket basket;
 
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "order_id")
     private Order order;
@@ -26,9 +26,11 @@ public class BasketItem extends Base{
     @Enumerated(EnumType.STRING)
     private BasketItemStatus status;
 
-    public BasketItem(Item item, Integer count){
-        this.setItem(item);
-        this.setCount(count);
-        this.setStatus(BasketItemStatus.CONTAIN);
+    public static BasketItem createBasketItem(Item item, Integer count){
+        BasketItem basketItem = new BasketItem();
+        basketItem.setItem(item);
+        basketItem.setCount(count);
+        basketItem.setStatus(BasketItemStatus.CONTAIN);
+        return basketItem;
     }
 }

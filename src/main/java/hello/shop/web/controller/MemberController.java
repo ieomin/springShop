@@ -1,6 +1,7 @@
 package hello.shop.web.controller;
 
 import hello.shop.entity.Address;
+import hello.shop.entity.Basket;
 import hello.shop.entity.Member;
 import hello.shop.exception.DuplicateMemberLoginIdException;
 import hello.shop.repository.member.MemberDtoV2;

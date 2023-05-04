@@ -1,6 +1,7 @@
 package hello.shop.repository.order;
 
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

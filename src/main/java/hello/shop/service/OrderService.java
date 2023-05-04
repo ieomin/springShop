@@ -16,15 +16,14 @@ import java.util.List;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final BasketService basketService;
 
     public void save(Order order){
         orderRepository.save(order);
     }
-
     public List<Order> findAll(){
         return orderRepository.findAll();
     }
-
     public Order findById(Long id){
         return orderRepository.findById(id).get();
     }
@@ -47,12 +46,11 @@ public class OrderService {
             bi.setBasket(null);
         }
         basket.getBasketItems().clear();
-        
+        basketService.clearBasket(basket);
         save(order);
         return order;
     }
 
-    // 팁: set사용할 시에는 transactional 추가해서 함수로 뽑아야 함
     @Transactional
     public void cancelOrder(Long orderId){
         Order order = findById(orderId);

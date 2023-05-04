@@ -58,21 +58,4 @@ public class Order extends Base{
         order.setStatus(OrderStatus.ORDER);
         return order;
     }
-
-//    public Order(Member member, Delivery delivery, Basket basket){
-//        this.setMember(member);
-//        this.addDelivery(delivery);
-//        this.setOrderDate(LocalDateTime.now());
-//        this.setStatus(OrderStatus.ORDER);
-//        List<BasketItem> basketItems = basket.getBasketItems();
-//        for (BasketItem bi : basketItems) {
-//            if(bi.getStatus() == BasketItemStatus.CONTAIN){
-//                this.addBasketItem(bi);
-//                bi.getItem().removeQuantity(bi.getCount());
-//            }
-//            else{
-//                this.addBasketItem(bi);
-//            }
-//        }
-//    }
 }

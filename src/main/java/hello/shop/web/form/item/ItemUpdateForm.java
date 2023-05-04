@@ -2,13 +2,15 @@ package hello.shop.web.form.item;
 
 import hello.shop.entity.BasketItem;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Data
+@Getter @Setter
 public class ItemUpdateForm {
     private Long id;
     @NotBlank(message = "상품 이름은 필수입니다")

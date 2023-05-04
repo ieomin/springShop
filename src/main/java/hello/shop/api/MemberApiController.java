@@ -5,9 +5,7 @@ import hello.shop.exception.CustomException;
 import hello.shop.repository.member.MemberDtoV1;
 import hello.shop.repository.member.MemberDtoV2;
 import hello.shop.service.MemberService;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -70,23 +68,23 @@ public class MemberApiController {
     }
 
 
-    @Data
+    @Getter @Setter
     static class CreateMemberRequest {
         private String name;
     }
 
-    @Data
+    @Getter @Setter
     @AllArgsConstructor
     static class CreateMemberResponse {
         private Long id;
     }
 
-    @Data
+    @Getter @Setter
     static class UpdateMemberRequest {
         private String name;
     }
 
-    @Data
+    @Getter @Setter
     @AllArgsConstructor
     static class UpdateMemberResponse {
         private Long id;

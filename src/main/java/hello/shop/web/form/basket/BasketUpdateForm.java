@@ -1,11 +1,13 @@
 package hello.shop.web.form.basket;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter @Setter
 public class BasketUpdateForm {
     private Long basketId;
     private Long itemId;
