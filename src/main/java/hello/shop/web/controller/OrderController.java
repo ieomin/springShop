@@ -47,7 +47,7 @@ public class OrderController {
     // 팁: th:if가 참이면 포함하는 태그 전체가 무시됨
     // 팁: queryParameter는 한글 못받음
     @PostMapping("/order/canceledList/{id}")
-    public String CanceledListGet(@PathVariable Long id) {
+    public String canceledList(@PathVariable Long id) {
         try{
             orderService.cancelOrder(id);
         } catch(NotAllowCanceledOrderException e){
@@ -94,16 +94,10 @@ public class OrderController {
     }
 
     @PostMapping("/order/update/{id}")
-    public String update(@PathVariable Long id, @ModelAttribute Order order){
-        String name = form.getName();
-        Integer price = form.getPrice();
-        Integer quantity = form.getQuantity();
-        orderService.updateItem(id, name, price, quantity);
-
-        Order order1 = orderService.findById(order.getId());
-
-        return "redirect:/item/list";
-        // 팁: redirect 효과는 return을 페이지가 아니라 경로를 호출할 수 있게 해줌
+    public String update(@PathVariable Long id, @ModelAttribute Order order, HttpServletRequest request){
+        orderService.updateOrder(id, order.getDelivery().getAddress());
+        Long memberId = ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
+        return "redirect:/order/my/" + memberId;
     }
 
     @GetMapping("/order/my/{id}")
@@ -111,5 +105,16 @@ public class OrderController {
         Member member = memberService.findById(id);
         model.addAttribute("member", member);
         return "order/my";
+    }
+
+    @PostMapping("/order/canceledMy/{id}")
+    public String canceledMy(@PathVariable Long id, HttpServletRequest request) {
+        try{
+            orderService.cancelOrder(id);
+        } catch(NotAllowCanceledOrderException e){
+            return "redirect:/order/my?message=" + e.getMessage();
+        }
+        Long memberId = ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
+        return "redirect:/order/my/" + memberId;
     }
 }

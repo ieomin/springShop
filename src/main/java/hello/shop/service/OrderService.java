@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -52,16 +54,10 @@ public class OrderService {
     }
 
     @Transactional
-    public Order updateOrder(Long orderId, Delivery delivery, Basket basket) {
-        Order order = Order.createOrder(member, delivery, basket);
-        List<BasketItem> basketItems = basket.getBasketItems();
-        for (BasketItem bi : basketItems) {
-            bi.setBasket(null);
-        }
-        basket.getBasketItems().clear();
-        basketService.clearBasket(basket);
-        save(order);
-        return order;
+    public void updateOrder(Long orderId, Address address) {
+        Order order = findById(orderId);
+        order.setOrderDate(LocalDateTime.now());
+        order.setDelivery(new Delivery(address));
     }
 
     @Transactional
