@@ -1,7 +1,6 @@
 package hello.shop.web.controller;
 
 import hello.shop.entity.Address;
-import hello.shop.entity.Basket;
 import hello.shop.entity.Member;
 import hello.shop.exception.DuplicateMemberLoginIdException;
 import hello.shop.repository.member.MemberDtoV2;
@@ -22,14 +21,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -64,7 +58,7 @@ public class MemberController {
             memberService.createMember(form.getLoginId(), form.getPassword(), form.getName(), new Address(form.getCity(), form.getStreet(), form.getZipcode()));
         } catch(DuplicateMemberLoginIdException e){
             // 결과: 복구불가능예외(SQLException)는 Runtime예외로 변경하고 복구가능대상을 사용자가 아니라 관리자로 해야 함
-            memberService.informAdminOfException(e.getMessage());
+            System.out.println("관리자에게 알릴 내용: " + e.getMessage());
             return "redirect:/member/create?message=" + e.getMessage();
         }
         return "redirect:/";
@@ -81,7 +75,7 @@ public class MemberController {
         if (result.hasErrors()) {
             return "member/login";
         }
-        Member loginMember = memberService.login(form.getLoginId(), form.getPassword());
+        Member loginMember = memberService.loginMember(form.getLoginId(), form.getPassword());
         if (loginMember == null) {
             // 팁: 이게 글로벌 에러
             result.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");

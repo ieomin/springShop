@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Basket {
+
     @Id @GeneratedValue @Column(name = "basket_id")
     private Long id;
 
@@ -21,22 +22,19 @@ public class Basket {
     private List<BasketItem> basketItems = new ArrayList<>();
 
     public void addBasketItem(BasketItem basketItem) {
-        basketItems.add(basketItem);
+        this.basketItems.add(basketItem);
         basketItem.setBasket(this);
     }
 
-
-    public Basket(Member member,
-                  BasketItem... basketItems){
-        this.member = member;
+    public static Basket createBasket(Member member,
+                               BasketItem... basketItems){
+        Basket basket = new Basket();
+        basket.member = member;
         if(basketItems != null){
             for (BasketItem bi : basketItems) {
-                this.addBasketItem(bi);
+                basket.addBasketItem(bi);
             }
         }
-
+        return basket;
     }
-
-
-
 }

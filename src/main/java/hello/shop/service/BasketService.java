@@ -18,14 +18,21 @@ public class BasketService {
     private final BasketRepository basketRepository;
     private final ItemRepository itemRepository;
 
+    public Basket save(Basket basket){
+        return basketRepository.save(basket);
+    }
     public Basket findById(Long id){
-        Basket basket = basketRepository.findById(id).get();
-        return basket;
+        return basketRepository.findById(id).get();
     }
 
     public Basket findByMemberId(Long memberId) {
-        List<Basket> baskets = basketRepository.findByMemberId(memberId);
-        Basket basket = baskets.get(0);
+        return basketRepository.findByMemberId(memberId).get(0);
+    }
+
+    public Basket createBasket(Member member,
+                             BasketItem... basketItems){
+        Basket basket = Basket.createBasket(member, basketItems);
+        save(basket);
         return basket;
     }
 

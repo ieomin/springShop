@@ -44,7 +44,9 @@ public class BasketController {
     public String create(@PathVariable Long itemId, @Valid @ModelAttribute BasketUpdateForm form, BindingResult result, HttpServletRequest request){
         if(result.hasErrors()) return "create";
         log.info("basketId = {}", form.getBasketId());
+
         basketService.addBasketItem(form.getBasketId(), itemId, form.getCount());
+
         Long id = ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
         return "redirect:/basket/my/" + id;
     }

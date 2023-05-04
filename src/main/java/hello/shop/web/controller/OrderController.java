@@ -5,7 +5,6 @@ import hello.shop.repository.order.OrderDtoV1;
 import hello.shop.entity.*;
 import hello.shop.repository.order.OrderSearchCond;
 import hello.shop.service.BasketService;
-import hello.shop.service.ItemService;
 import hello.shop.service.MemberService;
 import hello.shop.service.OrderService;
 import hello.shop.web.SessionConst;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -76,13 +74,7 @@ public class OrderController {
         Member loginMember = (Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
         Long memberId = loginMember.getId();
         Basket basket = basketService.findByMemberId(memberId);
-        Order order = new Order(loginMember, new Delivery(new Address(form.getCity(), form.getStreet(), form.getZipcode())), basket);
-        List<BasketItem> basketItems = basket.getBasketItems();
-        for (BasketItem bi : basketItems) {
-            bi.setBasket(null);
-        }
-        basket.getBasketItems().clear();
-        orderService.save(order);
+        orderService.createOrder(loginMember, new Delivery(new Address(form.getCity(), form.getStreet(), form.getZipcode())), basket);
         return "redirect:/order/list";
     }
 

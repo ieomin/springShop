@@ -23,19 +23,19 @@ public class MemberApiController {
 
     // 팁: PathVariable RequestParam ModelAttribute RequestBody
     // 팁: headerContenttypeApplicationjson -> bodyRawJson
-    @PostMapping("/api/member/create/v1")
-    public CreateMemberResponse createV1(@RequestBody @Valid Member member){
-        Long id = memberService.save(member);
-        return new CreateMemberResponse(id);
-    }
+//    @PostMapping("/api/member/create/v1")
+//    public CreateMemberResponse createV1(@RequestBody @Valid Member member){
+//        Long id = memberService.save(member);
+//        return new CreateMemberResponse(id);
+//    }
 
-    @PostMapping("/api/member/create/v2")
-    public CreateMemberResponse createV2(@RequestBody @Valid CreateMemberRequest request){
-        Member member = new Member();
-        member.setName(request.getName());
-        Long id = memberService.save(member);
-        return new CreateMemberResponse(id);
-    }
+//    @PostMapping("/api/member/create/v2")
+//    public CreateMemberResponse createV2(@RequestBody @Valid CreateMemberRequest request){
+//        Member member = new Member();
+//        member.setName(request.getName());
+//        Long id = memberService.save(member);
+//        return new CreateMemberResponse(id);
+//    }
 
     // 팁: PutMapping으로 해도 상관은 없음
     @PostMapping("/api/member/update/{id}")

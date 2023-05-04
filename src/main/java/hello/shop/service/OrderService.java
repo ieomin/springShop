@@ -39,15 +39,26 @@ public class OrderService {
         return orderRepository.searchV3();
     }
 
+    @Transactional
+    public Order createOrder(Member member, Delivery delivery, Basket basket) {
+        Order order = Order.createOrder(member, delivery, basket);
+        List<BasketItem> basketItems = basket.getBasketItems();
+        for (BasketItem bi : basketItems) {
+            bi.setBasket(null);
+        }
+        basket.getBasketItems().clear();
+        
+        save(order);
+        return order;
+    }
+
     // 팁: set사용할 시에는 transactional 추가해서 함수로 뽑아야 함
     @Transactional
     public void cancelOrder(Long orderId){
         Order order = findById(orderId);
-
         if(order.getDelivery().getStatus() == DeliveryStatus.COMP) {
             throw new NotAllowCanceledOrderException(("NotAllowCanceledOrderExceptionMessage"));
         }
-
         order.setStatus(OrderStatus.CANCEL);
         for(BasketItem oi :order.getBasketItems()){
             Item item = oi.getItem();

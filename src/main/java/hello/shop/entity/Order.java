@@ -34,25 +34,45 @@ public class Order extends Base{
         this.delivery = delivery;
         delivery.setOrder(this);
     }
+
     public void addBasketItem(BasketItem basketItem){
-        basketItems.add(basketItem);
+        this.basketItems.add(basketItem);
         basketItem.setOrder(this);
     }
 
-    public Order(Member member, Delivery delivery, Basket basket){
-        this.setMember(member);
-        this.addDelivery(delivery);
-        this.setOrderDate(LocalDateTime.now());
-        this.setStatus(OrderStatus.ORDER);
+    public static Order createOrder(Member member, Delivery delivery, Basket basket){
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
         List<BasketItem> basketItems = basket.getBasketItems();
         for (BasketItem bi : basketItems) {
             if(bi.getStatus() == BasketItemStatus.CONTAIN){
-                this.addBasketItem(bi);
+                order.addBasketItem(bi);
                 bi.getItem().removeQuantity(bi.getCount());
             }
             else{
-                this.addBasketItem(bi);
+                order.addBasketItem(bi);
             }
         }
+        order.setOrderDate(LocalDateTime.now());
+        order.setStatus(OrderStatus.ORDER);
+        return order;
     }
+
+//    public Order(Member member, Delivery delivery, Basket basket){
+//        this.setMember(member);
+//        this.addDelivery(delivery);
+//        this.setOrderDate(LocalDateTime.now());
+//        this.setStatus(OrderStatus.ORDER);
+//        List<BasketItem> basketItems = basket.getBasketItems();
+//        for (BasketItem bi : basketItems) {
+//            if(bi.getStatus() == BasketItemStatus.CONTAIN){
+//                this.addBasketItem(bi);
+//                bi.getItem().removeQuantity(bi.getCount());
+//            }
+//            else{
+//                this.addBasketItem(bi);
+//            }
+//        }
+//    }
 }

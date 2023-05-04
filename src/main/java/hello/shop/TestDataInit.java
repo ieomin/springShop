@@ -6,6 +6,9 @@ import hello.shop.repository.item.ItemRepository;
 import hello.shop.repository.member.MemberRepository;
 import hello.shop.repository.order.OrderRepository;
 import hello.shop.service.BasketService;
+import hello.shop.service.ItemService;
+import hello.shop.service.MemberService;
+import hello.shop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -31,64 +34,61 @@ public class TestDataInit {
     @RequiredArgsConstructor
     static class InitService{
 
-        private final MemberRepository memberRepository;
-        private final ItemRepository itemRepository;
-        private final BasketRepository basketRepository;
-        private final OrderRepository orderRepository;
+        private final MemberService memberService;
+        private final ItemService itemService;
+        private final OrderService orderService;
         private final BasketService basketService;
 
         public void dbInit() {
 
             ArrayList<Address> addresses = new ArrayList<>();
-            for(int i=1; i<31; i++){
-                Address address = new Address(String.valueOf(i), String.valueOf(i), String.valueOf(i));
+            List<Member> members = new ArrayList<>();
+            List<Item> items = new ArrayList<>();
+            List<Delivery> deliveries = new ArrayList<>();
+            ArrayList<BasketItem> basketItems = new ArrayList<>();
+            ArrayList<Basket> baskets = new ArrayList<>();
+
+            for(int i=0; i<30; i++){
+                Address address = new Address(String.valueOf(i+1), String.valueOf(i+1), String.valueOf(i+1));
                 addresses.add(address);
             }
 
-            List<Member> members = new ArrayList<>();
-            for(int i=1; i<31; i++){
-                Member member = new Member(String.valueOf(i), String.valueOf(i), "member" + i, addresses.get(i-1));
+            for(int i=0; i<30; i++){
+                Member member = memberService.createMember(String.valueOf(i+1), String.valueOf(i+1), "member" + (i+1), addresses.get(i));
                 members.add(member);
-                memberRepository.save(member);
             }
 
-            List<Item> items = new ArrayList<>();
-            for(int i=1; i<31; i++){
-                Item item = new Item("item" + i, 1000, 100, members.get(i-1));
+            for(int i=0; i<30; i++){
+                Item item = itemService.createItem("item" + (i+1), 1000, 100, members.get(i));
                 items.add(item);
-                itemRepository.save(item);
             }
 
-            List<Delivery> deliveries = new ArrayList<>();
-            for(int i=1; i<31; i++){
-                deliveries.add(new Delivery());
+            for(int i=0; i<30; i++){
+                Delivery delivery = new Delivery();
+                deliveries.add(delivery);
             }
 
-            ArrayList<BasketItem> basketItems = new ArrayList<>();
-            for(int i=1; i<31; i++){
-                basketItems.add(new BasketItem(items.get(i - 1), 10));
+            for(int i=0; i<30; i++){
+                BasketItem basketItem = new BasketItem(items.get(i), 10);
+                basketItems.add(basketItem);
             }
 
-            ArrayList<Basket> baskets = new ArrayList<>();
-            for(int i=1; i<31; i++){
-                if(i == 1){
-                    BasketItem basketItem = new BasketItem(items.get(20), 20);
-                    Basket basket = new Basket(members.get(i - 1), basketItem, basketItems.get(i - 1));
+            for(int i=0; i<30; i++){
+                if(i == 0){
+                    Basket basket = basketService.createBasket(members.get(i), basketItems.get(i), new BasketItem(items.get(20), 20));
                     baskets.add(basket);
-                    basketRepository.save(basket);
 
                 } else {
-                    Basket basket = new Basket(members.get(i - 1), basketItems.get(i - 1));
+                    Basket basket = basketService.createBasket(members.get(i), basketItems.get(i));
                     baskets.add(basket);
-                    basketRepository.save(basket);
                 }
             }
 
-            for(int i=1; i<31; i++){
-                if(i == 1) continue;
-                Order order = new Order(members.get(i - 1), deliveries.get(i - 1), baskets.get(i - 1));
-                basketService.clearBasket(baskets.get(i-1));
-                orderRepository.save(order);
+            for(int i=0; i<30; i++){
+                if(i == 0) continue;
+                Order order = Order.createOrder(members.get(i), deliveries.get(i), baskets.get(i));
+                basketService.clearBasket(baskets.get(i));
+                orderService.save(order);
             }
         }
     }
