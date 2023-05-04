@@ -35,11 +35,6 @@ public class Member extends Base{
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 
-    public void addItem(Item item){
-        this.items.add(item);
-        item.setMember(this);
-    }
-
     public static Member createMember(String loginId, String password, String name, Address address){
         Member member = new Member();
         member.setLoginId(loginId);

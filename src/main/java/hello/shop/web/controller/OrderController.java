@@ -8,6 +8,7 @@ import hello.shop.service.BasketService;
 import hello.shop.service.MemberService;
 import hello.shop.service.OrderService;
 import hello.shop.web.SessionConst;
+import hello.shop.web.form.item.ItemUpdateForm;
 import hello.shop.web.form.order.OrderCreateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -83,6 +84,26 @@ public class OrderController {
         Order order = orderService.findById(id);
         model.addAttribute("order", order);
         return "order/detail";
+    }
+
+    @GetMapping("/order/update/{id}")
+    public String updateGet(@PathVariable Long id, Model model){
+        Order order = orderService.findById(id);
+        model.addAttribute("order", order);
+        return "order/update";
+    }
+
+    @PostMapping("/order/update/{id}")
+    public String update(@PathVariable Long id, @ModelAttribute Order order){
+        String name = form.getName();
+        Integer price = form.getPrice();
+        Integer quantity = form.getQuantity();
+        orderService.updateItem(id, name, price, quantity);
+
+        Order order1 = orderService.findById(order.getId());
+
+        return "redirect:/item/list";
+        // 팁: redirect 효과는 return을 페이지가 아니라 경로를 호출할 수 있게 해줌
     }
 
     @GetMapping("/order/my/{id}")

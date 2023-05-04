@@ -95,6 +95,4 @@ public class ItemController {
         model.addAttribute("member", member);
         return "item/my";
     }
-
-
 }

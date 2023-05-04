@@ -1,6 +1,5 @@
 package hello.shop.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,10 +27,9 @@ public class Basket {
         basketItem.setBasket(this);
     }
 
-    public static Basket createBasket(Member member,
-                               BasketItem... basketItems){
+    public static Basket createBasket(Member member, BasketItem... basketItems){
         Basket basket = new Basket();
-        basket.member = member;
+        basket.setMember(member);
         if(basketItems != null){
             for (BasketItem bi : basketItems) {
                 basket.addBasketItem(bi);

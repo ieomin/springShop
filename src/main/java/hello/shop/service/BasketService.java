@@ -28,7 +28,6 @@ public class BasketService {
         return basketRepository.findByMemberId(memberId).get(0);
     }
 
-
     @Transactional
     public void addBasketItem(Long basketId, Long itemId, Integer count){
         Basket basket = basketRepository.findById(basketId).get();

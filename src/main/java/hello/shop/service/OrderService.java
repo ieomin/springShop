@@ -52,6 +52,19 @@ public class OrderService {
     }
 
     @Transactional
+    public Order updateOrder(Long orderId, Delivery delivery, Basket basket) {
+        Order order = Order.createOrder(member, delivery, basket);
+        List<BasketItem> basketItems = basket.getBasketItems();
+        for (BasketItem bi : basketItems) {
+            bi.setBasket(null);
+        }
+        basket.getBasketItems().clear();
+        basketService.clearBasket(basket);
+        save(order);
+        return order;
+    }
+
+    @Transactional
     public void cancelOrder(Long orderId){
         Order order = findById(orderId);
         if(order.getDelivery().getStatus() == DeliveryStatus.COMP) {

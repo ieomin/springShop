@@ -43,7 +43,6 @@ public class BasketController {
     @PostMapping("/basket/create/{itemId}")
     public String create(@PathVariable Long itemId, @Valid @ModelAttribute BasketUpdateForm form, BindingResult result, HttpServletRequest request){
         if(result.hasErrors()) return "create";
-        log.info("basketId = {}", form.getBasketId());
 
         basketService.addBasketItem(form.getBasketId(), itemId, form.getCount());
 

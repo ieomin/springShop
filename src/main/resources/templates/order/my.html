@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header"/>
+
+<body>
+<div class="container">
+  <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+  <div class="py-5 text-center">
+    <h2>마이 주문</h2>
+  </div>
+  <div>
+    <div th:each="order : ${member.orders}">
+      <label>주문 (ID, 상태)</label>
+      <input type="text" class="form-control" th:value="${order.id}" readonly>
+      <input type="text" class="form-control" th:value="${order.status}" readonly>
+      <div th:each="basketItem : ${order.basketItems}">
+        <label>주문상품(이름, 수량, 상태)</label>
+        <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>
+        <input type="text" class="form-control" th:value="${basketItem.count}" readonly>
+        <input type="text" class="form-control" th:value="${basketItem.status}" readonly>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button class="w-100 btn btn-primary btn-lg" type="button"
+                  th:onclick="|location.href='@{/order/update/{id}(id=${order.id})}'|">주문 수정</button>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+      <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg"
+                th:onclick="|location.href='@{/}'|"
+                type="button">이전으로</button>
+      </div>
+    </div>
+
+
+
+  </div>
+  <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>
