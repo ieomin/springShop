@@ -7,32 +7,24 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div class="py-5 text-center">
-        <h2>장바구니 추가</h2>
+        <h2>장바구니상품 추가</h2>
     </div>
     <div>
         <form role="form" th:action th:object="${basketUpdateForm}" method="post">
 
             <div>
                 <label>장바구니 ID</label>
-                <input type="text" class="form-control"
-                       th:field="*{basketId}"
-                       readonly>
+                <input type="text" class="form-control" th:field="*{basketId}" readonly>
             </div>
 
             <div>
                 <label>상품 이름</label>
-                <input type="text" class="form-control"
-                       th:field="*{itemName}"
-                       readonly>
+                <input type="text" class="form-control" th:field="*{itemName}" readonly>
             </div>
             <div>
                 <label>주문 수량</label>
-                <input type="number"
-                       th:field="*{count}"
-                       th:class="${#fields.hasErrors('count')}? 'form-control fieldError' : 'form-control'">
-                <p class="fieldError"
-                   th:if="${#fields.hasErrors('count')}"
-                   th:errors="*{count}">??</p>
+                <input type="number" th:field="*{count}" th:class="${#fields.hasErrors('count')}? 'form-control fieldError' : 'form-control'">
+                <p class="fieldError" th:if="${#fields.hasErrors('count')}" th:errors="*{count}">??</p>
             </div>
 
             <hr class="my-4">

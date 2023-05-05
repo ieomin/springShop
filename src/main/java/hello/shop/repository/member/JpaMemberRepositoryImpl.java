@@ -27,7 +27,6 @@ public class JpaMemberRepositoryImpl implements JpaMemberRepositoryCustom {
                 .from(member)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                // 보류: localDateTime 포맷 변경
                 .orderBy(member.lastModifiedDate.desc())
                 // 팁: 내용과 toal을 한번에 조회가능
                 .fetchResults();

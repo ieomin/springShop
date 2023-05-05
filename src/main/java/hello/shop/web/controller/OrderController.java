@@ -75,7 +75,8 @@ public class OrderController {
         Member loginMember = (Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
         Long memberId = loginMember.getId();
         Basket basket = basketService.findByMemberId(memberId);
-        orderService.createOrder(loginMember, new Delivery(new Address(form.getCity(), form.getStreet(), form.getZipcode())), basket);
+        Integer totalPrice = basket.getTotalPrice();
+        orderService.createOrder(loginMember, new Delivery(new Address(form.getCity(), form.getStreet(), form.getZipcode())), basket, totalPrice);
         return "redirect:/order/my/" + memberId;
     }
 

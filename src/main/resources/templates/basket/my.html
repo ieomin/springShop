@@ -30,11 +30,7 @@
         <td th:text="${basketItem.status}"></td>
         <td>
           <form role="form" th:action="@{/basket/canceledMy/{basketId}/{basketItemId}(basketItemId=${basketItem.id}, basketId=${member.basket.id})}" method="post">
-            <button
-                    th:if="${basketItem.status.name() == 'CONTAIN'}"
-                    class="btn btn-danger"
-                    type="submit">
-              CANCEL</button>
+            <button th:if="${basketItem.status.name() == 'CONTAIN'}" class="btn btn-danger" type="submit">CANCEL</button>
           </form>
         </td>
       </tr>

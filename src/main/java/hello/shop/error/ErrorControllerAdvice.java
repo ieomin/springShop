@@ -9,7 +9,6 @@
 //
 //@Controller
 //public class ErrorControllerAdvice {
-//    // 보류: 이거 없어도 html만 있어도 되네
 //
 ////    @GetMapping("/400")
 ////    public void occur400(HttpServletResponse res) throws IOException {

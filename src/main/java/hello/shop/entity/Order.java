@@ -30,15 +30,18 @@ public class Order extends Base{
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<BasketItem> basketItems = new ArrayList<>();
 
+    private Integer totalPrice;
+
     public void addBasketItem(BasketItem basketItem){
         this.basketItems.add(basketItem);
         basketItem.setOrder(this);
     }
 
-    public static Order createOrder(Member member, Delivery delivery, Basket basket){
+    public static Order createOrder(Member member, Delivery delivery, Basket basket, Integer totalPrice){
         Order order = new Order();
         order.setMember(member);
         order.setDelivery(delivery);
+        order.setTotalPrice(totalPrice);
         for (BasketItem bi : basket.getBasketItems()) {
             order.addBasketItem(bi);
             if(bi.getStatus() == BasketItemStatus.CONTAIN){

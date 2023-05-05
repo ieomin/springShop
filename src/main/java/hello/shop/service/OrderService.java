@@ -41,8 +41,8 @@ public class OrderService {
     }
 
     @Transactional
-    public Order createOrder(Member member, Delivery delivery, Basket basket) {
-        Order order = Order.createOrder(member, delivery, basket);
+    public Order createOrder(Member member, Delivery delivery, Basket basket, Integer totalPrice) {
+        Order order = Order.createOrder(member, delivery, basket, totalPrice);
         List<BasketItem> basketItems = basket.getBasketItems();
         for (BasketItem bi : basketItems) {
             bi.setBasket(null);

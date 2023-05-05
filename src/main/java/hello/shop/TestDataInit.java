@@ -48,7 +48,7 @@ public class TestDataInit {
                 basketItems.add(BasketItem.createBasketItem(items.get(i), 10));
                 basketService.addBasketItem(members.get(i).getBasket().getId(), items.get(i).getId(), basketItems.get(i).getCount());
                 if(i != 0) {
-                    orderService.createOrder(members.get(i), new Delivery(), members.get(i).getBasket());
+                    orderService.createOrder(members.get(i), new Delivery(), members.get(i).getBasket(), members.get(i).getBasket().getTotalPrice());
                 }
 
             }
