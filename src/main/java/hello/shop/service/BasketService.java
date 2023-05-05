@@ -18,25 +18,39 @@ public class BasketService {
     private final BasketRepository basketRepository;
     private final ItemRepository itemRepository;
 
+    public Basket save(Basket basket){
+        return basketRepository.save(basket);
+    }
     public Basket findById(Long id){
-        Basket basket = basketRepository.findById(id).get();
-        return basket;
+        return basketRepository.findById(id).get();
+    }
+    public Basket findByMemberId(Long memberId) {
+        return basketRepository.findByMemberId(memberId).get(0);
     }
 
     @Transactional
     public void addBasketItem(Long basketId, Long itemId, Integer count){
-        Basket basket = basketRepository.findById(basketId).get();
+
+        boolean equals = false;
+        Basket basket = findById(basketId);
+        List<BasketItem> basketItems = basket.getBasketItems();
+        for (BasketItem basketItem : basketItems) {
+            if(basketItem.getItem().getId().equals(itemId)){
+                basketItem.setCount(basketItem.getCount() + count);
+                equals = true;
+            }
+        }
+
         Item item = itemRepository.findById(itemId).get();
-        basket.addBasketItem(new BasketItem(item, count));
+        if(!equals){
+            Basket findBasket = basketRepository.findById(basketId).get();
+            BasketItem basketItem = BasketItem.createBasketItem(item, count);
+            findBasket.addBasketItem(basketItem);
+        }
+        Integer totalPrice = basket.getTotalPrice() + item.getPrice()*count;
+        basket.setTotalPrice(totalPrice);
     }
 
-    public Basket findByMemberId(Long memberId) {
-        List<Basket> baskets = basketRepository.findByMemberId(memberId);
-        Basket basket = baskets.get(0);
-        return basket;
-    }
-
-    // 결과: 넘겨받은 basket은 빈관리대상이 아니어서 함수로 사용하기 애매해네 그래서 아이디를 받고 함수에서 찾으면서 시작하는 듯
     @Transactional
     public void clearBasket(Basket basket) {
         List<BasketItem> basketItems = basket.getBasketItems();
@@ -51,9 +65,8 @@ public class BasketService {
         Basket basket = findById(basketId);
         List<BasketItem> basketItems = basket.getBasketItems();
         for(int i=0; i<basketItems.size(); i++){
-            if(basketItems.get(i).getId() == basketItemId){
+            if(basketItems.get(i).getId().equals(basketItemId)){
                 basketItems.get(i).setStatus(BasketItemStatus.CANCEL);
-                log.info("itemName = {}", basketItems.get(i).getItem().getName());
                 basketItems.remove(i);
             }
         }

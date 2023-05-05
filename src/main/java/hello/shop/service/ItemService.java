@@ -1,6 +1,7 @@
 package hello.shop.service;
 
 import hello.shop.entity.Item;
+import hello.shop.entity.Member;
 import hello.shop.repository.item.ItemRepository;
 import hello.shop.repository.item.ItemSearchCond;
 
@@ -22,30 +23,21 @@ public class ItemService {
     public void save(Item item){
         itemRepository.save(item);
     }
-
     public List<Item> findAll(){
-        List<Item> items = itemRepository.findAll();
-
-        return items;
+        return itemRepository.findAll();
     }
-
     public Item findById(Long id){
-        Optional<Item> byId = itemRepository.findById(id);
-        Item item = byId.get();
-        return item;
+        return itemRepository.findById(id).get();
     }
 
     public Page<Item> search(ItemSearchCond cond, Pageable pageable){
-        Page<Item> search = itemRepository.search(cond, pageable);
-        return search;
+        return itemRepository.search(cond, pageable);
     }
 
-    public void createItem(String name, Integer price, Integer quantity) {
-        Item item = new Item();
-        item.setName(name);
-        item.setPrice(price);
-        item.setQuantity(quantity);
+    public Item createItem(String name, Integer price, Integer quantity, Member member) {
+        Item item = Item.createItem(name, price, quantity, member);
         save(item);
+        return item;
     }
 
     @Transactional

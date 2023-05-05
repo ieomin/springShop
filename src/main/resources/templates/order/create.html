@@ -11,14 +11,23 @@
     <div class="fieldError" th:text="${message}"></div>
     <form role="form" action="/order/create" method="post" th:object="${orderCreateForm}">
         <div class="form-group">
-            <div>
-                <label>장바구니의 상품 이름과 수량</label>
-                <div th:each="basketItem : ${orderCreateForm.basket.basketItems}">
+            <div th:if="${#lists.size(orderCreateForm.basket.basketItems) > 0}"
+                 th:each="basketItem : ${orderCreateForm.basket.basketItems}">
+                <label>주문상품 (상태, 이름, 가격, 수량, 합)</label>
+                <div>
+                    <input type="text" class="form-control" th:value="${basketItem.status}" readonly>
                     <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>
+                    <input type="text" class="form-control" th:value="${basketItem.item.price}" readonly>
                     <input type="text" class="form-control" th:value="${basketItem.count}" readonly>
-                    <hr>
+                    <input type="text" class="form-control" th:value="${basketItem.totalPrice}" readonly>
                 </div>
             </div>
+            <div>
+                <label>총합</label>
+                <input th:value="*{totalPrice}"
+                       type="number" class="form-control" readonly>
+            </div>
+            <hr>
             <div>
                 <label th:text="#{label.order.delivery.address.city}">??</label>
                 <input type="text"
@@ -51,12 +60,12 @@
         </div>
         <div class="row">
             <div class="col">
-                <button type="submit" class="w-100 btn btn-primary btn-lg" th:text="#{button.save}">Submit</button>
+                <button type="submit" class="w-100 btn btn-primary btn-lg">저장</button>
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
                         th:onclick="|location.href='@{/}'|"
-                        type="button" th:text="#{button.cancel}">??</button>
+                        type="button">이전으로</button>
             </div>
         </div>
     </form>

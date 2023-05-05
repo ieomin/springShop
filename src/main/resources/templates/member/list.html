@@ -15,8 +15,6 @@
             <tr>
                 <th th:text="#{label.member.id}">??</th>
                 <th th:text="#{label.member.name}">??</th>
-                <th>생성시간</th>
-                <th>수정시간</th>
             </tr>
             </thead>
             <tbody>
@@ -24,8 +22,6 @@
             <tr th:each="member : ${members.content}">
                 <td><a th:href="@{/member/detail/{id}(id=${member.memberId})}" th:text="${member.memberId}">??</a></td>
                 <td th:text="${member.memberName}">??</td>
-                <td th:text="${member.createdDate}"></td>
-                <td th:text="${member.lastModifiedDate}"></td>
             </tr>
             </tbody>
         </table>

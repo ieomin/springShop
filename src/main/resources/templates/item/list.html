@@ -22,21 +22,18 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th th:text="#{label.item.id}">??</th>
                 <th th:text="#{label.item.name}">??</th>
                 <th th:text="#{label.item.price}">??</th>
                 <th th:text="#{label.item.quantity}">??</th>
-<!--                <th th:text="#{label.item.orderItems.order.id}">??</th>-->
             </tr>
             </thead>
             <tbody>
             <tr th:each="item : ${items}">
-                <td><a th:href="@{/item/detail/{id}(id=${item.id})}" th:text="${item.name}">??</a></td>
+                <td ><a th:href="@{/item/detail/{id}(id=${item.id})}" th:text="${item.id}">??</a></td>
+                <td th:text="${item.name}"></td>
                 <td th:text="${item.price}"></td>
                 <td th:text="${item.quantity}"></td>
-<!--                <td>-->
-<!--                    <p th:each="basketItem : ${item.getBasketItems}"-->
-<!--                    th:text="${basketItem.order.id}"></p>-->
-<!--                </td>-->
             </tr>
             </tbody>
         </table>

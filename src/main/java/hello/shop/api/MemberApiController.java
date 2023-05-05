@@ -5,9 +5,7 @@ import hello.shop.exception.CustomException;
 import hello.shop.repository.member.MemberDtoV1;
 import hello.shop.repository.member.MemberDtoV2;
 import hello.shop.service.MemberService;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,19 +21,19 @@ public class MemberApiController {
 
     // 팁: PathVariable RequestParam ModelAttribute RequestBody
     // 팁: headerContenttypeApplicationjson -> bodyRawJson
-    @PostMapping("/api/member/create/v1")
-    public CreateMemberResponse createV1(@RequestBody @Valid Member member){
-        Long id = memberService.save(member);
-        return new CreateMemberResponse(id);
-    }
+//    @PostMapping("/api/member/create/v1")
+//    public CreateMemberResponse createV1(@RequestBody @Valid Member member){
+//        Long id = memberService.save(member);
+//        return new CreateMemberResponse(id);
+//    }
 
-    @PostMapping("/api/member/create/v2")
-    public CreateMemberResponse createV2(@RequestBody @Valid CreateMemberRequest request){
-        Member member = new Member();
-        member.setName(request.getName());
-        Long id = memberService.save(member);
-        return new CreateMemberResponse(id);
-    }
+//    @PostMapping("/api/member/create/v2")
+//    public CreateMemberResponse createV2(@RequestBody @Valid CreateMemberRequest request){
+//        Member member = new Member();
+//        member.setName(request.getName());
+//        Long id = memberService.save(member);
+//        return new CreateMemberResponse(id);
+//    }
 
     // 팁: PutMapping으로 해도 상관은 없음
     @PostMapping("/api/member/update/{id}")
@@ -70,23 +68,23 @@ public class MemberApiController {
     }
 
 
-    @Data
+    @Getter @Setter
     static class CreateMemberRequest {
         private String name;
     }
 
-    @Data
+    @Getter @Setter
     @AllArgsConstructor
     static class CreateMemberResponse {
         private Long id;
     }
 
-    @Data
+    @Getter @Setter
     static class UpdateMemberRequest {
         private String name;
     }
 
-    @Data
+    @Getter @Setter
     @AllArgsConstructor
     static class UpdateMemberResponse {
         private Long id;

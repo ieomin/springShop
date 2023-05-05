@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<style>.fieldError {
+    border-color: #dc3545;
+    color: #dc3545;
+}</style>
+
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="py-5 text-center">
+        <h2 th:text="#{page.order.update}">??</h2>
+    </div>
+    <div>
+        <form role="form" th:action th:object="${orderUpdateForm}" method="post">
+
+            <div>
+                <label th:text="#{label.order.delivery.address.city}">??</label>
+                <input type="text"
+                       placeholder="배송 도시를 입력하세요"
+                       th:field="*{city}"
+                       class="form-control">
+            </div>
+            <div>
+                <label th:text="#{label.order.delivery.address.street}">??</label>
+                <input type="text"
+                       placeholder="배송 도로를 입력하세요"
+                       th:field="*{street}"
+                       class="form-control">
+            </div>
+            <div>
+                <label th:text="#{label.order.delivery.address.zipcode}">??</label>
+                <input type="text" placeholder="배송 도로번호를 입력하세요"
+                       th:field="*{zipcode}"
+                       class="form-control">
+                <div>
+
+                </div>
+                <hr class="my-4">
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="w-100 btn btn-primary btn-lg">저장</button>
+                    </div>
+                    <div class="col">
+                        <button class="w-100 btn btn-secondary btn-lg"
+                                th:onclick="|location.href='@{/order/my/{id}(id=${orderUpdateForm.memberId})}'|"
+                                type="button">이전으로
+                        </button>
+                    </div>
+                </div>
+        </form>
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
+</div>
+</body>
+</html>

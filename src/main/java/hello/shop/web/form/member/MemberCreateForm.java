@@ -1,6 +1,7 @@
 package hello.shop.web.form.member;
 
 import hello.shop.entity.Address;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

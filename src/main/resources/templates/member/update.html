@@ -55,19 +55,23 @@
                    th:if="${#fields.hasErrors('zipcode')}"
                    th:errors="*{zipcode}">??</p>
             </div>
-            <div th:each="order : ${memberUpdateForm.orders}">
+
+            <div th:if="${#lists.size(memberUpdateForm.orders) > 0}">
                 <label th:text="#{label.member.orders.id}">??</label>
-                <input type="text" id="orders" name="orders" class="form-control" th:value="${order.id}" readonly>
+                <div th:each="order : ${memberUpdateForm.orders}">
+                    <input type="text" id="orders" name="orders" class="form-control" th:value="${order.id}" readonly>
+                </div>
             </div>
+
             <hr class="my-4">
             <div class="row">
                 <div class="col">
-                    <button type="submit" class="w-100 btn btn-primary btn-lg" th:text="#{button.save}">Submit</button>
+                    <button type="submit" class="w-100 btn btn-primary btn-lg">저장</button>
                 </div>
                 <div class="col">
                     <button class="w-100 btn btn-secondary btn-lg"
                             th:onclick="|location.href='@{/member/detail/{id}(id=${memberUpdateForm.id})}'|"
-                            type="button" th:text="#{button.cancel}">??</button>
+                            type="button">이전으로</button>
                 </div>
             </div>
         </form>

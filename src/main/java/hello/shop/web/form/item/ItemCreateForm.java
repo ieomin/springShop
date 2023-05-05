@@ -1,6 +1,7 @@
 package hello.shop.web.form.item;
 
 import hello.shop.entity.Item;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;

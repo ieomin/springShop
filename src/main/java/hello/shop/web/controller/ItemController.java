@@ -1,8 +1,10 @@
 package hello.shop.web.controller;
 
-import hello.shop.entity.Item;
+import hello.shop.entity.*;
 import hello.shop.repository.item.ItemSearchCond;
 import hello.shop.service.ItemService;
+import hello.shop.service.MemberService;
+import hello.shop.web.SessionConst;
 import hello.shop.web.form.item.ItemCreateForm;
 import hello.shop.web.form.item.ItemDetailForm;
 import hello.shop.web.form.item.ItemUpdateForm;
@@ -19,13 +21,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 @Controller
 public class ItemController {
 
+    private final MemberService memberService;
     private final ItemService itemService;
 
     @GetMapping("/item/list")
@@ -41,24 +47,40 @@ public class ItemController {
     }
 
     @PostMapping("/item/create")
-    public String create(@Valid @ModelAttribute ItemCreateForm form, BindingResult result){
+    public String create(@Valid @ModelAttribute ItemCreateForm form, BindingResult result, HttpServletRequest request){
         if(result.hasErrors()) return "item/create";
         // 팁: 생성자보다는 setter사용하는 것이 관례적이고 entity의 setter를 사용할 때는 함수로 해서 변경 지점을 명확히 해야 함
-        itemService.createItem(form.getName(), form.getPrice(), form.getQuantity());
+        Member loginMember = (Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        itemService.createItem(form.getName(), form.getPrice(), form.getQuantity(), loginMember);
         return "redirect:/item/list";
     }
 
     @GetMapping("/item/detail/{id}")
     public String detailGet(@PathVariable Long id, @ModelAttribute ItemDetailForm form){
         Item item = itemService.findById(id);
-
         form.setId(item.getId());
+        form.setMemberName(item.getMember().getName());
         form.setName(item.getName());
         form.setPrice(item.getPrice());
         form.setQuantity(item.getQuantity());
 
-        // 팁: form을 생성한다면 함수를 사용할텐데 생성하지 않아서 무의미하긴 하다
-//        ItemDetailForm.createItemDetailForm(item, form);
+        List<BasketItem> basketItems = item.getBasketItems();
+        List<String> basketMemberNames = new ArrayList<>();
+        List<String> orderMemberNames = new ArrayList<>();
+        for (BasketItem basketItem : basketItems) {
+            Basket basket = basketItem.getBasket();
+            Order order = basketItem.getOrder();
+            if(basket != null){
+                String name = basket.getMember().getName();
+                basketMemberNames.add(name);
+            }
+            if(order != null){
+                String name = order.getMember().getName();
+                orderMemberNames.add(name);
+            }
+        }
+        form.setBasketMemberNames(basketMemberNames);
+        form.setOrderMemberNames(orderMemberNames);
         return "item/detail";
     }
 
@@ -69,7 +91,6 @@ public class ItemController {
         form.setName(item.getName());
         form.setPrice(item.getPrice());
         form.setQuantity(item.getQuantity());
-        form.setOrderItems(item.getBasketItems());
         return "item/update";
     }
 
@@ -84,5 +105,10 @@ public class ItemController {
         // 팁: redirect 효과는 return을 페이지가 아니라 경로를 호출할 수 있게 해줌
     }
 
-
+    @GetMapping("/item/my/{id}")
+    public String myGet(@PathVariable Long id, Model model){
+        Member member = memberService.findById(id);
+        model.addAttribute("member", member);
+        return "item/my";
+    }
 }

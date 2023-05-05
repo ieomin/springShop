@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header"/>
+
+<body>
+<div class="container">
+  <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+  <div class="py-5 text-center">
+    <h2>마이 회원</h2>
+  </div>
+  <div>
+    <div th:object="${member}">
+      <div>
+        <label th:text="#{label.member.id}">??</label>
+        <input type="text" class="form-control" th:value="${member.id}" readonly>
+      </div>
+      <div>
+        <label th:text="#{label.member.name}">??</label>
+        <input type="text" class="form-control" th:value="${member.name}" readonly>
+      </div>
+      <div>
+        <label>주소 (도시, 도로, 도로번호)</label>
+        <input type="text" class="form-control" th:value="${member != null and member.address != null ? member.address.city : ''}" readonly>
+        <input type="text" class="form-control" th:value="${member != null and member.address != null ? member.address.street : ''}" readonly>
+        <input type="text" class="form-control" th:value="${member != null and member.address != null ? member.address.zipcode : ''}" readonly>
+      </div>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+      <div class="col">
+        <button class="w-100 btn btn-primary btn-lg" type="button"
+                th:onclick="|location.href='@{/member/update/{id}(id=${member.id})}'|"
+                th:text="#{page.member.update}">??</button>
+      </div>
+      <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg"
+                th:onclick="|location.href='@{/}'|"
+                type="button">이전으로</button>
+      </div>
+    </div>
+  </div>
+  <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

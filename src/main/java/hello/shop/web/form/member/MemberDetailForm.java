@@ -2,6 +2,7 @@ package hello.shop.web.form.member;
 
 import hello.shop.entity.Basket;
 import hello.shop.entity.Order;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

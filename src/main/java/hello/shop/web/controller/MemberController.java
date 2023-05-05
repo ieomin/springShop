@@ -22,14 +22,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -54,7 +49,6 @@ public class MemberController {
         model.addAttribute("message", message);
         return "member/create";
     }
-    
 
     @PostMapping("/member/create")
     public String create(@Valid @ModelAttribute MemberCreateForm form, BindingResult result) {
@@ -65,7 +59,7 @@ public class MemberController {
             memberService.createMember(form.getLoginId(), form.getPassword(), form.getName(), new Address(form.getCity(), form.getStreet(), form.getZipcode()));
         } catch(DuplicateMemberLoginIdException e){
             // 결과: 복구불가능예외(SQLException)는 Runtime예외로 변경하고 복구가능대상을 사용자가 아니라 관리자로 해야 함
-            memberService.informAdminOfException(e.getMessage());
+            System.out.println("관리자에게 알릴 내용: " + e.getMessage());
             return "redirect:/member/create?message=" + e.getMessage();
         }
         return "redirect:/";
@@ -82,7 +76,7 @@ public class MemberController {
         if (result.hasErrors()) {
             return "member/login";
         }
-        Member loginMember = memberService.login(form.getLoginId(), form.getPassword());
+        Member loginMember = memberService.loginMember(form.getLoginId(), form.getPassword());
         if (loginMember == null) {
             // 팁: 이게 글로벌 에러
             result.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
@@ -142,19 +136,10 @@ public class MemberController {
         return "redirect:/member/list";
     }
 
-    @GetMapping("/member/basket/{id}")
-    public String basketGet(@PathVariable Long id, Model model){
+    @GetMapping("/member/my/{id}")
+    public String myGet(@PathVariable Long id, Model model){
         Member member = memberService.findById(id);
         model.addAttribute("member", member);
-        return "member/basket";
-    }
-
-    @PostMapping("/member/canceledBasket/{basketId}/{basketItemId}")
-    public String canceledBasket(@PathVariable Long basketId, @PathVariable Long basketItemId, HttpServletRequest request){
-        log.info("basketId = {} basketItemId = {}", basketId, basketItemId);
-        basketService.cancelBasketItem(basketId, basketItemId);
-        Member loginMember = (Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
-        Long memberId = loginMember.getId();
-        return "redirect:/member/basket/" + memberId;
+        return "member/my";
     }
 }

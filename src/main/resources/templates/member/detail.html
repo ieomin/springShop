@@ -31,17 +31,10 @@
                 <label th:text="#{label.member.address.zipcode}">??</label>
                 <input type="text" class="form-control" th:value="${memberDetailForm.zipcode}" readonly>
             </div>
-            <div>
+            <div th:if="${#lists.size(memberDetailForm.orders) > 0}">
                 <label th:text="#{label.member.orders.id}">??</label>
                 <div th:each="order : ${memberDetailForm.orders}">
                     <input type="text" class="form-control" th:value="${order.id}" readonly>
-                </div>
-            </div>
-            <div>
-                <label>장바구니의 상품 이름과 수량</label>
-                <div th:each="basketItem : ${memberDetailForm.basket.basketItems}">
-                    <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>
-                    <input type="text" class="form-control" th:value="${basketItem.count}" readonly>
                 </div>
             </div>
         </div>
@@ -55,7 +48,7 @@
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
                         th:onclick="|location.href='@{/member/list}'|"
-                        type="button" th:text="#{button.cancel}">??</button>
+                        type="button">이전으로</button>
             </div>
         </div>
     </div>

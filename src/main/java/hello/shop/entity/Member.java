@@ -16,31 +16,32 @@ public class Member extends Base{
 
     @Id @GeneratedValue @Column(name = "member_id")
     private Long id;
+
     private String loginId;
+
     private String password;
+
     private String name;
+
     @Embedded
     private Address address;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
+
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Basket basket;
 
-    public void addOrder(Order order){
-        orders.add(order);
-        order.setMember(this);
-    }
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Item> items = new ArrayList<>();
 
-    public Member(String loginId, String password, String name){
-        this.setLoginId(loginId);
-        this.setPassword(password);
-        this.setName(name);
-    }
-
-    public Member(String loginId, String password, String name, Address address){
-        this.setLoginId(loginId);
-        this.setPassword(password);
-        this.setName(name);
-        this.setAddress(address);
+    public static Member createMember(String loginId, String password, String name, Address address){
+        Member member = new Member();
+        member.setLoginId(loginId);
+        member.setPassword(password);
+        member.setName(name);
+        member.setAddress(address);
+        member.setBasket(Basket.createBasket(member));
+        return member;
     }
 }

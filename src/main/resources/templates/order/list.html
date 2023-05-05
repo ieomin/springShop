@@ -30,35 +30,35 @@
             <thead>
             <tr>
                 <th>주문 ID</th>
-                <th>회원 이름</th>
+                <th>주문 회원 이름</th>
                 <th>주문 상태</th>
-                <th>상품명</th>
-                <th>주문 갯수</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="order : ${orders}">
-                <td th:text="${order.orderId}"></td>
+                <td><a th:href="@{/order/detail/{id}(id=${order.orderId})}" th:text="${order.orderId}"></a></td>
                 <td th:text="${order.memberName}"></td>
                 <td th:text="${order.orderStatus}"></td>
                 <td>
-                    <p th:each="itemName : ${order.itemNames}"
-                       th:text="${itemName}"></p>
-                </td>
-                <td>
-                    <p th:each="orderItemCount : ${order.orderItemCounts}"
-                       th:text="${orderItemCount}"></p>
-                </td>
-                <td>
                     <a th:if="${order.orderStatus.name() == 'ORDER'}"
                        th:href="'javascript:cancel('+${order.orderId}+')'"
-                       class="btn btn-danger">CANCEL</a>
+                       class="btn btn-danger">주문 취소</a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
+    <nav>
+        <div class="container d-flex justify-content-center">
+            <ul class="pagination">
+                <li th:each="page : ${#numbers.sequence(1, orders.totalPages)}"
+                    th:class="${page-1 == orders.number ? 'page-item active' : 'page-item'}">
+                    <a class="page-link" th:href="@{/order/list/?size=10&page={page}(page=${page-1})}" th:text="${page}"></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div th:replace="fragments/footer :: footer"/>
 </div>
 </body>

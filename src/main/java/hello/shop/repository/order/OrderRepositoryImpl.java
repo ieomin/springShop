@@ -1,8 +1,15 @@
 package hello.shop.repository.order;
 
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import hello.shop.entity.Item;
+import hello.shop.entity.Order;
 import hello.shop.entity.OrderStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -22,27 +29,27 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
     }
 
     @Override
-    public List<OrderDtoV1> searchV1(OrderSearchCond cond) {
+    public Page<OrderDtoV1> searchV1(OrderSearchCond cond, Pageable pageable) {
         String memberName = cond.getMemberName();
         OrderStatus orderStatus = cond.getOrderStatus();
 
-
-        List<OrderDtoV1> fetch = query
+        QueryResults<OrderDtoV1> results = query
                 .select(new QOrderDtoV1(
                         order.id,
                         order.member.name,
-                        item.name,
-                        basketItem.count,
                         order.status))
                 .from(order)
                 .leftJoin(order.member, member)
-                .leftJoin(order.basketItems, basketItem)
-                .leftJoin(basketItem.item, item)
-                .where(equalMemberName(memberName), equalOrderStatus(orderStatus))
-                .fetch();
+                .where(likeOrderName(memberName), equalOrderStatus(orderStatus))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(order.lastModifiedDate.desc())
+                .fetchResults();
 
-        return fetch;
-//        return null;
+        List<OrderDtoV1> content = results.getResults();
+        long total = results.getTotal();
+        PageImpl<OrderDtoV1> page = new PageImpl<>(content, pageable, total);
+        return page;
     }
 
     @Override
@@ -59,7 +66,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
                 .leftJoin(order.member, member)
                 .leftJoin(order.basketItems, basketItem)
                 .leftJoin(basketItem.item, item)
-                .where(equalMemberName(memberName), equalOrderStatus(orderStatus))
+                .where(likeOrderName(memberName), equalOrderStatus(orderStatus))
                 .fetch();
 //        return null;
     }
@@ -82,9 +89,9 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
     }
 
 
-    private BooleanExpression equalMemberName(String memberName) {
-        if(memberName != null){
-            return order.member.name.eq(memberName);
+    private BooleanExpression likeOrderName(String memberName) {
+        if(StringUtils.hasText(memberName)){
+            return order.member.name.like("%" + memberName + "%");
         }
         return null;
     }

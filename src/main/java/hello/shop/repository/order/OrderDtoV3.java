@@ -4,10 +4,12 @@ import com.querydsl.core.annotations.QueryProjection;
 import hello.shop.entity.Address;
 import hello.shop.entity.OrderStatus;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter @Setter
 public class OrderDtoV3 {
     private Long orderId;
     private String memberName;

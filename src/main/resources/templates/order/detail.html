@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<div class="container">
+  <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+  <div class="py-5 text-center">
+    <h2 th:text="#{page.order.detail}">??</h2>
+  </div>
+  <div>
+    <div th:object="${order}">
+      <div>
+        <label th:text="#{label.order.id}">??</label>
+        <input type="text" class="form-control" th:value="*{id}" readonly>
+      </div>
+      <div>
+        <label th:text="#{label.order.member}">??</label>
+        <input type="text" class="form-control" th:value="*{member.name}" readonly>
+      </div>
+      <div>
+        <label>주문 상태</label>
+        <input type="text" class="form-control" th:value="*{status}" readonly>
+      </div>
+      <div th:if="${#lists.size(order.basketItems) > 0}">
+        <label>주문상품 (이름, 수량, 상태)</label>
+        <div th:each="basketItem : *{basketItems}">
+          <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>
+          <input type="text" class="form-control" th:value="${basketItem.count}" readonly>
+          <input type="text" class="form-control" th:value="${basketItem.status}" readonly>
+          <hr>
+        </div>
+      </div>
+
+    </div>
+    <hr class="my-4">
+    <div class="row">
+      <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg"
+                th:onclick="|location.href='@{/order/list}'|"
+                type="button">이전으로</button>
+      </div>
+    </div>
+  </div>
+  <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>
