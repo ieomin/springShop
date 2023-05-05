@@ -20,15 +20,9 @@
         <input type="text" class="form-control" th:value="${member.name}" readonly>
       </div>
       <div>
-        <label th:text="#{label.member.address.city}">??</label>
+        <label>주소 (도시, 도로, 도로번호)</label>
         <input type="text" class="form-control" th:value="${member != null and member.address != null ? member.address.city : ''}" readonly>
-      </div>
-      <div>
-        <label th:text="#{label.member.address.street}">??</label>
         <input type="text" class="form-control" th:value="${member != null and member.address != null ? member.address.street : ''}" readonly>
-      </div>
-      <div>
-        <label th:text="#{label.member.address.zipcode}">??</label>
         <input type="text" class="form-control" th:value="${member != null and member.address != null ? member.address.zipcode : ''}" readonly>
       </div>
     </div>

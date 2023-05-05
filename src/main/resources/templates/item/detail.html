@@ -14,6 +14,10 @@
                 <input type="text" id="id" name="id" class="form-control" th:value="${itemDetailForm.id}" readonly>
             </div>
             <div>
+                <label>등록한 회원 이름</label>
+                <input type="text" class="form-control" th:value="${itemDetailForm.memberName}" readonly>
+            </div>
+            <div>
                 <label th:text="#{label.item.name}">??</label>
                 <input type="text" id="name" name="name" class="form-control" th:value="${itemDetailForm.name}" readonly>
             </div>
@@ -25,6 +29,21 @@
                 <label th:text="#{label.item.quantity}">??</label>
                 <input type="text" id="quantity" name="quantity" class="form-control" th:value="${itemDetailForm.quantity}" readonly>
             </div>
+
+            <div th:if="${#lists.size(itemDetailForm.basketMemberNames) > 0}">
+                <label>현재 장바구니에 넣은 회원 이름</label>
+                <div th:each="name : ${itemDetailForm.basketMemberNames}">
+                    <input type="text" class="form-control" th:value="${name}" readonly>
+                </div>
+            </div>
+
+            <div th:if="${#lists.size(itemDetailForm.orderMemberNames) > 0}">
+                <label>주문한 회원 이름</label>
+                <div th:each="name : ${itemDetailForm.orderMemberNames}">
+                    <input type="text" class="form-control" th:value="${name}" readonly>
+                </div>
+            </div>
+
 
         </div>
         <hr class="my-4">

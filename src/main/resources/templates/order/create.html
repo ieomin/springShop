@@ -11,16 +11,23 @@
     <div class="fieldError" th:text="${message}"></div>
     <form role="form" action="/order/create" method="post" th:object="${orderCreateForm}">
         <div class="form-group">
-
-            <div th:if="${#lists.size(orderCreateForm.basket.basketItems) > 0}">
-                <label>주문상품 (이름, 수량, 상태)</label>
-                <div th:each="basketItem : ${orderCreateForm.basket.basketItems}">
-                    <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>
-                    <input type="text" class="form-control" th:value="${basketItem.count}" readonly>
+            <div th:if="${#lists.size(orderCreateForm.basket.basketItems) > 0}"
+                 th:each="basketItem : ${orderCreateForm.basket.basketItems}">
+                <label>주문상품 (상태, 이름, 가격, 수량, 합)</label>
+                <div>
                     <input type="text" class="form-control" th:value="${basketItem.status}" readonly>
+                    <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>
+                    <input type="text" class="form-control" th:value="${basketItem.item.price}" readonly>
+                    <input type="text" class="form-control" th:value="${basketItem.count}" readonly>
+                    <input type="text" class="form-control" th:value="${basketItem.totalPrice}" readonly>
                 </div>
             </div>
-
+            <div>
+                <label>총합</label>
+                <input th:value="*{totalPrice}"
+                       type="number" class="form-control" readonly>
+            </div>
+            <hr>
             <div>
                 <label th:text="#{label.order.delivery.address.city}">??</label>
                 <input type="text"

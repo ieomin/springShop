@@ -1,7 +1,6 @@
 package hello.shop.web.controller;
 
-import hello.shop.entity.Item;
-import hello.shop.entity.Member;
+import hello.shop.entity.*;
 import hello.shop.repository.item.ItemSearchCond;
 import hello.shop.service.ItemService;
 import hello.shop.service.MemberService;
@@ -24,6 +23,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -57,14 +58,29 @@ public class ItemController {
     @GetMapping("/item/detail/{id}")
     public String detailGet(@PathVariable Long id, @ModelAttribute ItemDetailForm form){
         Item item = itemService.findById(id);
-
         form.setId(item.getId());
+        form.setMemberName(item.getMember().getName());
         form.setName(item.getName());
         form.setPrice(item.getPrice());
         form.setQuantity(item.getQuantity());
 
-        // 팁: form을 생성한다면 함수를 사용할텐데 생성하지 않아서 무의미하긴 하다
-//        ItemDetailForm.createItemDetailForm(item, form);
+        List<BasketItem> basketItems = item.getBasketItems();
+        List<String> basketMemberNames = new ArrayList<>();
+        List<String> orderMemberNames = new ArrayList<>();
+        for (BasketItem basketItem : basketItems) {
+            Basket basket = basketItem.getBasket();
+            Order order = basketItem.getOrder();
+            if(basket != null){
+                String name = basket.getMember().getName();
+                basketMemberNames.add(name);
+            }
+            if(order != null){
+                String name = order.getMember().getName();
+                orderMemberNames.add(name);
+            }
+        }
+        form.setBasketMemberNames(basketMemberNames);
+        form.setOrderMemberNames(orderMemberNames);
         return "item/detail";
     }
 

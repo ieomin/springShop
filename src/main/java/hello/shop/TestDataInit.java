@@ -43,7 +43,6 @@ public class TestDataInit {
             ArrayList<BasketItem> basketItems = new ArrayList<>();
 
             for(int i=0; i<30; i++){
-                // 보류: 널포익 안나는 유연한 코드
                 members.add(memberService.createMember(String.valueOf(i+1), String.valueOf(i+1), "member" + (i+1), new Address("a", "a", "a")));
                 items.add(itemService.createItem("item" + (i+1), 1000, 100, members.get(i)));
                 basketItems.add(BasketItem.createBasketItem(items.get(i), 10));

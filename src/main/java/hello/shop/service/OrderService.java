@@ -54,10 +54,11 @@ public class OrderService {
     }
 
     @Transactional
-    public void updateOrder(Long orderId, Address address) {
+    public void updateOrder(Long orderId, String city, String street, String zipcode) {
         Order order = findById(orderId);
         order.setOrderDate(LocalDateTime.now());
-        order.setDelivery(new Delivery(address));
+        Delivery delivery = order.getDelivery();
+        delivery.setAddress(new Address(city, street, zipcode));
     }
 
     @Transactional

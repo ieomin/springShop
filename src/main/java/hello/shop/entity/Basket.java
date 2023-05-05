@@ -22,6 +22,8 @@ public class Basket {
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
     private List<BasketItem> basketItems = new ArrayList<>();
 
+    private Integer totalPrice = 0;
+
     public void addBasketItem(BasketItem basketItem) {
         this.basketItems.add(basketItem);
         basketItem.setBasket(this);

@@ -46,8 +46,8 @@ public class BasketController {
 
         basketService.addBasketItem(form.getBasketId(), itemId, form.getCount());
 
-        Long id = ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
-        return "redirect:/basket/my/" + id;
+        Long memberId = ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
+        return "redirect:/basket/my/" + memberId;
     }
 
     @GetMapping("/basket/my/{id}")

@@ -30,10 +30,25 @@ public class BasketService {
 
     @Transactional
     public void addBasketItem(Long basketId, Long itemId, Integer count){
-        Basket basket = basketRepository.findById(basketId).get();
+
+        boolean equals = false;
+        Basket basket = findById(basketId);
+        List<BasketItem> basketItems = basket.getBasketItems();
+        for (BasketItem basketItem : basketItems) {
+            if(basketItem.getItem().getId().equals(itemId)){
+                basketItem.setCount(basketItem.getCount() + count);
+                equals = true;
+            }
+        }
+
         Item item = itemRepository.findById(itemId).get();
-        BasketItem basketItem = BasketItem.createBasketItem(item, count);
-        basket.addBasketItem(basketItem);
+        if(!equals){
+            Basket findBasket = basketRepository.findById(basketId).get();
+            BasketItem basketItem = BasketItem.createBasketItem(item, count);
+            findBasket.addBasketItem(basketItem);
+        }
+        Integer totalPrice = basket.getTotalPrice() + item.getPrice()*count;
+        basket.setTotalPrice(totalPrice);
     }
 
     @Transactional

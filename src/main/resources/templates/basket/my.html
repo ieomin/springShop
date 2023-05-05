@@ -14,7 +14,9 @@
       <thead>
       <tr>
         <th>상품 이름</th>
+        <th>가격</th>
         <th>수량</th>
+        <th>합</th>
         <th>장바구니 상태</th>
         <th></th>
       </tr>
@@ -22,7 +24,9 @@
       <tbody>
       <tr th:each="basketItem : ${member.basket.basketItems}">
         <td th:text="${basketItem.item.name}"></td>
+        <td th:text="${basketItem.item.price}"></td>
         <td th:text="${basketItem.count}"></td>
+        <td th:text="${basketItem.totalPrice}"></td>
         <td th:text="${basketItem.status}"></td>
         <td>
           <form role="form" th:action="@{/basket/canceledMy/{basketId}/{basketItemId}(basketItemId=${basketItem.id}, basketId=${member.basket.id})}" method="post">

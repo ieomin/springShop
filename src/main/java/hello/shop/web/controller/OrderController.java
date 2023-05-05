@@ -9,7 +9,9 @@ import hello.shop.service.MemberService;
 import hello.shop.service.OrderService;
 import hello.shop.web.SessionConst;
 import hello.shop.web.form.item.ItemUpdateForm;
+import hello.shop.web.form.member.MemberUpdateForm;
 import hello.shop.web.form.order.OrderCreateForm;
+import hello.shop.web.form.order.OrderUpdateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -58,12 +60,10 @@ public class OrderController {
 
     @GetMapping("/order/create")
     public String createGet(@RequestParam(required = false) String message, @ModelAttribute OrderCreateForm form, Model model, HttpServletRequest request){
-
-        Member loginMember = (Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
-        Long memberId = loginMember.getId();
-        log.info("memberId = {}", memberId);
+        Long memberId = ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
         Basket basket = basketService.findByMemberId(memberId);
         form.setBasket(basket);
+        form.setTotalPrice(basket.getTotalPrice());
         model.addAttribute("message", message);
         return "order/create";
     }
@@ -76,7 +76,7 @@ public class OrderController {
         Long memberId = loginMember.getId();
         Basket basket = basketService.findByMemberId(memberId);
         orderService.createOrder(loginMember, new Delivery(new Address(form.getCity(), form.getStreet(), form.getZipcode())), basket);
-        return "redirect:/order/list";
+        return "redirect:/order/my/" + memberId;
     }
 
     @GetMapping("/order/detail/{id}")
@@ -87,15 +87,21 @@ public class OrderController {
     }
 
     @GetMapping("/order/update/{id}")
-    public String updateGet(@PathVariable Long id, Model model){
+    public String updateGet(@PathVariable Long id, @ModelAttribute OrderUpdateForm form, HttpServletRequest request){
+        Long memberId = ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
         Order order = orderService.findById(id);
-        model.addAttribute("order", order);
+        form.setMemberId(memberId);
+        form.setCity(order.getDelivery().getAddress().getCity());
+        form.setStreet(order.getDelivery().getAddress().getStreet());
+        form.setZipcode(order.getDelivery().getAddress().getZipcode());
         return "order/update";
     }
 
     @PostMapping("/order/update/{id}")
-    public String update(@PathVariable Long id, @ModelAttribute Order order, HttpServletRequest request){
-        orderService.updateOrder(id, order.getDelivery().getAddress());
+    public String update(@PathVariable Long id, @Valid @ModelAttribute OrderUpdateForm form, HttpServletRequest request){
+
+        log.info("form.getCity() = {}", form.getCity());
+        orderService.updateOrder(id, form.getCity(), form.getStreet(), form.getZipcode());
         Long memberId = ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
         return "redirect:/order/my/" + memberId;
     }

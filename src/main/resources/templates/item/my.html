@@ -11,8 +11,7 @@
   </div>
   <div>
     <div th:each="item : ${member.items}">
-      <label>상품 (ID, 이름, 가격, 수량)</label>
-      <input type="text" class="form-control" th:value="${item.id}" readonly>
+      <label>상품 (이름, 가격, 수량)</label>
       <input type="text" class="form-control" th:value="${item.name}" readonly>
       <input type="text" class="form-control" th:value="${item.price}" readonly>
       <input type="text" class="form-control" th:value="${item.quantity}" readonly>

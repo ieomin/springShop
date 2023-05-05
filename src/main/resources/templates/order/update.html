@@ -13,26 +13,26 @@
         <h2 th:text="#{page.order.update}">??</h2>
     </div>
     <div>
-        <form role="form" th:action th:object="${order}" method="post">
+        <form role="form" th:action th:object="${orderUpdateForm}" method="post">
 
             <div>
                 <label th:text="#{label.order.delivery.address.city}">??</label>
                 <input type="text"
                        placeholder="배송 도시를 입력하세요"
-                       th:field="*{delivery.address.city}"
+                       th:field="*{city}"
                        class="form-control">
             </div>
             <div>
                 <label th:text="#{label.order.delivery.address.street}">??</label>
                 <input type="text"
                        placeholder="배송 도로를 입력하세요"
-                       th:field="*{delivery.address.street}"
+                       th:field="*{street}"
                        class="form-control">
             </div>
             <div>
                 <label th:text="#{label.order.delivery.address.zipcode}">??</label>
                 <input type="text" placeholder="배송 도로번호를 입력하세요"
-                       th:field="*{delivery.address.zipcode}"
+                       th:field="*{zipcode}"
                        class="form-control">
                 <div>
 
@@ -44,7 +44,7 @@
                     </div>
                     <div class="col">
                         <button class="w-100 btn btn-secondary btn-lg"
-                                th:onclick="|location.href='@{/order/my/{id}(id=${order.member.id})}'|"
+                                th:onclick="|location.href='@{/order/my/{id}(id=${orderUpdateForm.memberId})}'|"
                                 type="button">이전으로
                         </button>
                     </div>
