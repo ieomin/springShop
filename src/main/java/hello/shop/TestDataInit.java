@@ -53,6 +53,10 @@ public class TestDataInit {
 
             }
             basketService.addBasketItem(members.get(0).getBasket().getId(), items.get(20).getId(), 20);
+
+            for(int i=0; i<30; i++){
+
+            }
         }
     }
 }

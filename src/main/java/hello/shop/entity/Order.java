@@ -19,6 +19,7 @@ public class Order extends Base{
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "member_id")
     private Member member;
 
+    // 팁: delivery 너는 내가 생성 될 때 같이 생성 되렴
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
@@ -27,7 +28,7 @@ public class Order extends Base{
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order")
     private List<BasketItem> basketItems = new ArrayList<>();
 
     private Integer totalPrice;

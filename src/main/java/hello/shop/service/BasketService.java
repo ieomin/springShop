@@ -18,9 +18,6 @@ public class BasketService {
     private final BasketRepository basketRepository;
     private final ItemRepository itemRepository;
 
-    public Basket save(Basket basket){
-        return basketRepository.save(basket);
-    }
     public Basket findById(Long id){
         return basketRepository.findById(id).get();
     }

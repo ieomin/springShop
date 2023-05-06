@@ -26,14 +26,16 @@ public class Member extends Base{
     @Embedded
     private Address address;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Basket basket;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member")
     private List<Item> items = new ArrayList<>();
+    
+    // 회원이 주문한 장바구니상품의상태가CONTAIN인 상품의 댓글로 접근. 아니면 회원의 댓글로 접근
 
     public static Member createMember(String loginId, String password, String name, Address address){
         Member member = new Member();

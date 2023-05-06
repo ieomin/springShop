@@ -1,5 +1,6 @@
 package hello.shop.service;
 
+import hello.shop.entity.Comment;
 import hello.shop.entity.Item;
 import hello.shop.entity.Member;
 import hello.shop.repository.item.ItemRepository;
@@ -74,6 +75,9 @@ public class ItemService {
             return item;
         }
     }
+
+//    @Transactional
+//    public Comment createComment()
 
 
 }
