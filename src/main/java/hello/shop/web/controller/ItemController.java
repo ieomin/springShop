@@ -3,6 +3,7 @@ package hello.shop.web.controller;
 import hello.shop.entity.*;
 import hello.shop.exception.NotEnoughStockException;
 import hello.shop.repository.item.ItemSearchCond;
+import hello.shop.service.CommentService;
 import hello.shop.service.ItemService;
 import hello.shop.service.MemberService;
 import hello.shop.web.SessionConst;
@@ -34,6 +35,7 @@ public class ItemController {
 
     private final MemberService memberService;
     private final ItemService itemService;
+    private final CommentService commentService;
 
     @GetMapping("/item/list")
     public String listGet(@ModelAttribute ItemSearchCond cond, Model model, @PageableDefault Pageable pageable){
@@ -67,12 +69,6 @@ public class ItemController {
     @GetMapping("/item/detail/{id}")
     public String detailGet(@PathVariable Long id, @ModelAttribute ItemDetailForm form){
         Item item = itemService.findById(id);
-        form.setId(item.getId());
-        form.setMemberName(item.getMember().getName());
-        form.setName(item.getName());
-        form.setPrice(item.getPrice());
-        form.setQuantity(item.getQuantity());
-
         List<BasketItem> basketItems = item.getBasketItems();
         List<String> basketMemberNames = new ArrayList<>();
         List<String> orderMemberNames = new ArrayList<>();
@@ -88,9 +84,30 @@ public class ItemController {
                 orderMemberNames.add(name);
             }
         }
+        List<Comment> comments = item.getComments();
+
+        form.setId(item.getId());
+        form.setMemberName(item.getMember().getName());
+        form.setName(item.getName());
+        form.setPrice(item.getPrice());
+        form.setQuantity(item.getQuantity());
         form.setBasketMemberNames(basketMemberNames);
         form.setOrderMemberNames(orderMemberNames);
+        form.setComments(comments);
         return "item/detail";
+    }
+
+    @PostMapping("/item/detail/{id}")
+    public String detailCreateComment(@PathVariable Long id, @ModelAttribute ItemDetailForm form, HttpServletRequest request){
+        Item item = itemService.findById(id);
+        List<Comment> comments = form.getComments();
+        String content = form.getComment().getContent();
+        Integer score = form.getComment().getScore();
+        Member member = (Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        Comment comment = commentService.createComment(content, score, item, member);
+        comments.add(comment);
+        item.setComments(comments);
+        return "redirect:/item/detail/" + id;
     }
 
     @GetMapping("/item/update/{id}")
@@ -114,11 +131,6 @@ public class ItemController {
 
         Item updateItem = itemService.updateItem(id, form.getName(), form.getPrice(), form.getQuantity());
         if(updateItem == null){
-//            Item item = itemService.findById(id);
-//            form.setId(item.getId());
-//            form.setName(item.getName());
-//            form.setPrice(item.getPrice());
-//            form.setQuantity(item.getQuantity());
             result.reject("itemUpdateFail", "이름이 중복되어 상품을 수정할 수 없습니다");
             return "item/update";
         }

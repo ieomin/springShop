@@ -26,15 +26,12 @@ public class BasketService {
     }
 
     @Transactional
-    public void addBasketItem(Long basketId, Long itemId, Integer count){
-
+    public void updateBasket(Long basketId, Long itemId, Integer count){
         Basket basket = findById(basketId);
-        Basket findBasket = basketRepository.findById(basketId).get();
         Item item = itemRepository.findById(itemId).get();
         BasketItem basketItem = BasketItem.createBasketItem(item, count);
-        findBasket.addBasketItem(basketItem);
-        Integer totalPrice = basket.getTotalPrice() + item.getPrice()*count;
-        basket.setTotalPrice(totalPrice);
+        basket.addBasketItem(basketItem);
+        basket.setTotalPrice(basket.getTotalPrice() + item.getPrice()*count);
     }
     @Transactional
     public void cancelBasketItem(Long basketId, Long basketItemId){

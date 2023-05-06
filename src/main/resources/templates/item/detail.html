@@ -19,15 +19,18 @@
             </div>
             <div>
                 <label th:text="#{label.item.name}">??</label>
-                <input type="text" id="name" name="name" class="form-control" th:value="${itemDetailForm.name}" readonly>
+                <input type="text" id="name" name="name" class="form-control" th:value="${itemDetailForm.name}"
+                       readonly>
             </div>
             <div>
                 <label th:text="#{label.item.price}">??</label>
-                <input type="text" id="price" name="price" class="form-control" th:value="${itemDetailForm.price}" readonly>
+                <input type="text" id="price" name="price" class="form-control" th:value="${itemDetailForm.price}"
+                       readonly>
             </div>
             <div>
                 <label th:text="#{label.item.quantity}">??</label>
-                <input type="text" id="quantity" name="quantity" class="form-control" th:value="${itemDetailForm.quantity}" readonly>
+                <input type="text" id="quantity" name="quantity" class="form-control"
+                       th:value="${itemDetailForm.quantity}" readonly>
             </div>
 
             <div th:if="${#lists.size(itemDetailForm.basketMemberNames) > 0}">
@@ -44,26 +47,48 @@
                 </div>
             </div>
 
+            <div th:each="comment : ${itemDetailForm.comments}" th:if="${#lists.size(itemDetailForm.comments) > 0}">
+                <label>댓글 (작성자, 평점, 내용)</label>
+                <div class="row">
+                    <div class="col"><input type="text" class="form-control" th:value="${comment.member.name}" readonly></div>
+                    <div class="col"><input type="text" class="form-control" th:value="${comment.score}" readonly></div>
+                    <div class="col"><input type="text" class="form-control" th:value="${comment.content}" readonly></div>
+                </div>
+
+            </div>
+            <hr>
+            <form role="form" th:action method="post">
+                <label>댓글 등록</label>
+                <div class="row">
+                    <div class="col"><input type="number" placeholder="평점을 입력하세요" th:field="${itemDetailForm.comment.score}" class="form-control"></div>
+                    <div class="col"><input type="text" placeholder="댓글을 입력하세요" th:field="${itemDetailForm.comment.content}" class="form-control"></div>
+                    <div class="col"><button type="submit" class="btn btn-primary btn-lg">저장</button></div>
+                </div>
+            </form>
+
 
         </div>
         <hr class="my-4">
         <div class="row">
             <div class="col">
                 <button class="w-100 btn btn-primary btn-lg" type="button"
-                        th:onclick="|location.href='@{/basket/update/{id}/(id=${itemDetailForm.id})}'|">장바구니상품 추가</button>
+                        th:onclick="|location.href='@{/basket/update/{id}/(id=${itemDetailForm.id})}'|">장바구니상품 추가
+                </button>
             </div>
             <div class="col">
                 <button class="w-100 btn btn-primary btn-lg" type="button"
-                        th:onclick="|location.href='@{/item/update/{id}(id=${itemDetailForm.id})}'|">상품 수정</button>
+                        th:onclick="|location.href='@{/item/update/{id}(id=${itemDetailForm.id})}'|">상품 수정
+                </button>
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
                         th:onclick="|location.href='@{/item/list}'|"
-                        type="button">이전으로</button>
+                        type="button">이전으로
+                </button>
             </div>
         </div>
     </div>
-    <div th:replace="fragments/footer :: footer" />
+    <div th:replace="fragments/footer :: footer"/>
 </div>
 </body>
 </html>

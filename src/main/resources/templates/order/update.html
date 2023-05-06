@@ -62,7 +62,6 @@
                 <label>배송지</label>
                 <input type="text"
                        th:field="*{cityStreetZipcode}"
-                       th:value="*{cityStreetZipcode}"
                        th:class="${#fields.hasErrors('cityStreetZipcode')}? 'form-control fieldError' : 'form-control'">
                 <p class="fieldError"
                    th:if="${#fields.hasErrors('cityStreetZipcode')}"

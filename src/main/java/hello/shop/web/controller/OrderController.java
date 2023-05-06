@@ -112,19 +112,15 @@ public class OrderController {
         Order order = orderService.findById(id);
         form.setMemberId(memberId);
         form.setCityStreetZipcode(order.getDelivery().getAddress().getCityStreetZipcode());
-        log.info("여기야 여기1");
         return "order/update";
     }
 
     @PostMapping("/order/update/{id}")
     public String update(@PathVariable Long id, @Valid @ModelAttribute OrderUpdateForm form, HttpServletRequest request, BindingResult result){
 
-        log.info("여기야 여기2");
         if(result.hasErrors()){
-            log.info("여기야 여기3");
             return "order/update";
         }
-        log.info("여기야 여기4");
         orderService.updateOrder(id, form.getCityStreetZipcode());
 
         return "redirect:/order/my/" + ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();

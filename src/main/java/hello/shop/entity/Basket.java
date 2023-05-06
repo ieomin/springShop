@@ -19,7 +19,7 @@ public class Basket {
     @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "basket")
+    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
     private List<BasketItem> basketItems = new ArrayList<>();
 
     private Integer totalPrice = 0;

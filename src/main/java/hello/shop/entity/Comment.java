@@ -21,4 +21,13 @@ public class Comment extends Base{
 
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "member_id")
     private Member member;
+
+    public static Comment createComment(String content, Integer score, Item item, Member member){
+        Comment comment = new Comment();
+        comment.setContent(content);
+        comment.setScore(score);
+        comment.setItem(item);
+        comment.setMember(member);
+        return comment;
+    }
 }

@@ -41,7 +41,7 @@ public class BasketController {
     @PostMapping("/basket/update/{itemId}")
     public String update(@PathVariable Long itemId, @Valid @ModelAttribute BasketUpdateForm form, BindingResult result, HttpServletRequest request){
         if(result.hasErrors()) return "basket/update";
-        basketService.addBasketItem(form.getBasketId(), itemId, form.getCount());
+        basketService.updateBasket(form.getBasketId(), itemId, form.getCount());
         Long memberId = ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
         return "redirect:/basket/my/" + memberId;
     }
