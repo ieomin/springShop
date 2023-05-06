@@ -14,7 +14,7 @@
             <div>
                 <label th:text="#{label.member.loginId}">??</label>
                 <input type="text"
-                       placeholder="회원 로그인 ID를 입력하세요"
+                       placeholder="로그인 ID를 입력하세요"
                        th:field="*{loginId}"
                        th:class="${#fields.hasErrors('loginId')}? 'form-control fieldError' : 'form-control'">
                 <p class="fieldError"
@@ -24,7 +24,7 @@
             <div>
                 <label th:text="#{label.member.password}">??</label>
                 <input type="text"
-                       placeholder="회원 로그인 비밀번호를 입력하세요"
+                       placeholder="비밀번호를 입력하세요"
                        th:field="*{password}"
                        th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'">
                 <p class="fieldError"
@@ -34,7 +34,7 @@
             <div>
                 <label th:text="#{label.member.name}">??</label>
                 <input type="text"
-                       placeholder="회원 이름을 입력하세요"
+                       placeholder="이름을 입력하세요"
                        th:field="*{name}"
                        th:class="${#fields.hasErrors('name')}? 'form-control fieldError' : 'form-control'">
                 <p class="fieldError"
@@ -44,7 +44,7 @@
             <div>
                 <label>배송지</label>
                 <input type="text"
-                       placeholder="회원 배송지를 입력하세요"
+                       placeholder="주소를 입력하세요"
                        th:field="*{cityStreetZipcode}"
                        th:class="${#fields.hasErrors('cityStreetZipcode')}? 'form-control fieldError' : 'form-control'">
                 <p class="fieldError"

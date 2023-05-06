@@ -20,7 +20,7 @@
         <input type="text" class="form-control" th:value="${member.name}" readonly>
       </div>
       <div>
-        <label>배송지</label>
+        <label>주소</label>
 <!--        <input type="text" class="form-control" th:value="${member != null and member.address != null ? member.address.getCityStreetZipcode : ''}" readonly>-->
         <input type="text" class="form-control" th:value="${member.address.cityStreetZipcode}" readonly>
       </div>
