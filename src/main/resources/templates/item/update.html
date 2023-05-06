@@ -11,6 +11,13 @@
   </div>
   <div>
     <form role="form" th:action th:object="${itemUpdateForm}" method="post">
+
+      <div th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="err : ${#fields.globalErrors()}"
+           class="fieldError"
+           th:text="${err}"></p>
+      </div>
+
       <div>
         <label th:text="#{label.item.id}">??</label>
         <input type="text" id="id" name="id" class="form-control" th:value="*{id}" readonly>

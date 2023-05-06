@@ -5,14 +5,21 @@ import hello.shop.entity.Member;
 import hello.shop.repository.item.ItemRepository;
 import hello.shop.repository.item.ItemSearchCond;
 
+import hello.shop.web.SessionConst;
+import hello.shop.web.form.item.ItemCreateForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,17 +42,37 @@ public class ItemService {
     }
 
     public Item createItem(String name, Integer price, Integer quantity, Member member) {
+        Item findItem = itemRepository.findByName(name);
+        if(findItem != null){
+            return null;
+        }
         Item item = Item.createItem(name, price, quantity, member);
         save(item);
         return item;
     }
 
     @Transactional
-    public void updateItem(Long id, String name, Integer price, Integer quantity) {
+    public Item updateItem(Long id, String updateName, Integer price, Integer quantity) {
+
         Item item = findById(id);
-        item.setName(name);
-        item.setPrice(price);
-        item.setQuantity(quantity);
+        String oldName = item.getName();
+
+        if(!oldName.equals(updateName)){
+            Item findItem = itemRepository.findByName(updateName);
+            if(findItem != null){
+                return null;
+            }
+            item.setName(updateName);
+            item.setPrice(price);
+            item.setQuantity(quantity);
+            return item;
+        }
+
+        else{
+            item.setPrice(price);
+            item.setQuantity(quantity);
+            return item;
+        }
     }
 
 

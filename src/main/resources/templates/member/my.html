@@ -20,10 +20,9 @@
         <input type="text" class="form-control" th:value="${member.name}" readonly>
       </div>
       <div>
-        <label>주소 (도시, 도로, 도로번호)</label>
-        <input type="text" class="form-control" th:value="${member != null and member.address != null ? member.address.city : ''}" readonly>
-        <input type="text" class="form-control" th:value="${member != null and member.address != null ? member.address.street : ''}" readonly>
-        <input type="text" class="form-control" th:value="${member != null and member.address != null ? member.address.zipcode : ''}" readonly>
+        <label>배송지</label>
+<!--        <input type="text" class="form-control" th:value="${member != null and member.address != null ? member.address.getCityStreetZipcode : ''}" readonly>-->
+        <input type="text" class="form-control" th:value="${member.address.cityStreetZipcode}" readonly>
       </div>
     </div>
     <hr class="my-4">

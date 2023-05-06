@@ -20,16 +20,8 @@
                 <input type="text" class="form-control" th:value="${memberDetailForm.name}" readonly>
             </div>
             <div>
-                <label th:text="#{label.member.address.city}">??</label>
-                <input type="text" class="form-control" th:value="${memberDetailForm.city}" readonly>
-            </div>
-            <div>
-                <label th:text="#{label.member.address.street}">??</label>
-                <input type="text" class="form-control" th:value="${memberDetailForm.street}" readonly>
-            </div>
-            <div>
-                <label th:text="#{label.member.address.zipcode}">??</label>
-                <input type="text" class="form-control" th:value="${memberDetailForm.zipcode}" readonly>
+                <label>배송지</label>
+                <input type="text" class="form-control" th:value="${memberDetailForm.cityStreetZipcode}" readonly>
             </div>
             <div th:if="${#lists.size(memberDetailForm.orders) > 0}">
                 <label th:text="#{label.member.orders.id}">??</label>

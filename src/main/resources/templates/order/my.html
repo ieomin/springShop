@@ -19,17 +19,12 @@
                 <input type="text" class="form-control" th:value="${basketItem.count}" readonly>
                 <input type="text" class="form-control" th:value="${basketItem.totalPrice}" readonly>
             </div>
-            <label>배송주소 (도시, 도로, 도로번호)</label>
-            <input type="text" class="form-control" th:value="${order.delivery.address.city}" readonly>
-            <input type="text" class="form-control" th:value="${order.delivery.address.street}" readonly>
-            <input type="text" class="form-control" th:value="${order.delivery.address.zipcode}" readonly>
-
-            <label>배송정보 (주문상태, 배송상태, 생성일, 총합)</label>
+            <label>배송정보 (주문상태, 배송상태, 배송지, 생성일, 총합)</label>
             <input type="text" class="form-control" th:value="${order.status}" readonly>
             <input type="text" class="form-control" th:value="${order.delivery.status}" readonly>
+            <input type="text" class="form-control" th:value="${order.delivery.address.getCityStreetZipcode}" readonly>
             <input type="text" class="form-control" th:value="${order.createdDate}" readonly>
             <input type="text" class="form-control" th:value="${order.totalPrice}" readonly>
-
             <div class="row" th:if="${order.status.name() == 'ORDER'}">
                 <div class="col">
                     <button class="w-100 btn btn-primary btn-lg" type="button"

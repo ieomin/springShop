@@ -10,6 +10,13 @@
     </div>
     <div class="fieldError" th:text="${message}"></div>
     <form role="form" action="/order/create" method="post" th:object="${orderCreateForm}">
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="err : ${#fields.globalErrors()}"
+               class="fieldError"
+               th:text="${err}"></p>
+        </div>
+
         <div class="form-group">
             <div th:if="${#lists.size(orderCreateForm.basket.basketItems) > 0}"
                  th:each="basketItem : ${orderCreateForm.basket.basketItems}">
@@ -28,33 +35,14 @@
             </div>
             <hr>
             <div>
-                <label th:text="#{label.order.delivery.address.city}">??</label>
+                <label>배송지</label>
                 <input type="text"
-                       placeholder="배송 도시를 입력하세요"
-                       th:field="*{city}"
-                       th:class="${#fields.hasErrors('city')}? 'form-control fieldError' : 'form-control'">
+                       placeholder="배송지를 입력하세요"
+                       th:field="*{cityStreetZipcode}"
+                       th:class="${#fields.hasErrors('cityStreetZipcode')}? 'form-control fieldError' : 'form-control'">
                 <p class="fieldError"
-                   th:if="${#fields.hasErrors('city')}"
-                   th:errors="*{city}"></p>
-            </div>
-            <div>
-                <label th:text="#{label.order.delivery.address.street}">??</label>
-                <input type="text"
-                       placeholder="배송 도로를 입력하세요"
-                       th:field="*{street}"
-                       th:class="${#fields.hasErrors('street')}? 'form-control fieldError' : 'form-control'">
-                <p class="fieldError"
-                   th:if="${#fields.hasErrors('street')}"
-                   th:errors="*{street}"></p>
-            </div>
-            <div>
-                <label th:text="#{label.order.delivery.address.zipcode}">??</label>
-                <input type="text" placeholder="배송 도로번호를 입력하세요"
-                       th:field="*{zipcode}"
-                       th:class="${#fields.hasErrors('zipcode')}? 'form-control fieldError' : 'form-control'">
-                <p class="fieldError"
-                   th:if="${#fields.hasErrors('zipcode')}"
-                   th:errors="*{zipcode}"></p>
+                   th:if="${#fields.hasErrors('cityStreetZipcode')}"
+                   th:errors="*{cityStreetZipcode}"></p>
             </div>
         </div>
         <div class="row">

@@ -43,12 +43,12 @@ public class TestDataInit {
             ArrayList<BasketItem> basketItems = new ArrayList<>();
 
             for(int i=0; i<30; i++){
-                members.add(memberService.createMember(String.valueOf(i+1), String.valueOf(i+1), "member" + (i+1), new Address("a", "a", "a")));
+                members.add(memberService.createMember(String.valueOf(i+1), String.valueOf(i+1), "member" + (i+1), new Address("cityStreetZipcode" + (i+1))));
                 items.add(itemService.createItem("item" + (i+1), 1000, 100, members.get(i)));
                 basketItems.add(BasketItem.createBasketItem(items.get(i), 10));
                 basketService.addBasketItem(members.get(i).getBasket().getId(), items.get(i).getId(), basketItems.get(i).getCount());
                 if(i != 0) {
-                    orderService.createOrder(members.get(i), new Delivery(), members.get(i).getBasket(), members.get(i).getBasket().getTotalPrice());
+                    orderService.createOrder(members.get(i), new Delivery(new Address("cityStreetZipcode" + (i+1))), members.get(i).getBasket(), members.get(i).getBasket().getTotalPrice());
                 }
 
             }

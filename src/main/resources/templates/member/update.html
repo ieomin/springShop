@@ -1,8 +1,10 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="fragments/header :: header"/>
-<style>.fieldError {border-color: #dc3545; color: #dc3545;}</style>
+<style>.fieldError {
+    border-color: #dc3545;
+    color: #dc3545;
+}</style>
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
@@ -26,34 +28,14 @@
                    th:errors="*{name}">??</p>
             </div>
             <div>
-                <label th:text="#{label.member.address.city}">??</label>
+                <label>배송지</label>
                 <input type="text"
-                       th:field="*{city}"
-                       th:value="*{city}"
-                       th:class="${#fields.hasErrors('city')}? 'form-control fieldError' : 'form-control'">
+                       th:field="*{cityStreetZipcode}"
+                       th:value="*{cityStreetZipcode}"
+                       th:class="${#fields.hasErrors('cityStreetZipcode')}? 'form-control fieldError' : 'form-control'">
                 <p class="fieldError"
-                   th:if="${#fields.hasErrors('city')}"
-                   th:errors="*{city}">??</p>
-            </div>
-            <div>
-                <label th:text="#{label.member.address.street}">??</label>
-                <input type="text"
-                       th:field="*{street}"
-                       th:value="*{street}"
-                       th:class="${#fields.hasErrors('street')}? 'form-control fieldError' : 'form-control'">
-                <p class="fieldError"
-                   th:if="${#fields.hasErrors('street')}"
-                   th:errors="*{street}">??</p>
-            </div>
-            <div>
-                <label th:text="#{label.member.address.zipcode}">??</label>
-                <input type="text"
-                       th:field="*{zipcode}"
-                       th:value="*{zipcode}"
-                       th:class="${#fields.hasErrors('zipcode')}? 'form-control fieldError' : 'form-control'">
-                <p class="fieldError"
-                   th:if="${#fields.hasErrors('zipcode')}"
-                   th:errors="*{zipcode}">??</p>
+                   th:if="${#fields.hasErrors('cityStreetZipcode')}"
+                   th:errors="*{cityStreetZipcode}">??</p>
             </div>
 
             <div th:if="${#lists.size(memberUpdateForm.orders) > 0}">
@@ -71,12 +53,13 @@
                 <div class="col">
                     <button class="w-100 btn btn-secondary btn-lg"
                             th:onclick="|location.href='@{/member/detail/{id}(id=${memberUpdateForm.id})}'|"
-                            type="button">이전으로</button>
+                            type="button">이전으로
+                    </button>
                 </div>
             </div>
         </form>
     </div>
-    <div th:replace="fragments/footer :: footer" />
+    <div th:replace="fragments/footer :: footer"/>
 </div>
 </body>
 </html>

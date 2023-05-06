@@ -1,6 +1,7 @@
 package hello.shop.web.controller;
 
 import hello.shop.exception.NotAllowCanceledOrderException;
+import hello.shop.exception.NotEnoughStockException;
 import hello.shop.repository.order.OrderDtoV1;
 import hello.shop.entity.*;
 import hello.shop.repository.order.OrderSearchCond;
@@ -8,8 +9,6 @@ import hello.shop.service.BasketService;
 import hello.shop.service.MemberService;
 import hello.shop.service.OrderService;
 import hello.shop.web.SessionConst;
-import hello.shop.web.form.item.ItemUpdateForm;
-import hello.shop.web.form.member.MemberUpdateForm;
 import hello.shop.web.form.order.OrderCreateForm;
 import hello.shop.web.form.order.OrderUpdateForm;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -58,8 +56,9 @@ public class OrderController {
         return "redirect:/order/list";
     }
 
+    // 팁: pathVariable과 달리 requestParam은 URL에 명시 안함
     @GetMapping("/order/create")
-    public String createGet(@RequestParam(required = false) String message, @ModelAttribute OrderCreateForm form, Model model, HttpServletRequest request){
+    public String createGet(@ModelAttribute OrderCreateForm form, @RequestParam(required = false) String message,  Model model, HttpServletRequest request, BindingResult result){
         Long memberId = ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
         Basket basket = basketService.findByMemberId(memberId);
         form.setBasket(basket);
@@ -71,13 +70,33 @@ public class OrderController {
     @PostMapping("/order/create")
     // 팁: input태그의 name은 RequestParam과 매칭도 되는데 set해주는 역할을 자주 함
     public String create(@Valid @ModelAttribute OrderCreateForm form, BindingResult result, HttpServletRequest request){
-        if(result.hasErrors()) return "order/create";
+
+        // 단일검증
+        if(result.hasErrors()) {
+            Basket basket = basketService.findByMemberId(((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId());
+            form.setBasket(basket);
+            form.setTotalPrice(basket.getTotalPrice());
+            return "order/create";
+        }
+
+        // 생성하고전체검증
         Member loginMember = (Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
-        Long memberId = loginMember.getId();
-        Basket basket = basketService.findByMemberId(memberId);
+        Basket basket = basketService.findByMemberId(loginMember.getId());
         Integer totalPrice = basket.getTotalPrice();
-        orderService.createOrder(loginMember, new Delivery(new Address(form.getCity(), form.getStreet(), form.getZipcode())), basket, totalPrice);
-        return "redirect:/order/my/" + memberId;
+        Order order;
+        try{
+            order = orderService.createOrder(loginMember, new Delivery(new Address(form.getCityStreetZipcode())), basket, totalPrice);
+        } catch (NotEnoughStockException e){
+            return "redirect:/order/create?message=" + e.getMessage();
+        }
+        if(order == null){
+            form.setBasket(basket);
+            form.setTotalPrice(basket.getTotalPrice());
+            result.reject("orderCreateFail", "장바구니에 상품이 존재하지 않아 주문을 생성할 수 없습니다");
+            return "order/create";
+        }
+
+        return "redirect:/order/my/" + loginMember.getId();
     }
 
     @GetMapping("/order/detail/{id}")
@@ -92,19 +111,23 @@ public class OrderController {
         Long memberId = ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
         Order order = orderService.findById(id);
         form.setMemberId(memberId);
-        form.setCity(order.getDelivery().getAddress().getCity());
-        form.setStreet(order.getDelivery().getAddress().getStreet());
-        form.setZipcode(order.getDelivery().getAddress().getZipcode());
+        form.setCityStreetZipcode(order.getDelivery().getAddress().getCityStreetZipcode());
+        log.info("여기야 여기1");
         return "order/update";
     }
 
     @PostMapping("/order/update/{id}")
-    public String update(@PathVariable Long id, @Valid @ModelAttribute OrderUpdateForm form, HttpServletRequest request){
+    public String update(@PathVariable Long id, @Valid @ModelAttribute OrderUpdateForm form, HttpServletRequest request, BindingResult result){
 
-        log.info("form.getCity() = {}", form.getCity());
-        orderService.updateOrder(id, form.getCity(), form.getStreet(), form.getZipcode());
-        Long memberId = ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
-        return "redirect:/order/my/" + memberId;
+        log.info("여기야 여기2");
+        if(result.hasErrors()){
+            log.info("여기야 여기3");
+            return "order/update";
+        }
+        log.info("여기야 여기4");
+        orderService.updateOrder(id, form.getCityStreetZipcode());
+
+        return "redirect:/order/my/" + ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
     }
 
     @GetMapping("/order/my/{id}")

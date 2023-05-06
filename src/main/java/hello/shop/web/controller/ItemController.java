@@ -1,6 +1,7 @@
 package hello.shop.web.controller;
 
 import hello.shop.entity.*;
+import hello.shop.exception.NotEnoughStockException;
 import hello.shop.repository.item.ItemSearchCond;
 import hello.shop.service.ItemService;
 import hello.shop.service.MemberService;
@@ -48,10 +49,18 @@ public class ItemController {
 
     @PostMapping("/item/create")
     public String create(@Valid @ModelAttribute ItemCreateForm form, BindingResult result, HttpServletRequest request){
-        if(result.hasErrors()) return "item/create";
-        // 팁: 생성자보다는 setter사용하는 것이 관례적이고 entity의 setter를 사용할 때는 함수로 해서 변경 지점을 명확히 해야 함
+
+        if(result.hasErrors()) {
+            return "item/create";
+        }
+
         Member loginMember = (Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
-        itemService.createItem(form.getName(), form.getPrice(), form.getQuantity(), loginMember);
+        Item item = itemService.createItem(form.getName(), form.getPrice(), form.getQuantity(), loginMember);
+        if(item == null){
+            result.reject("itemCreateFail", "이름이 중복되어 상품을 생성할 수 없습니다");
+            return "item/create";
+        }
+
         return "redirect:/item/list";
     }
 
@@ -96,13 +105,25 @@ public class ItemController {
 
     @PostMapping("/item/update/{id}")
     public String update(@PathVariable Long id, @ModelAttribute @Valid ItemUpdateForm form, BindingResult result){
-        if(result.hasErrors()) return "item/update";
-        String name = form.getName();
-        Integer price = form.getPrice();
-        Integer quantity = form.getQuantity();
-        itemService.updateItem(id, name, price, quantity);
+
+        if(result.hasErrors()) {
+            Item item = itemService.findById(id);
+            form.setId(item.getId());
+            return "item/update";
+        }
+
+        Item updateItem = itemService.updateItem(id, form.getName(), form.getPrice(), form.getQuantity());
+        if(updateItem == null){
+//            Item item = itemService.findById(id);
+//            form.setId(item.getId());
+//            form.setName(item.getName());
+//            form.setPrice(item.getPrice());
+//            form.setQuantity(item.getQuantity());
+            result.reject("itemUpdateFail", "이름이 중복되어 상품을 수정할 수 없습니다");
+            return "item/update";
+        }
+
         return "redirect:/item/list";
-        // 팁: redirect 효과는 return을 페이지가 아니라 경로를 호출할 수 있게 해줌
     }
 
     @GetMapping("/item/my/{id}")
@@ -110,5 +131,9 @@ public class ItemController {
         Member member = memberService.findById(id);
         model.addAttribute("member", member);
         return "item/my";
+
     }
 }
+
+
+

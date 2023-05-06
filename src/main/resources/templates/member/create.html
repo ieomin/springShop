@@ -42,25 +42,14 @@
                    th:errors="*{name}"></p>
             </div>
             <div>
-                <label th:text="#{label.member.address.city}">??</label>
+                <label>배송지</label>
                 <input type="text"
-                       placeholder="도시를 입력하세요"
-                       th:field="*{city}"
-                       class="form-control">
-            </div>
-            <div>
-                <label th:text="#{label.member.address.street}">??</label>
-                <input type="text"
-                       placeholder="도로를 입력하세요"
-                       th:field="*{street}"
-                       class="form-control">
-            </div>
-            <div>
-                <label th:text="#{label.member.address.zipcode}">??</label>
-                <input type="text"
-                       placeholder="도로번호를 입력하세요"
-                       th:field="*{zipcode}"
-                       class="form-control">
+                       placeholder="회원 배송지를 입력하세요"
+                       th:field="*{cityStreetZipcode}"
+                       th:class="${#fields.hasErrors('cityStreetZipcode')}? 'form-control fieldError' : 'form-control'">
+                <p class="fieldError"
+                   th:if="${#fields.hasErrors('cityStreetZipcode')}"
+                   th:errors="*{cityStreetZipcode}"></p>
             </div>
         </div>
         <div class="row">

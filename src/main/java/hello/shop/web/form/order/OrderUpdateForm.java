@@ -9,12 +9,8 @@ import java.util.List;
 
 @Getter @Setter
 public class OrderUpdateForm {
-
     private Long memberId;
-
-    private String city;
-
-    private String street;
-
-    private String zipcode;
+    // 보류: 왜 이것만 안되냐?? 디버깅 할 곳도 없네
+    @NotBlank(message = "배송지는 필수입니다")
+    private String cityStreetZipcode;
 }
