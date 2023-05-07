@@ -2,25 +2,8 @@
 <html th:replace="~{template/layoutExtend/layoutFile :: layout(~{::section})}" xmlns:th="http://www.thymeleaf.org">
 <body>
 <section>
-    <div class="py-5 text-center">
-        <p>
-            <a class="btn btn-lg btn-primary" href="/item/create" th:text="#{page.item.create}">??</a>
-            <a class="btn btn-lg btn-primary" href="/member/list" th:text="#{page.member.list}">??</a>
-            <a class="btn btn-lg btn-primary" href="/order/list" th:text="#{page.order.list}">??</a>
-        </p>
-    </div>
+
     <div>
-<!--        <div>-->
-<!--            <form th:object="${itemSearchCond}" class="form-inline">-->
-<!--                <div class="form-group mb-2">-->
-<!--                    <input type="text" th:field="*{itemName}" class="form-control" placeholder="상품 이름"/>-->
-<!--                </div>-->
-<!--                <div class="form-group mx-sm-1 mb-2">-->
-<!--                    <input type="text" th:field="*{maxPrice}" class="form-control" placeholder="제한 가격"/>-->
-<!--                </div>-->
-<!--                <button type="submit" class="btn btn-primary mb-2">검색</button>-->
-<!--            </form>-->
-<!--        </div>-->
         <table class="table table-striped">
             <thead>
             <tr>

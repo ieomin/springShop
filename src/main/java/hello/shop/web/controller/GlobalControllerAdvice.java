@@ -1,6 +1,7 @@
 package hello.shop.web.controller;
 
 import hello.shop.entity.Member;
+import hello.shop.repository.item.ItemSearchCond;
 import hello.shop.service.MemberService;
 import hello.shop.web.SessionConst;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,10 @@ public class GlobalControllerAdvice {
             }
         }
         return null;
+    }
+
+    @ModelAttribute("currentItemSearchCond")
+    public ItemSearchCond getCurrentItemSearchCond() {
+        return new ItemSearchCond();
     }
 }

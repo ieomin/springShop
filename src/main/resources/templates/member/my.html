@@ -4,7 +4,7 @@
 <body>
 <section>
   <div class="py-5 text-center">
-    <h2>마이 회원</h2>
+    <h2>내 정보</h2>
   </div>
   <div>
     <div th:object="${member}">
@@ -18,7 +18,6 @@
       </div>
       <div>
         <label>주소</label>
-        <!--        <input type="text" class="form-control" th:value="${member != null and member.address != null ? member.address.getCityStreetZipcode : ''}" readonly>-->
         <input type="text" class="form-control" th:value="${member.address.cityStreetZipcode}" readonly>
       </div>
     </div>

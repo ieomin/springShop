@@ -42,7 +42,7 @@
                 <td>
                     <a th:if="${order.orderStatus.name() == 'ORDER'}"
                        th:href="'javascript:cancel('+${order.orderId}+')'"
-                       class="btn btn-danger">주문 취소</a>
+                       class="btn btn-danger">주문 강제 취소</a>
                 </td>
             </tr>
             </tbody>
