@@ -25,7 +25,7 @@
     <div class="header">
         <div class="row">
             <div class="col-3"><a href="/"><h3 class="text-muted" th:text="#{logo}"></h3></a></div>
-            <div class="col-6" th:if="${currentMember != null}">
+            <div class="col-6">
                 <form th:object="${currentItemSearchCond}" class="form-inline d-flex" action="/">
                     <div class="form-group mb-2 flex-fill">
                         <input type="text" th:field="*{itemName}" class="form-control w-100" placeholder="찾고 싶은 상품 검색"/>
@@ -33,29 +33,31 @@
                     <button type="submit" class="btn btn-primary mb-2">검색</button>
                 </form>
             </div>
-            <div class="col-1" th:if="${currentMember != null}">
-                <img src="/admin.png" style="width: 30px; height: 30px;" class="dropdown-toggle" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="col-1">
+                <img src="/img/admin.png" style="width: 30px; height: 30px;" class="dropdown-toggle" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <a class="dropdown-item" th:href="@{/member/list}">회원 목록</a>
                     <a class="dropdown-item" th:href="@{/order/list}">주문 목록</a>
                 </div>
             </div>
-
-            <div class="col-1" th:if="${currentMember != null}">
-                <img src="/user.png" style="width: 30px; height: 30px;" class="dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="col-1">
+                <img src="/img/user.png" style="width: 30px; height: 30px;" class="dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                    <a class="dropdown-item" th:href="@{/member/my/{id}(id=${currentMember.id})}">개인정보</a>
-                    <a class="dropdown-item" th:href="@{/item/my/{id}(id=${currentMember.id})}">내 상품</a>
-                    <a class="dropdown-item" th:href="@{/order/my/{id}(id=${currentMember.id})}">내 주문</a>
-                    <form th:action="@{/member/logout}" method="post"><button class="btn-link dropdown-item" type="submit">로그아웃</button></form>
+
+
+<!--                    <form th:if="${currentMember != null}" th:action="@{/member/logout}" method="post"><button class="btn-link dropdown-item" type="submit">로그아웃</button></form>-->
+<!--                    <form th:if="${currentMember != null}" th:action="@{/member/logout}" method="post"><button class="btn-link dropdown-item" type="submit">로그아웃</button></form>-->
+
+                    <a th:if="${currentMember != null}" class="dropdown-item" th:href="@{/member/my/{id}(id=${currentMember.id})}">개인정보</a>
+                    <a th:if="${currentMember != null}" class="dropdown-item" th:href="@{/item/my/{id}(id=${currentMember.id})}">내 상품</a>
+                    <a th:if="${currentMember != null}" class="dropdown-item" th:href="@{/order/my/{id}(id=${currentMember.id})}">내 주문</a>
+                    <form th:if="${currentMember != null}" th:action="@{/member/logout}" method="post"><button class="btn-link dropdown-item" type="submit">로그아웃</button></form>
+                    <a th:if="${currentMember != null}" class="dropdown-item" th:href="@{/member/logout}">로그아웃2</a>
                 </div>
             </div>
-
-
-
             <div class="col-1">
-                <a th:if="${currentMember != null}" th:href="@{/basket/my/{id}(id=${currentMember.id})}">
-                    <img src="/basket.png" style="width: 30px; height: 30px;">
+                <a th:if="${currentMember != null}" th:href="@{/basket/my/{id}(id=${currentMember.id})}"></a>
+                    <img src="/img/basket.png" style="width: 30px; height: 30px;">
                 </a>
             </div>
         </div>

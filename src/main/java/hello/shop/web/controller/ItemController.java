@@ -7,6 +7,7 @@ import hello.shop.service.CommentService;
 import hello.shop.service.ItemService;
 import hello.shop.service.MemberService;
 import hello.shop.web.SessionConst;
+import hello.shop.web.argumentresolver.Login;
 import hello.shop.web.form.item.ItemCreateForm;
 import hello.shop.web.form.item.ItemDetailForm;
 import hello.shop.web.form.item.ItemUpdateForm;
@@ -91,7 +92,14 @@ public class ItemController {
     }
 
     @PostMapping("/item/detail/{id}")
-    public String detailCreateComment(@PathVariable Long id, @ModelAttribute ItemDetailForm form, HttpServletRequest request){
+    public String detailCreateComment(@PathVariable Long id, @ModelAttribute ItemDetailForm form, HttpServletRequest request, @Login Member loginMember){
+
+        String requestURI = request.getRequestURI();
+
+        if(loginMember == null){
+            return "redirect:/member/login?redirectURL=" + requestURI;
+        }
+
         Item item = itemService.findById(id);
         List<Comment> comments = form.getComments();
         String content = form.getComment().getContent();
@@ -102,8 +110,6 @@ public class ItemController {
         item.setComments(comments);
         return "redirect:/item/detail/" + id;
     }
-
-
 
     @GetMapping("/item/my/{id}")
     public String myGet(@PathVariable Long id, Model model){
