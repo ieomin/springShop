@@ -32,11 +32,6 @@
                 th:onclick="|location.href='@{/member/update/{id}(id=${member.id})}'|"
                 th:text="#{page.member.update}">??</button>
       </div>
-      <div class="col">
-        <button class="w-100 btn btn-secondary btn-lg"
-                th:onclick="|location.href='@{/}'|"
-                type="button">이전으로</button>
-      </div>
     </div>
   </div>
   <div th:replace="fragments/footer :: footer" />

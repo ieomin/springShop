@@ -37,13 +37,6 @@ public class ItemController {
     private final ItemService itemService;
     private final CommentService commentService;
 
-    @GetMapping("/item/list")
-    public String listGet(@ModelAttribute ItemSearchCond cond, Model model, @PageableDefault Pageable pageable){
-        Page<Item> items = itemService.search(cond, pageable);
-        model.addAttribute("items", items);
-        return "item/list";
-    }
-
     @GetMapping("/item/create")
     public String createGet(@ModelAttribute ItemCreateForm form){
         return "item/create";

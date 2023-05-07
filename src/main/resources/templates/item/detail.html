@@ -80,12 +80,6 @@
                         th:onclick="|location.href='@{/item/update/{id}(id=${itemDetailForm.id})}'|">상품 수정
                 </button>
             </div>
-            <div class="col">
-                <button class="w-100 btn btn-secondary btn-lg"
-                        th:onclick="|location.href='@{/item/list}'|"
-                        type="button">이전으로
-                </button>
-            </div>
         </div>
     </div>
     <div th:replace="fragments/footer :: footer"/>
