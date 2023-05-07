@@ -1,19 +1,17 @@
 package hello.shop.web.form.order;
 
 import hello.shop.entity.Basket;
-import hello.shop.entity.BasketItem;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter @Setter
 public class OrderCreateForm {
-
-    // 결과: 올 때 객체랑 갈 때 객체가 다름, 폼에서 객체를 보여주는 건 되는데 받는 것이 잘 되지가 않으니 이런 코드 사용하지 말도록
+    // 결과: 올 때 객체랑 갈 때 객체가 다름, 폼에서 객체를 보여주는 건 되는데 받는 것이 잘 되지가 않으니 주의
     private Basket basket;
     private Integer totalPrice;
-    private String city;
-    private String street;
-    private String zipcode;
+    @NotBlank(message = "회원 배송지는 필수입니다")
+    private String cityStreetZipcode;
 
 }

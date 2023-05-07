@@ -11,7 +11,5 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address {
-    private String city;
-    private String street;
-    private String zipcode;
+    private String cityStreetZipcode;
 }

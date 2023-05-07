@@ -1,9 +1,8 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header"/>
+<!DOCTYPE html>
+<html th:replace="~{template/layoutExtend/layoutFile :: layout(~{::section})}" xmlns:th="http://www.thymeleaf.org">
+
 <body>
-<div class="container">
-  <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<section>
   <div class="py-5 text-center">
     <h2 th:text="#{page.order.detail}">??</h2>
   </div>
@@ -22,26 +21,21 @@
         <input type="text" class="form-control" th:value="*{status}" readonly>
       </div>
       <div th:if="${#lists.size(order.basketItems) > 0}">
-        <label>주문상품 (이름, 수량, 상태)</label>
+        <label>주문상품 (상태, 이름, 가격, 수량, 합)</label>
         <div th:each="basketItem : *{basketItems}">
-          <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>
-          <input type="text" class="form-control" th:value="${basketItem.count}" readonly>
           <input type="text" class="form-control" th:value="${basketItem.status}" readonly>
+          <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>
+          <input type="text" class="form-control" th:value="${basketItem.item.price}" readonly>
+          <input type="text" class="form-control" th:value="${basketItem.count}" readonly>
+          <input type="text" class="form-control" th:value="${basketItem.totalPrice}" readonly>
           <hr>
         </div>
       </div>
 
     </div>
     <hr class="my-4">
-    <div class="row">
-      <div class="col">
-        <button class="w-100 btn btn-secondary btn-lg"
-                th:onclick="|location.href='@{/order/list}'|"
-                type="button">이전으로</button>
-      </div>
-    </div>
   </div>
-  <div th:replace="fragments/footer :: footer" />
-</div>
+</section>
 </body>
+
 </html>

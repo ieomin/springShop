@@ -41,8 +41,13 @@ public class OrderService {
     }
 
     @Transactional
-    public Order createOrder(Member member, Delivery delivery, Basket basket) {
-        Order order = Order.createOrder(member, delivery, basket);
+    public Order createOrder(Member member, Delivery delivery, Basket basket, Integer totalPrice) {
+
+        if(basket.getBasketItems().size() == 0){
+            return null;
+        }
+
+        Order order = Order.createOrder(member, delivery, basket, totalPrice);
         List<BasketItem> basketItems = basket.getBasketItems();
         for (BasketItem bi : basketItems) {
             bi.setBasket(null);
@@ -54,11 +59,11 @@ public class OrderService {
     }
 
     @Transactional
-    public void updateOrder(Long orderId, String city, String street, String zipcode) {
+    public void updateOrder(Long orderId, String cityStreetZipcode) {
         Order order = findById(orderId);
         order.setOrderDate(LocalDateTime.now());
         Delivery delivery = order.getDelivery();
-        delivery.setAddress(new Address(city, street, zipcode));
+        delivery.setAddress(new Address(cityStreetZipcode));
     }
 
     @Transactional

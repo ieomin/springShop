@@ -48,14 +48,20 @@ public class MemberService {
     }
 
     private void validateDuplicateMemberLoginId(Member member) {
-        Member findMember = memberRepository.findByLoginId(member.getLoginId());
-        if (findMember != null) {
-            try{
-                throw new Exception("ExceptionMessage");
-            } catch (Exception e){
-                throw new DuplicateMemberLoginIdException(e.getMessage(), e);
-            }
+//        Member findMember = memberRepository.findByLoginId(member.getLoginId());
+//        if (findMember != null) {
+//            // 예외 변환하는 이례적인 코드
+//            try{
+//                throw new Exception("ExceptionMessage");
+//            } catch (Exception e){
+//                throw new DuplicateMemberLoginIdException(e.getMessage(), e);
+//            }
+//        }
+        Member duplicateLoginIdMember = memberRepository.findByLoginId(member.getLoginId());
+        if(duplicateLoginIdMember != null){
+            throw new DuplicateMemberLoginIdException("DuplicateMemberLoginIdExceptionMessage");
         }
+
     }
 
     @Transactional
@@ -74,14 +80,8 @@ public class MemberService {
 
     public Member loginMember(String loginId, String password){
         Member member = memberRepository.findByLoginId(loginId);
-        if(member == null){
-            return null;
-        }
-        if(member.getPassword().equals(password)) {
-            return member;
-        }
-        else{
-            return null;
-        }
+        if(member == null) return null;
+        if(member.getPassword().equals(password)) return member;
+        else return null;
     }
 }

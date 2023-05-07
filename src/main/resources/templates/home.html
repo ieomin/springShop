@@ -1,12 +1,9 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
-</head>
+<!DOCTYPE html>
+<html th:replace="~{template/layoutExtend/layoutFile :: layout(~{::section})}" xmlns:th="http://www.thymeleaf.org">
+
 <body>
-<div class="container">
-  <div th:replace="fragments/bodyHeader :: bodyHeader" />
+<section>
   <div class="jumbotron">
-    <h2 th:text="#{page.home}"></h2>
     <div class="row">
       <div class="col">
         <button class="w-100 btn btn-primary btn-lg" type="button"
@@ -18,7 +15,7 @@
       </div>
     </div>
   </div>
-  <div th:replace="fragments/footer :: footer" />
-</div>
+</section>
 </body>
+
 </html>

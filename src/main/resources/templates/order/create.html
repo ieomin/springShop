@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header"/>
-<style>.fieldError {border-color: #dc3545; color: #dc3545;}</style>
+<html th:replace="~{template/layoutExtend/layoutFile :: layout(~{::section})}" xmlns:th="http://www.thymeleaf.org">
+
 <body>
-<div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+<section>
     <div class="py-5 text-center">
         <h2 th:text="#{page.order.create}">??</h2>
     </div>
     <div class="fieldError" th:text="${message}"></div>
     <form role="form" action="/order/create" method="post" th:object="${orderCreateForm}">
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="err : ${#fields.globalErrors()}"
+               class="fieldError"
+               th:text="${err}"></p>
+        </div>
+
         <div class="form-group">
             <div th:if="${#lists.size(orderCreateForm.basket.basketItems) > 0}"
                  th:each="basketItem : ${orderCreateForm.basket.basketItems}">
@@ -24,52 +29,27 @@
             </div>
             <div>
                 <label>총합</label>
-                <input th:value="*{totalPrice}"
-                       type="number" class="form-control" readonly>
+                <input th:value="*{totalPrice}" type="number" class="form-control" readonly>
             </div>
             <hr>
             <div>
-                <label th:text="#{label.order.delivery.address.city}">??</label>
+                <label>배송지</label>
                 <input type="text"
-                       placeholder="배송 도시를 입력하세요"
-                       th:field="*{city}"
-                       th:class="${#fields.hasErrors('city')}? 'form-control fieldError' : 'form-control'">
+                       placeholder="배송지를 입력하세요"
+                       th:field="*{cityStreetZipcode}"
+                       th:class="${#fields.hasErrors('cityStreetZipcode')}? 'form-control fieldError' : 'form-control'">
                 <p class="fieldError"
-                   th:if="${#fields.hasErrors('city')}"
-                   th:errors="*{city}"></p>
-            </div>
-            <div>
-                <label th:text="#{label.order.delivery.address.street}">??</label>
-                <input type="text"
-                       placeholder="배송 도로를 입력하세요"
-                       th:field="*{street}"
-                       th:class="${#fields.hasErrors('street')}? 'form-control fieldError' : 'form-control'">
-                <p class="fieldError"
-                   th:if="${#fields.hasErrors('street')}"
-                   th:errors="*{street}"></p>
-            </div>
-            <div>
-                <label th:text="#{label.order.delivery.address.zipcode}">??</label>
-                <input type="text" placeholder="배송 도로번호를 입력하세요"
-                       th:field="*{zipcode}"
-                       th:class="${#fields.hasErrors('zipcode')}? 'form-control fieldError' : 'form-control'">
-                <p class="fieldError"
-                   th:if="${#fields.hasErrors('zipcode')}"
-                   th:errors="*{zipcode}"></p>
+                   th:if="${#fields.hasErrors('cityStreetZipcode')}"
+                   th:errors="*{cityStreetZipcode}"></p>
             </div>
         </div>
         <div class="row">
             <div class="col">
                 <button type="submit" class="w-100 btn btn-primary btn-lg">저장</button>
             </div>
-            <div class="col">
-                <button class="w-100 btn btn-secondary btn-lg"
-                        th:onclick="|location.href='@{/}'|"
-                        type="button">이전으로</button>
-            </div>
         </div>
     </form>
-    <div th:replace="fragments/footer :: footer"></div>
-</div>
+</section>
 </body>
+
 </html>

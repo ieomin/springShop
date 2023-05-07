@@ -1,9 +1,8 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header"/>
+<!DOCTYPE html>
+<html th:replace="~{template/layoutExtend/layoutFile :: layout(~{::section})}" xmlns:th="http://www.thymeleaf.org">
+
 <body>
-<div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<section>
     <div class="py-5 text-center">
         <h2 th:text="#{page.order.list}">??</h2>
     </div>
@@ -37,13 +36,18 @@
             </thead>
             <tbody>
             <tr th:each="order : ${orders}">
-                <td><a th:href="@{/order/detail/{id}(id=${order.orderId})}" th:text="${order.orderId}"></a></td>
+                <td>
+                    <a th:href="@{/order/detail/{id}(id=${order.orderId})}" th:text="${order.orderId}"></a>
+                </td>
                 <td th:text="${order.memberName}"></td>
                 <td th:text="${order.orderStatus}"></td>
                 <td>
+
                     <a th:if="${order.orderStatus.name() == 'ORDER'}"
-                       th:href="'javascript:cancel('+${order.orderId}+')'"
-                       class="btn btn-danger">주문 취소</a>
+                       th:href="'javascript:cancelOrder('+${order.orderId}+')'"
+                       class="btn btn-danger">주문 강제 취소
+                    </a>
+
                 </td>
             </tr>
             </tbody>
@@ -59,16 +63,7 @@
             </ul>
         </div>
     </nav>
-    <div th:replace="fragments/footer :: footer"/>
-</div>
+</section>
 </body>
-<script>
- function cancel(id) {
-   var form = document.createElement("form");
-   form.setAttribute("method", "post");
-   form.setAttribute("action", "/order/canceledList/" + id);
-   document.body.appendChild(form);
-   form.submit();
- }
-</script>
 </html>
+

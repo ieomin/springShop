@@ -1,27 +1,27 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-
-<head th:replace="fragments/header :: header"/>
+<!DOCTYPE html>
+<html th:replace="~{template/layoutExtend/layoutFile :: layout(~{::section})}" xmlns:th="http://www.thymeleaf.org">
 
 <body>
-<div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<section>
     <div class="py-5 text-center">
-        <h2>마이 주문</h2>
+        <h2>내 주문</h2>
     </div>
     <div>
         <div th:each="order : ${member.orders}">
-            <label>주문정보 (ID, 도시, 도로, 도로번호)</label>
-            <input type="text" class="form-control" th:value="${order.id}" readonly>
-            <input type="text" class="form-control" th:value="${order.delivery.address.city}" readonly>
-            <input type="text" class="form-control" th:value="${order.delivery.address.street}" readonly>
-            <input type="text" class="form-control" th:value="${order.delivery.address.zipcode}" readonly>
             <div th:each="basketItem : ${order.basketItems}">
-                <label>주문상품 (이름, 수량, 상태)</label>
-                <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>
-                <input type="text" class="form-control" th:value="${basketItem.count}" readonly>
+                <label>주문상품 (장바구니상태, 이름, 가격, 수량, 합)</label>
                 <input type="text" class="form-control" th:value="${basketItem.status}" readonly>
+                <input type="text" class="form-control" th:value="${basketItem.item.name}" readonly>
+                <input type="text" class="form-control" th:value="${basketItem.item.price}" readonly>
+                <input type="text" class="form-control" th:value="${basketItem.count}" readonly>
+                <input type="text" class="form-control" th:value="${basketItem.totalPrice}" readonly>
             </div>
+            <label>배송정보 (주문상태, 배송상태, 배송지, 생성일, 총합)</label>
+            <input type="text" class="form-control" th:value="${order.status}" readonly>
+            <input type="text" class="form-control" th:value="${order.delivery.status}" readonly>
+            <input type="text" class="form-control" th:value="${order.delivery.address.getCityStreetZipcode}" readonly>
+            <input type="text" class="form-control" th:value="${order.createdDate}" readonly>
+            <input type="text" class="form-control" th:value="${order.totalPrice}" readonly>
             <div class="row" th:if="${order.status.name() == 'ORDER'}">
                 <div class="col">
                     <button class="w-100 btn btn-primary btn-lg" type="button"
@@ -38,19 +38,8 @@
             </div>
             <hr>
         </div>
-        <hr class="my-4">
-        <div class="row">
-            <div class="col">
-                <button class="w-100 btn btn-secondary btn-lg"
-                        th:onclick="|location.href='@{/}'|"
-                        type="button">홈으로
-                </button>
-            </div>
-        </div>
-
-
     </div>
-    <div th:replace="fragments/footer :: footer"/>
-</div>
+</section>
 </body>
+
 </html>

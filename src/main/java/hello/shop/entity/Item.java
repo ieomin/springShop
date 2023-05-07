@@ -21,11 +21,14 @@ public class Item extends Base{
 
     private Integer quantity;
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "item")
     private List<BasketItem> basketItems = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "item")
+    private List<Comment> comments = new ArrayList<>();
 
     public static Item createItem(String name, Integer price, Integer quantity, Member member){
         Item item = new Item();
@@ -35,6 +38,8 @@ public class Item extends Base{
         item.setMember(member);
         return item;
     }
+
+
 
     public void removeQuantity(Integer count) {
         Integer restQuantity = quantity - count;

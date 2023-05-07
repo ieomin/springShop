@@ -1,8 +1,8 @@
 package hello.shop.web.form.member;
 
 import hello.shop.entity.Basket;
+import hello.shop.entity.Item;
 import hello.shop.entity.Order;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,9 +12,8 @@ import java.util.List;
 public class MemberDetailForm {
     private Long id;
     private String name;
-    private String city;
-    private String street;
-    private String zipcode;
+    private String cityStreetZipcode;
     private List<Order> orders;
     private Basket basket;
+    private List<Item> items;
 }

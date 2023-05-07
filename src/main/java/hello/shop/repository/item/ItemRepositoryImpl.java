@@ -43,6 +43,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
         // 보류: <Item> 원래 없는 거였는데 이 코드도 나중에 한 번 뜯어보기
         PageImpl<Item> page = new PageImpl<>(content, pageable, total);
         return page;
+//        return null;
     }
 
     private BooleanExpression likeItemName(String itemName){

@@ -1,24 +1,9 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" />
+<!DOCTYPE html>
+<html th:replace="~{template/layoutExtend/layoutFile :: layout(~{::section})}" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <div class="py-5 text-center">
-        <h2 th:text="#{page.item.list}">??</h2>
-    </div>
+<section>
+
     <div>
-        <div>
-            <form th:object="${itemSearchCond}" class="form-inline">
-                <div class="form-group mb-2">
-                    <input type="text" th:field="*{itemName}" class="form-control" placeholder="상품 이름"/>
-                </div>
-                <div class="form-group mx-sm-1 mb-2">
-                    <input type="text" th:field="*{maxPrice}" class="form-control" placeholder="제한 가격"/>
-                </div>
-                <button type="submit" class="btn btn-primary mb-2">검색</button>
-            </form>
-        </div>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -43,12 +28,11 @@
             <ul class="pagination">
                 <li th:each="page : ${#numbers.sequence(1, items.totalPages)}"
                     th:class="${page-1 == items.number ? 'page-item active' : 'page-item'}">
-                    <a class="page-link" th:href="@{/item/list/?size=10&page={page}(page=${page-1})}" th:text="${page}"></a>
+                    <a class="page-link" th:href="@{/?size=10&page={page}(page=${page-1})}" th:text="${page}"></a>
                 </li>
             </ul>
         </div>
     </nav>
-    <div th:replace="fragments/footer :: footer" />
-</div>
+</section>
 </body>
 </html>

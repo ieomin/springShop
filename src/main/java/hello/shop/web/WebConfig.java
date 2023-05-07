@@ -15,15 +15,16 @@ public class WebConfig implements WebMvcConfigurer {
     // 팁: Interceptor사용할려면오버라이드추가
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+
         registry.addInterceptor(new LogInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/css/**", "/*.ico", "/error", "/error-page/**");
+                .excludePathPatterns("/css/**", "/*.ico", "/error", "/error-page/**", "/img/**");
+
         registry.addInterceptor(new LoginCheckInterceptor())
                 .order(2)
                 .addPathPatterns("/**")
-                // 보류: 직접 작성한 404페이지를 출력할 방법이 없음
-                .excludePathPatterns("/css/**", "/*.ico", "/error", "/error-page/**", "/", "/member/create", "/member/login", "/member/logout");
+                .excludePathPatterns("/css/**", "/*.ico", "/error", "/error-page/**", "/", "/member/create", "/member/login", "/member/logout", "/item/detail/**", "/img/**");
     }
 
     // 팁: ArgumentResolver사용할려면오버라이드추가

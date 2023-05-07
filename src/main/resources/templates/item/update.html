@@ -1,16 +1,20 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header"/>
-<style>.fieldError {border-color: #dc3545; color: #dc3545;}</style>
+<!DOCTYPE html>
+<html th:replace="~{template/layoutExtend/layoutFile :: layout(~{::section})}" xmlns:th="http://www.thymeleaf.org">
 
 <body>
-<div class="container">
-  <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<section>
   <div class="py-5 text-center">
     <h2 th:text="#{page.item.update}">??</h2>
   </div>
   <div>
     <form role="form" th:action th:object="${itemUpdateForm}" method="post">
+
+      <div th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="err : ${#fields.globalErrors()}"
+           class="fieldError"
+           th:text="${err}"></p>
+      </div>
+
       <div>
         <label th:text="#{label.item.id}">??</label>
         <input type="text" id="id" name="id" class="form-control" th:value="*{id}" readonly>
@@ -53,15 +57,10 @@
         <div class="col">
           <button type="submit" class="w-100 btn btn-primary btn-lg">저장</button>
         </div>
-        <div class="col">
-          <button class="w-100 btn btn-secondary btn-lg"
-                  th:onclick="|location.href='@{/item/detail/{id}(id=${itemUpdateForm.id})}'|"
-                  type="button">이전으로</button>
-        </div>
       </div>
     </form>
   </div>
-  <div th:replace="fragments/footer :: footer" />
-</div>
+</section>
 </body>
+
 </html>
