@@ -6,7 +6,7 @@
 // 결론: 자동 등록: scanBasePackages 씹 자동 등록: EntityManager springDataJpaRepository / 수동 등록: Controller TestDataInit
 // 결론: 복합 주입: (final RequiredArgsConstructor = 하나의 생성자) -> Autowired생략 / 일반 주입: Autowired
 // 결론: 인터페이스를 부족한 부모로 받는 습관이 좋은 코드 작성에 유리
-// 결론: 바디태그 시작하기전과 끝나고난후에 각각 style script
+// 결론: 헤드태그끝나고안에 바디태그끝나고난밖에 각각 style script
 
 보류: test코드 메모리에서 돌리는 방법
 보류: 빌드하고 실행하기 다시보기

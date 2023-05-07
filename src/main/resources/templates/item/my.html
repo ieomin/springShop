@@ -1,11 +1,8 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-
-<head th:replace="fragments/header :: header"/>
+<!DOCTYPE html>
+<html th:replace="~{template/layoutExtend/layoutFile :: layout(~{::section})}" xmlns:th="http://www.thymeleaf.org">
 
 <body>
-<div class="container">
-  <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<section>
   <div class="py-5 text-center">
     <h2>마이 상품</h2>
   </div>
@@ -28,7 +25,7 @@
     <hr class="my-4">
 
   </div>
-  <div th:replace="fragments/footer :: footer" />
-</div>
+</section>
 </body>
+
 </html>

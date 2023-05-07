@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html th:fragment="layout (content)" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrinkto-fit=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link href="/css/jumbotron-narrow.css" rel="stylesheet">
+    <title th:text="#{logo}">??</title>
+    <style>
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            z-index: 1;
+            background-color: #f9f9f9;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            padding: 12px 16px;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        a {
+            display: block;
+        }
+
+        .fieldError {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="row">
+
+            <div class="col"><a href="/"><h3 class="text-muted" th:text="#{logo}"></h3></a></div>
+
+            <div class="col">
+                <form th:object="${itemSearchCond}" class="form-inline">
+                    <div class="form-group mb-2">
+                        <input type="text" th:field="*{itemName}" class="form-control" placeholder="상품 이름"/>
+                    </div>
+                    <div class="form-group mx-sm-1 mb-2">
+                        <input type="text" th:field="*{maxPrice}" class="form-control" placeholder="제한 가격"/>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">검색</button>
+                </form>
+            </div>
+
+            <div class="col dropdown" th:if="${currentMember != null}">
+                <img src="/user.png" alt="dropdown" style="width: 30px; height: 30px;">
+                <div class="dropdown-menu">
+                    <a th:href="@{/member/my/{id}(id=${currentMember.id})}">내 정보</a>
+                    <a th:href="@{/item/my/{id}(id=${currentMember.id})}">내 상품</a>
+                    <a th:href="@{/order/my/{id}(id=${currentMember.id})}">내 주문</a>
+                </div>
+            </div>
+
+            <div class="col">
+                <a th:if="${currentMember != null}" th:href="@{/basket/my/{id}(id=${currentMember.id})}">
+                    <img src="/basket.png" style="width: 30px; height: 30px;">
+                </a>
+            </div>
+
+            <div class="col">
+                <form th:if="${currentMember != null}" th:action="@{/member/logout}" method="post">
+                    <button href="/member/logout" class="btn-link" type="submit"><img src="/logout.png" style="width: 30px; height: 30px;">
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div th:replace="${content}"></div>
+    <div class="footer">
+        <p th:text="#{logo}">&copy; IBJ Shop</p>
+    </div>
+</div>
+</body>
+</html>

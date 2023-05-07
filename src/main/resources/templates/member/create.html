@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header"/>
-<style>.fieldError {border-color: #dc3545; color: #dc3545;}</style>
+<html th:replace="~{template/layoutExtend/layoutFile :: layout(~{::section})}" xmlns:th="http://www.thymeleaf.org">
+
 <body>
-<div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<section>
     <div class="py-5 text-center">
         <h2 th:text="#{page.member.create}">??</h2>
     </div>
@@ -59,7 +57,7 @@
         </div>
     </form>
     <br/>
-    <div th:replace="fragments/footer :: footer"></div>
-</div>
+</section>
 </body>
+
 </html>

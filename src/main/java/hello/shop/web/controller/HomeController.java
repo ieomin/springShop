@@ -42,4 +42,9 @@ public class HomeController {
         return "item/list";
     }
 
+    @GetMapping("/layoutExtendTemp")
+    public String layoutExtends() {
+        return "template/layoutExtend/layoutExtendMainTemp";
+    }
+
 }

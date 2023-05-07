@@ -56,7 +56,7 @@ public class ItemController {
             return "item/create";
         }
 
-        return "redirect:/item/list";
+        return "redirect:/";
     }
 
     @GetMapping("/item/detail/{id}")
@@ -128,7 +128,7 @@ public class ItemController {
             return "item/update";
         }
 
-        return "redirect:/item/list";
+        return "redirect:/";
     }
 
     @GetMapping("/item/my/{id}")

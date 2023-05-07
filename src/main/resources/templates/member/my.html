@@ -1,11 +1,8 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-
-<head th:replace="fragments/header :: header"/>
+<!DOCTYPE html>
+<html th:replace="~{template/layoutExtend/layoutFile :: layout(~{::section})}" xmlns:th="http://www.thymeleaf.org">
 
 <body>
-<div class="container">
-  <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<section>
   <div class="py-5 text-center">
     <h2>마이 회원</h2>
   </div>
@@ -21,7 +18,7 @@
       </div>
       <div>
         <label>주소</label>
-<!--        <input type="text" class="form-control" th:value="${member != null and member.address != null ? member.address.getCityStreetZipcode : ''}" readonly>-->
+        <!--        <input type="text" class="form-control" th:value="${member != null and member.address != null ? member.address.getCityStreetZipcode : ''}" readonly>-->
         <input type="text" class="form-control" th:value="${member.address.cityStreetZipcode}" readonly>
       </div>
     </div>
@@ -34,7 +31,7 @@
       </div>
     </div>
   </div>
-  <div th:replace="fragments/footer :: footer" />
-</div>
+</section>
 </body>
+
 </html>
