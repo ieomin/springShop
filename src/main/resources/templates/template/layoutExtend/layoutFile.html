@@ -44,7 +44,7 @@
             <div class="col-1" th:if="${currentMember != null}">
                 <img src="/user.png" style="width: 30px; height: 30px;" class="dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                    <a class="dropdown-item" th:href="@{/member/my/{id}(id=${currentMember.id})}">내 정보</a>
+                    <a class="dropdown-item" th:href="@{/member/my/{id}(id=${currentMember.id})}">개인정보</a>
                     <a class="dropdown-item" th:href="@{/item/my/{id}(id=${currentMember.id})}">내 상품</a>
                     <a class="dropdown-item" th:href="@{/order/my/{id}(id=${currentMember.id})}">내 주문</a>
                     <form th:action="@{/member/logout}" method="post"><button class="btn-link dropdown-item" type="submit">로그아웃</button></form>

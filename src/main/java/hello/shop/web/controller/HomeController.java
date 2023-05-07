@@ -29,7 +29,7 @@ public class HomeController {
     public String homeGet(@Login Member loginMember, @ModelAttribute ItemSearchCond cond, Model model, @PageableDefault Pageable pageable) {
         // 세션에 회원 데이터가 없으면 home
         if (loginMember == null) {
-            return "home";
+            return "item/list";
         }
         // 세션이 유지되면 로그인으로 이동
         // 팁: get요청은 a태그의 href를 사용하거나 button의 onclick 사용가능

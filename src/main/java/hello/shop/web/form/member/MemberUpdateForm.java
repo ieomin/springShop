@@ -1,5 +1,6 @@
 package hello.shop.web.form.member;
 
+import hello.shop.entity.Item;
 import hello.shop.entity.Order;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,4 +16,5 @@ public class MemberUpdateForm {
     @NotBlank(message = "회원 배송지는 필수입니다")
     private String cityStreetZipcode;
     private List<Order> orders;
+    private List<Item> items;
 }

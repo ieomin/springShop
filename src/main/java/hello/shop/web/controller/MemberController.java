@@ -77,7 +77,15 @@ public class MemberController {
         form.setOrders(member.getOrders());
         form.setCityStreetZipcode(member.getAddress().getCityStreetZipcode());
         form.setBasket(member.getBasket());
+        form.setItems(member.getItems());
         return "member/detail";
+    }
+
+    @GetMapping("/member/my/{id}")
+    public String myGet(@PathVariable Long id, Model model){
+        Member member = memberService.findById(id);
+        model.addAttribute("member", member);
+        return "member/my";
     }
 
     @GetMapping("/member/update/{id}")
@@ -87,6 +95,7 @@ public class MemberController {
         form.setName(member.getName());
         form.setCityStreetZipcode(member.getAddress().getCityStreetZipcode());
         form.setOrders(member.getOrders());
+        form.setItems(member.getItems());
         return "member/update";
     }
 
@@ -103,13 +112,6 @@ public class MemberController {
         memberService.updateMember(id, form.getName(), new Address(form.getCityStreetZipcode()));
 
         return "redirect:/member/list";
-    }
-
-    @GetMapping("/member/my/{id}")
-    public String myGet(@PathVariable Long id, Model model){
-        Member member = memberService.findById(id);
-        model.addAttribute("member", member);
-        return "member/my";
     }
 
     @GetMapping("/member/login")

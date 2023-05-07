@@ -103,6 +103,15 @@ public class ItemController {
         return "redirect:/item/detail/" + id;
     }
 
+
+
+    @GetMapping("/item/my/{id}")
+    public String myGet(@PathVariable Long id, Model model){
+        Member member = memberService.findById(id);
+        model.addAttribute("member", member);
+        return "item/my";
+    }
+
     @GetMapping("/item/update/{id}")
     public String updateGet(@PathVariable Long id, @ModelAttribute ItemUpdateForm form){
         Item item = itemService.findById(id);
@@ -129,14 +138,6 @@ public class ItemController {
         }
 
         return "redirect:/";
-    }
-
-    @GetMapping("/item/my/{id}")
-    public String myGet(@PathVariable Long id, Model model){
-        Member member = memberService.findById(id);
-        model.addAttribute("member", member);
-        return "item/my";
-
     }
 }
 

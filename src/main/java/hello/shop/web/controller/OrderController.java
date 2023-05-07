@@ -106,6 +106,24 @@ public class OrderController {
         return "order/detail";
     }
 
+    @GetMapping("/order/my/{id}")
+    public String myGet(@PathVariable Long id, Model model){
+        Member member = memberService.findById(id);
+        model.addAttribute("member", member);
+        return "order/my";
+    }
+
+    @PostMapping("/order/canceledMy/{id}")
+    public String canceledMy(@PathVariable Long id, HttpServletRequest request) {
+        try{
+            orderService.cancelOrder(id);
+        } catch(NotAllowCanceledOrderException e){
+            return "redirect:/order/my?message=" + e.getMessage();
+        }
+        Long memberId = ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
+        return "redirect:/order/my/" + memberId;
+    }
+
     @GetMapping("/order/update/{id}")
     public String updateGet(@PathVariable Long id, @ModelAttribute OrderUpdateForm form, HttpServletRequest request){
         Long memberId = ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
@@ -124,23 +142,5 @@ public class OrderController {
         orderService.updateOrder(id, form.getCityStreetZipcode());
 
         return "redirect:/order/my/" + ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
-    }
-
-    @GetMapping("/order/my/{id}")
-    public String myGet(@PathVariable Long id, Model model){
-        Member member = memberService.findById(id);
-        model.addAttribute("member", member);
-        return "order/my";
-    }
-
-    @PostMapping("/order/canceledMy/{id}")
-    public String canceledMy(@PathVariable Long id, HttpServletRequest request) {
-        try{
-            orderService.cancelOrder(id);
-        } catch(NotAllowCanceledOrderException e){
-            return "redirect:/order/my?message=" + e.getMessage();
-        }
-        Long memberId = ((Member) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER)).getId();
-        return "redirect:/order/my/" + memberId;
     }
 }

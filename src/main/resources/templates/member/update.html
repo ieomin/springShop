@@ -4,14 +4,10 @@
 <body>
 <section>
     <div class="py-5 text-center">
-        <h2 th:text="#{page.member.update}">??</h2>
+        <h2>개인정보 수정</h2>
     </div>
     <div>
         <form role="form" th:action th:object="${memberUpdateForm}" method="post">
-            <div>
-                <label th:text="#{label.member.id}">??</label>
-                <input type="text" id="id" name="id" class="form-control" th:value="*{id}" readonly>
-            </div>
             <div>
                 <label th:text="#{label.member.name}">??</label>
                 <input type="text"
@@ -23,7 +19,7 @@
                    th:errors="*{name}">??</p>
             </div>
             <div>
-                <label>배송지</label>
+                <label>주소</label>
                 <input type="text"
                        th:field="*{cityStreetZipcode}"
                        th:value="*{cityStreetZipcode}"
@@ -32,11 +28,16 @@
                    th:if="${#fields.hasErrors('cityStreetZipcode')}"
                    th:errors="*{cityStreetZipcode}">??</p>
             </div>
-
+            <div th:if="${#lists.size(memberUpdateForm.items) > 0}">
+                <label>등록한 상품이름</label>
+                <div th:each="item : ${memberUpdateForm.items}">
+                    <input type="text" class="form-control" th:value="${item.name}" readonly>
+                </div>
+            </div>
             <div th:if="${#lists.size(memberUpdateForm.orders) > 0}">
                 <label th:text="#{label.member.orders.id}">??</label>
                 <div th:each="order : ${memberUpdateForm.orders}">
-                    <input type="text" id="orders" name="orders" class="form-control" th:value="${order.id}" readonly>
+                    <input type="number" id="orders" name="orders" class="form-control" th:value="${order.id}" readonly>
                 </div>
             </div>
 
